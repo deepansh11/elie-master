@@ -13,6 +13,7 @@ import 'Tracking.dart';
 
 final getIt = GetIt.instance;
 var getItCart = getIt<CartData>();
+var getItForStock = getIt<StockData>();
 var getItPages = getIt<Pages>();
 var getItUserIn = getIt<UserIn>();
 var getItSearchBar = getIt<SearchBar>();
@@ -27,6 +28,7 @@ void setup() {
   getIt.registerLazySingleton<OrderPageLocator>(() => OrderPageLocator());
   getIt.registerLazySingleton<Once>(() => Once());
   getIt.registerLazySingleton(() => NavigationService());
+  getIt.registerLazySingleton<StockData>(() => StockData());
 }
 
 class SearchBar {
@@ -49,13 +51,35 @@ class UserIn {
   }
 }
 
+class StockData {
+  late List<Cart> cartData;
+
+  setStockItems(cartData) {
+    this.cartData = cartData;
+  }
+}
+
 class Pages {
   String currentPage = '/';
   var contextOfDatePicker;
   var contextOfLocationPage;
   var contextOfHomeAddress;
   var disableColorTOP;
-  var onTapTopBar = [false, false, false, false, false, false, false, false, false, false, false, false, false];
+  var onTapTopBar = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ];
 
   setonTapTopBar(x, bool) {
     this.onTapTopBar[x] = bool;
@@ -84,7 +108,8 @@ class Pages {
 }
 
 class NavigationService {
-  final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> navigatorKey =
+      new GlobalKey<NavigatorState>();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   Future<dynamic> navigateTo(String routeName) {
     return navigatorKey.currentState!.pushNamed(routeName);
@@ -144,9 +169,19 @@ class CartData extends ChangeNotifier {
           .toJson();
     } else {
       totAmount = double.parse(serviceData!.saleCost.toString());
-      parsedJson =
-          Cart(getItUserIn.userPhone, list.length + 1, null, serviceData!.id, location, latlong, date, time.toString(), expertId, totAmount, 1)
-              .toJson();
+      parsedJson = Cart(
+              getItUserIn.userPhone,
+              list.length + 1,
+              null,
+              serviceData!.id,
+              location,
+              latlong,
+              date,
+              time.toString(),
+              expertId,
+              totAmount,
+              1)
+          .toJson();
     }
 
     await API().addCart(parsedJson);
@@ -186,7 +221,8 @@ class CartData extends ChangeNotifier {
     if (d.serviceId != null) {
       var service = await API().getServiceByID(d.serviceId);
 
-      var startTimee = DateFormat('dd/MM/yyyyTh:mm a').parse(d.date + 'T' + d.time);
+      var startTimee =
+          DateFormat('dd/MM/yyyyTh:mm a').parse(d.date + 'T' + d.time);
       var endTimee = startTimee.add(Duration(minutes: service.duration));
       var startTime = DateFormat('yyyy-MM-ddTHH:mm:ss').format(startTimee);
       var endTime = DateFormat('yyyy-MM-ddTHH:mm:ss').format(endTimee);
@@ -205,6 +241,12 @@ class CartData extends ChangeNotifier {
   removeFromCart(index) {
     totAmount = totAmount - cartItems.elementAt(index)['productPrice'];
     cartItems.removeAt(index);
+  }
+
+  clearCart() {
+    print('Cart cleared');
+    cartItems.clear();
+    notifyListeners();
   }
 
   setAmt(double a) {

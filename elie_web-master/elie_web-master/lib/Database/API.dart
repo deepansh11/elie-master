@@ -15,11 +15,13 @@ class API {
   var dio = Dio();
 
   addCustomer(json) async {
-    response = await dio.post('$baseUrl/registerCustomer', data: jsonEncode(json));
+    response =
+        await dio.post('$baseUrl/registerCustomer', data: jsonEncode(json));
   }
 
   addLocationTrack(json) async {
-    response = await dio.post('$baseUrl:8001/add_track', data: jsonEncode(json));
+    response =
+        await dio.post('$baseUrl:8001/add_track', data: jsonEncode(json));
   }
 
   addCart(json) async {
@@ -40,6 +42,14 @@ class API {
     response = await dio.put(
       '$baseUrl/updateQuantity/$id?cartId=$cartId&quantity=$quantity',
     );
+  }
+
+  updateStock(productId, quantity) async {
+    // https://api.elie.world/updateProductInventoryAfterCheckOut/7?decrease_stock_by=-1'
+    response = await dio.put(
+      '$baseUrl/updateProductInventoryAfterCheckOut/$productId?decrease_stock_by=-$quantity',
+    );
+    print(response);
   }
 
   Future<Response> addOrder(json) async {
@@ -63,7 +73,8 @@ class API {
   }
 
   Future<List<Experts?>> getExpertsByAvi(date, pin) async {
-    response = await dio.get('$baseUrl/getExpertByAvailability', queryParameters: {'thedatetime': date, 'thePin': pin});
+    response = await dio.get('$baseUrl/getExpertByAvailability',
+        queryParameters: {'thedatetime': date, 'thePin': pin});
 
     if (response.statusCode == 200 && response.data != 0000) {
       List user = response.data;
@@ -134,7 +145,8 @@ class API {
 
     if (response.statusCode == 200) {
       List productList = response.data;
-      List<Product> cards = productList.map((e) => Product.fromJson(e)).toList();
+      List<Product> cards =
+          productList.map((e) => Product.fromJson(e)).toList();
       return cards;
     } else {
       print('Error!!');
@@ -174,7 +186,8 @@ class API {
 
     if (response.statusCode == 200) {
       List serviceList = response.data;
-      List<Services> cards = serviceList.map((e) => Services.fromJson(e)).toList();
+      List<Services> cards =
+          serviceList.map((e) => Services.fromJson(e)).toList();
       return cards;
     } else {
       print('Error!!');

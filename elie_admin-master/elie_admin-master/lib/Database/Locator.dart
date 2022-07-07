@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import 'API.dart';
@@ -23,6 +24,7 @@ var getItServiceData = getIt<ServiceData>();
 var getItEditProduct = getIt<EditProduct>();
 var getItEditUser = getIt<EditUser>();
 var getItTrackingPageLocator = getIt<TrackingPageLocator>();
+var getItEditExpert = getIt<EditExpert>();
 
 void setup() {
   getIt.registerLazySingleton<Pages>(() => Pages());
@@ -37,6 +39,7 @@ void setup() {
   getIt.registerLazySingleton<EditUser>(() => EditUser());
   getIt.registerLazySingleton<TrackingPageLocator>(() => TrackingPageLocator());
   getIt.registerLazySingleton(() => NavigationService());
+  getIt.registerLazySingleton<EditExpert>(() => EditExpert());
 }
 
 class SearchBar {
@@ -47,11 +50,15 @@ class SearchBar {
 class AdminCurrentPage extends ChangeNotifier {
   var index;
 
-  setIndex(i) {
+  setIndex(i) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
     Timer(Duration(milliseconds: 100), () {
+      prefs.setInt('pageIndex', i);
       this.index = i;
 
       print(this.index);
+
       notifyListeners();
     });
   }
@@ -85,6 +92,69 @@ class EditProduct {
     this.hsn = hsn;
     this.sku = sku;
     this.category = category;
+  }
+}
+
+class EditExpert {
+  var name;
+  var sex;
+  var phone;
+  var email;
+  var password;
+  var age;
+  var dob;
+  var averageRating;
+  var reviewId;
+  var availability;
+  var last_location;
+  var status;
+  var totalTips;
+  var totalCommission;
+  var panNo;
+  var qualifications;
+  var serviceList;
+  var servicablePins;
+  var isEmployee;
+
+  setExpert(
+      name,
+      sex,
+      phone,
+      email,
+      password,
+      age,
+      dob,
+      averageRating,
+      reviewId,
+      availability,
+      last_location,
+      status,
+      totalTips,
+      totalCommission,
+      panNo,
+      qualifications,
+      serviceList,
+      servicablePins,
+      isEmployee) {
+    this.name = name;
+    this.sex = sex;
+    this.age = age;
+    this.availability = availability;
+    this.averageRating = averageRating;
+    this.dob = dob;
+    this.email = email;
+    this.password = password;
+    this.isEmployee = isEmployee;
+    this.last_location = last_location;
+    this.panNo = panNo;
+    this.phone = phone;
+    this.qualifications = qualifications;
+    this.reviewId = reviewId;
+    this.servicablePins = servicablePins;
+    this.serviceList = serviceList;
+    this.status = status;
+    this.totalCommission = totalCommission;
+    this.totalTips = totalTips;
   }
 }
 
@@ -134,7 +204,19 @@ class Pages {
   var contextOfLocationPage;
   var contextOfHomeAddress;
   var disableColorTOP;
-  var onTapTopBar = [false, false, false, false, false, false, false, false, false, false, false];
+  var onTapTopBar = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ];
 
   setonTapTopBar(x, bool) {
     this.onTapTopBar[x] = bool;
@@ -163,7 +245,8 @@ class Pages {
 }
 
 class NavigationService {
-  final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+  final GlobalKey<NavigatorState> navigatorKey =
+      new GlobalKey<NavigatorState>();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   Future<dynamic> navigateTo(String routeName) {
     return navigatorKey.currentState!.pushNamed(routeName);
@@ -171,8 +254,23 @@ class NavigationService {
 }
 
 class ProductData {
-  setProductData(id, productTitle, productImage, productDesc, regularPrice, salePrice, reviewId, tax, stock, lowStockThreshold, status, size,
-      weight, aff, hsn, sku) {
+  setProductData(
+      id,
+      productTitle,
+      productImage,
+      productDesc,
+      regularPrice,
+      salePrice,
+      reviewId,
+      tax,
+      stock,
+      lowStockThreshold,
+      status,
+      size,
+      weight,
+      aff,
+      hsn,
+      sku) {
     this.id = id;
     this.productTitle = productTitle;
     this.productImage = productImage;
@@ -206,8 +304,23 @@ class ProductData {
   var weight, aff, hsn, sku;
 
   addProduct() async {
-    var parsedJson = Product(id, productTitle, productImage, productDesc, regularPrice, salePrice, reviewId, tax, stock, lowStockThreshold,
-            status, size, weight, aff, hsn, sku)
+    var parsedJson = Product(
+            id,
+            productTitle,
+            productImage,
+            productDesc,
+            regularPrice,
+            salePrice,
+            reviewId,
+            tax,
+            stock,
+            lowStockThreshold,
+            status,
+            size,
+            weight,
+            aff,
+            hsn,
+            sku)
         .toJson();
     return await API().addProduct(parsedJson);
   }
@@ -223,7 +336,8 @@ class TrackingPageLocator extends ChangeNotifier {
 }
 
 class ServiceData {
-  setServiceData(id, name, image, desc, duration, cost, saleCost, reviewId, tax, status, serviceProviderId, isSpa, category) {
+  setServiceData(id, name, image, desc, duration, cost, saleCost, reviewId, tax,
+      status, serviceProviderId, isSpa, category) {
     this.id = id;
     this.name = name;
     this.image = image;
@@ -253,8 +367,9 @@ class ServiceData {
   var isSpa, category;
 
   addService() async {
-    var parsedJson =
-        Services(id, name, image, desc, duration, cost, saleCost, reviewId, tax, status, serviceProviderId, isSpa, category).toJson();
+    var parsedJson = Services(id, name, image, desc, duration, cost, saleCost,
+            reviewId, tax, status, serviceProviderId, isSpa, category)
+        .toJson();
 
     return await API().addService(parsedJson);
   }
@@ -292,12 +407,23 @@ class CartData extends ChangeNotifier {
 
     if (isProduct) {
       totAmount = productData!.salePrice.toDouble();
-      parsedJson = Cart(getItUserIn.userPhone, list.length + 1, productData!.id, null, location,
-              DateFormat('dd/MM/yyyy').format(DateTime.now()).toString(), DateFormat('h:m').format(DateTime.now()).toString(), 2, totAmount, 1)
+      parsedJson = Cart(
+              getItUserIn.userPhone,
+              list.length + 1,
+              productData!.id,
+              null,
+              location,
+              DateFormat('dd/MM/yyyy').format(DateTime.now()).toString(),
+              DateFormat('h:m').format(DateTime.now()).toString(),
+              2,
+              totAmount,
+              1)
           .toJson();
     } else {
       totAmount = serviceData!.saleCost.toDouble();
-      parsedJson = Cart(getItUserIn.userPhone, list.length + 1, null, serviceData!.id, location, date, time, 1, totAmount, 1).toJson();
+      parsedJson = Cart(getItUserIn.userPhone, list.length + 1, null,
+              serviceData!.id, location, date, time, 1, totAmount, 1)
+          .toJson();
     }
 
     await API().addCart(parsedJson);
@@ -314,8 +440,21 @@ class CartData extends ChangeNotifier {
     var parsedJson;
     var count = (await API().getOrder()).length;
 
-    parsedJson = Order(getItUserIn.userPhone, count + 1, d.productId, d.serviceId, d.location, d.date, d.time, d.expertId, d.totAmount,
-            "Order Recived", 'online', false, d.quantity, '')
+    parsedJson = Order(
+            getItUserIn.userPhone,
+            count + 1,
+            d.productId,
+            d.serviceId,
+            d.location,
+            d.date,
+            d.time,
+            d.expertId,
+            d.totAmount,
+            "Order Recived",
+            'online',
+            false,
+            d.quantity,
+            '')
         .toJson();
 
     await API().addOrder(parsedJson);

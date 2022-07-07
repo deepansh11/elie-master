@@ -6,6 +6,7 @@ import 'package:elie_web/Database/Locator.dart';
 import 'package:elie_web/Utils/Constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SideMenu extends StatefulWidget {
@@ -19,9 +20,20 @@ class SideMenu extends StatefulWidget {
 
 class _SideMenuState extends State<SideMenu> {
   var wallet;
+  var version;
   getWallet() async {
-    wallet = (await Dio().get('http://68.183.89.66:8001/walletBalance/${getItUserIn.userPhone}')).data;
+    wallet = (await Dio().get(
+            'http://68.183.89.66:8001/walletBalance/${getItUserIn.userPhone}'))
+        .data;
     wallet = wallet.toString();
+    setState(() {});
+  }
+
+  getVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    print("Build: ${packageInfo.buildNumber}");
+    print("Version: ${packageInfo.version}");
+    version = packageInfo.version.toString();
     setState(() {});
   }
 
@@ -30,10 +42,12 @@ class _SideMenuState extends State<SideMenu> {
     // TODO: implement initState
     super.initState();
     getWallet();
+    getVersion();
   }
 
   @override
   Widget build(BuildContext context) {
+    print("Version: $version");
     var screenSize = MediaQuery.of(context).size;
     return Container(
       color: Color(0xff141414),
@@ -69,7 +83,10 @@ class _SideMenuState extends State<SideMenu> {
           ListTile(
             leading: Text(
               'Wallet',
-              style: TextStyle(color: highLcolorLight, fontWeight: FontWeight.bold, fontSize: 18),
+              style: TextStyle(
+                  color: highLcolorLight,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18),
             ),
           ),
           ListTile(
@@ -79,7 +96,15 @@ class _SideMenuState extends State<SideMenu> {
             ),
           ),
           SizedBox(
-            height: 70,
+            height: 50,
+          ),
+          ListTile(
+            leading: Text(
+              'Version: $version',
+              style: TextStyle(
+                color: highLcolorDark.withOpacity(0.5),
+              ),
+            ),
           ),
         ],
       ),

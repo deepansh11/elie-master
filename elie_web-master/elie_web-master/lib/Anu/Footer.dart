@@ -21,9 +21,12 @@ class _FooterState extends State<Footer> {
         return Colors.transparent;
       },
     ),
-    foregroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
-      if (states.contains(MaterialState.hovered)) return Color(0xeb9571).withOpacity(1);
-      if (states.contains(MaterialState.pressed)) return Color(0xeb9571).withOpacity(1);
+    foregroundColor:
+        MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+      if (states.contains(MaterialState.hovered))
+        return Color(0xeb9571).withOpacity(1);
+      if (states.contains(MaterialState.pressed))
+        return Color(0xeb9571).withOpacity(1);
       return Colors.white;
       // null throus error in flutter 2.2+.
     }),
@@ -49,7 +52,8 @@ class _FooterState extends State<Footer> {
         )),
         Container(
             color: Color(0x212121).withOpacity(0.9),
-            height: Responsive.responsiveNumber(screenSize.height, screenSize.height / 1.7, screenSize),
+            height: Responsive.responsiveNumber(
+                screenSize.height, screenSize.height / 1.7, screenSize),
             width: double.infinity,
             child: isMobile(screenSize)
                 ? Column(
@@ -60,9 +64,11 @@ class _FooterState extends State<Footer> {
                           Column(
                             children: [
                               Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 7),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 18, horizontal: 7),
                                 child: Container(
-                                  child: Text('GET IN TOUCH', style: textStyleofsomething),
+                                  child: Text('GET IN TOUCH',
+                                      style: textStyleofsomething),
                                 ),
                               ),
                               SizedBox(
@@ -90,7 +96,8 @@ class _FooterState extends State<Footer> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(left: 7.0, right: 7, top: 30, bottom: 7),
+                                padding: const EdgeInsets.only(
+                                    left: 7.0, right: 7, top: 30, bottom: 7),
                                 child: Text(
                                   'Business Queries',
                                   style: TextStyle(
@@ -120,7 +127,8 @@ class _FooterState extends State<Footer> {
                                 Padding(
                                   padding: const EdgeInsets.all(7),
                                   child: Container(
-                                    child: Text('USEFUL LINKS', style: textStyleofsomething),
+                                    child: Text('USEFUL LINKS',
+                                        style: textStyleofsomething),
                                   ),
                                 ),
                                 SizedBox(
@@ -297,14 +305,16 @@ class _FooterState extends State<Footer> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(top: 54, left: 24),
+                                padding:
+                                    const EdgeInsets.only(top: 54, left: 24),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.all(7),
                                       child: Container(
-                                        child: Text('GET IN TOUCH', style: textStyleofsomething),
+                                        child: Text('GET IN TOUCH',
+                                            style: textStyleofsomething),
                                       ),
                                     ),
                                     SizedBox(
@@ -337,7 +347,11 @@ class _FooterState extends State<Footer> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 7.0, right: 7, top: 30, bottom: 7),
+                                      padding: const EdgeInsets.only(
+                                          left: 7.0,
+                                          right: 7,
+                                          top: 30,
+                                          bottom: 7),
                                       child: Text(
                                         'Business Queries',
                                         style: TextStyle(
@@ -376,7 +390,8 @@ class _FooterState extends State<Footer> {
                                     Padding(
                                       padding: const EdgeInsets.all(7),
                                       child: Container(
-                                        child: Text('USEFUL LINKS', style: textStyleofsomething),
+                                        child: Text('USEFUL LINKS',
+                                            style: textStyleofsomething),
                                       ),
                                     ),
                                     SizedBox(

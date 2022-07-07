@@ -25,13 +25,13 @@ class ServiceBookingDetail extends StatefulWidget {
 }
 
 class _ServiceBookingDetailState extends State<ServiceBookingDetail> {
-  late List orderList = [];
+  late ValueNotifier<List> orderList = ValueNotifier([]);
   late List expertsList = [];
 
   var loading = true;
 
   getOrders() async {
-    orderList = [];
+    orderList.value = [];
     loading = true;
     List<Order> order = await API().getOrder();
 
@@ -44,9 +44,9 @@ class _ServiceBookingDetailState extends State<ServiceBookingDetail> {
           if (p.id != 0) {
             if (item.expertId.toString() != 'null') {
               Experts? expert = await API().getExpertsByID(item.expertId);
-              orderList.add([item, p, customer, expert]);
+              orderList.value.add([item, p, customer, expert]);
             } else {
-              orderList.add([item, p, customer, null]);
+              orderList.value.add([item, p, customer, null]);
             }
           }
         }
@@ -208,6 +208,13 @@ class _ServiceBookingDetailState extends State<ServiceBookingDetail> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    orderList.dispose();
+  }
+
+  @override
   void initState() {
     getOrders();
     super.initState();
@@ -242,48 +249,52 @@ class _ServiceBookingDetailState extends State<ServiceBookingDetail> {
                 Expanded(
                   child: SizedBox(
                     width: double.infinity,
-                    child: DataTable2(
-                      bottomMargin: 300,
-                      columnSpacing: 8.0,
-                      minWidth: 2000,
-                      columns: [
-                        DataColumn(
-                          label: _TextHeadingCell(title: "Order ID"),
-                        ),
-                        DataColumn(
-                          label: _TextHeadingCell(title: "Service"),
-                        ),
-                        DataColumn(
-                          label: _TextHeadingCell(title: "Customer"),
-                        ),
-                        DataColumn(
-                          label: _TextHeadingCell(title: "Address"),
-                        ),
-                        DataColumn(
-                          label: _TextHeadingCell(title: "Date"),
-                        ),
-                        DataColumn(
-                          label: _TextHeadingCell(title: "Expert"),
-                        ),
-                        DataColumn(
-                          label: _TextHeadingCell(title: "Amount"),
-                        ),
-                        DataColumn(
-                          label: _TextHeadingCell(title: "Payment"),
-                        ),
-                        DataColumn(
-                          label: _TextHeadingCell(title: "Order Status"),
-                        ),
-                      ],
-                      rows: List.generate(orderList.length, (index) {
-                        return BuildDataRow(
-                            orderList[index][0],
-                            orderList[index][1],
-                            orderList[index][2],
-                            orderList[index][3],
-                            context);
-                      }),
-                    ),
+                    child: ValueListenableBuilder(
+                        valueListenable: orderList,
+                        builder: (context, List value, child) {
+                          return DataTable2(
+                            bottomMargin: 300,
+                            columnSpacing: 8.0,
+                            minWidth: 2000,
+                            columns: [
+                              DataColumn(
+                                label: _TextHeadingCell(title: "Order ID"),
+                              ),
+                              DataColumn(
+                                label: _TextHeadingCell(title: "Service"),
+                              ),
+                              DataColumn(
+                                label: _TextHeadingCell(title: "Customer"),
+                              ),
+                              DataColumn(
+                                label: _TextHeadingCell(title: "Address"),
+                              ),
+                              DataColumn(
+                                label: _TextHeadingCell(title: "Date"),
+                              ),
+                              DataColumn(
+                                label: _TextHeadingCell(title: "Expert"),
+                              ),
+                              DataColumn(
+                                label: _TextHeadingCell(title: "Amount"),
+                              ),
+                              DataColumn(
+                                label: _TextHeadingCell(title: "Payment"),
+                              ),
+                              DataColumn(
+                                label: _TextHeadingCell(title: "Order Status"),
+                              ),
+                            ],
+                            rows: List.generate(value.length, (index) {
+                              return BuildDataRow(
+                                  value[index][0],
+                                  value[index][1],
+                                  value[index][2],
+                                  value[index][3],
+                                  context);
+                            }),
+                          );
+                        }),
                   ),
                 ),
             ],

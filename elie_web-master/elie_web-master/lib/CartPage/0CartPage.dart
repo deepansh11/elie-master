@@ -37,7 +37,8 @@ class _CartPageState extends State<CartPage> {
   TextEditingController coupon = TextEditingController();
   TextEditingController phoneNumberTextFeild = TextEditingController();
   TextEditingController otpController = TextEditingController();
-  final RoundedLoadingButtonController btController = RoundedLoadingButtonController();
+  final RoundedLoadingButtonController btController =
+      RoundedLoadingButtonController();
   late Razorpay razorpay;
   // late webR.Razorpay razorpaywebR;
   var loading = true;
@@ -54,7 +55,9 @@ class _CartPageState extends State<CartPage> {
   var cartdata = getItCart;
 
   getCartValue(coupon) async {
-    var value = (await Dio().get('$baseUrl/get_final_cart_value?phone=${getItUserIn.userPhone}&coupon=$coupon')).data;
+    var value = (await Dio().get(
+            '$baseUrl/get_final_cart_value?phone=${getItUserIn.userPhone}&coupon=$coupon'))
+        .data;
     cartTotal = double.parse(value['cart'].toString());
     discount = double.parse(value['discount'].toString());
     tax = double.parse(value['tax'].toString());
@@ -83,22 +86,15 @@ class _CartPageState extends State<CartPage> {
       if (!getItUserIn.ordered) {
         getItUserIn.ordered = true;
         getItCart.coupon = coupon.text;
-        context.router.pushNamed('/ThankYouPage');
+
+        context.router.pushNamed(
+          '/ThankYouPage',
+        );
       }
     });
-    // razorpaywebR.on(Razorpay.EVENT_PAYMENT_SUCCESS, (r) {
-    //   if (!getItUserIn.ordered) {
-    //     getItUserIn.ordered = true;
-    //     getItCart.coupon = coupon.text;
-    //     context.router.pushNamed('/ThankYouPage');
-    //   }
-    // });
     razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, (r) {
       context.router.pushNamed('/cart');
     });
-    // razorpaywebR.on(Razorpay.EVENT_PAYMENT_ERROR, (r) {
-    //   context.router.pushNamed('/cart');
-    // });
   }
 
   @override
@@ -132,50 +128,59 @@ class _CartPageState extends State<CartPage> {
                 shrinkWrap: true,
                 children: [
                   SizedBox(
-                    height: Responsive.responsiveNumber(0.0, 30.0, screenSize),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        GestureDetector(
-                          onTap: () => context.router.pushNamed('/'),
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 8.0),
+                    height: Responsive.responsiveNumber(0, 65, screenSize),
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 16.0),
+                      child: Stack(
+                        children: [
+                          Align(
+                            alignment: Alignment.center,
                             child: Text(
-                              Responsive.responsiveNumber('', 'Continue Shopping', screenSize),
+                              'Your Cart',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 20.0,
+                                fontSize: 30.0,
+                                fontFamily: 'NT',
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: OutlinedButton(
+                                onPressed: () =>
+                                    context.router.pushNamed('/product'),
+                                style: OutlinedButton.styleFrom(
+                                  backgroundColor: Color(0xff141414),
+                                  side: BorderSide(
+                                    color: highLcolor,
+                                    width: 1.0,
+                                  ),
+                                  primary: highLcolor,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 40.0, vertical: 15.0),
+                                  child: Text(
+                                    Responsive.responsiveNumber(
+                                        '', 'Continue Shopping', screenSize),
+                                    style: TextStyle(
+                                        letterSpacing: 2.0,
+                                        color: Colors.white,
+                                        fontSize: 15.0,
+                                        fontFamily: 'NT'),
+                                  ),
+                                )),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 35.0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Your Cart',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30.0,
-                            fontFamily: 'NT',
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20.0,
                   ),
                   Padding(
                     padding: EdgeInsets.only(
                       right: Responsive.responsiveNumber(5.0, 20.0, screenSize),
                       left: Responsive.responsiveNumber(5.0, 20.0, screenSize),
-                      bottom: Responsive.responsiveNumber(10.0, 25.0, screenSize),
+                      bottom:
+                          Responsive.responsiveNumber(10.0, 25.0, screenSize),
                     ),
                     child: Divider(
                       thickness: 1.0,
@@ -196,7 +201,9 @@ class _CartPageState extends State<CartPage> {
                                         '',
                                         style: TextStyle(
                                             color: Colors.grey,
-                                            fontSize: Responsive.responsiveNumber(20.0, 25.0, screenSize),
+                                            fontSize:
+                                                Responsive.responsiveNumber(
+                                                    20.0, 25.0, screenSize),
                                             letterSpacing: 3.0,
                                             fontFamily: 'PT'),
                                       )
@@ -210,7 +217,9 @@ class _CartPageState extends State<CartPage> {
                                         '',
                                         style: TextStyle(
                                             color: Colors.grey,
-                                            fontSize: Responsive.responsiveNumber(20.0, 25.0, screenSize),
+                                            fontSize:
+                                                Responsive.responsiveNumber(
+                                                    20.0, 25.0, screenSize),
                                             letterSpacing: 3.0,
                                             fontFamily: 'PT'),
                                       )
@@ -229,7 +238,8 @@ class _CartPageState extends State<CartPage> {
                           'Offers, Promo Codes and Gift Offers',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: Responsive.responsiveNumber(20.0, 25.0, screenSize),
+                            fontSize: Responsive.responsiveNumber(
+                                20.0, 25.0, screenSize),
                             fontFamily: 'NT',
                           ),
                         ),
@@ -268,10 +278,15 @@ class _CartPageState extends State<CartPage> {
                                           primary: highLcolor,
                                         ),
                                         child: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 15.0),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 40.0, vertical: 15.0),
                                           child: Text(
                                             'Apply Now',
-                                            style: TextStyle(letterSpacing: 2.0, color: Colors.white, fontSize: 15.0, fontFamily: 'NT'),
+                                            style: TextStyle(
+                                                letterSpacing: 2.0,
+                                                color: Colors.white,
+                                                fontSize: 15.0,
+                                                fontFamily: 'NT'),
                                           ),
                                         ),
                                         onPressed: () {
@@ -313,10 +328,15 @@ class _CartPageState extends State<CartPage> {
                                           primary: highLcolor,
                                         ),
                                         child: Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 30.0, vertical: 15.0),
                                           child: Text(
                                             'Apply Now',
-                                            style: TextStyle(letterSpacing: 2.0, color: Colors.white, fontSize: 15.0, fontFamily: 'NT'),
+                                            style: TextStyle(
+                                                letterSpacing: 2.0,
+                                                color: Colors.white,
+                                                fontSize: 15.0,
+                                                fontFamily: 'NT'),
                                           ),
                                         ),
                                         onPressed: () {
@@ -344,7 +364,8 @@ class _CartPageState extends State<CartPage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 20.0, horizontal: 20.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -369,7 +390,8 @@ class _CartPageState extends State<CartPage> {
                             ? Padding(
                                 padding: const EdgeInsets.all(4.0),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       'Discount',
@@ -482,278 +504,34 @@ class _CartPageState extends State<CartPage> {
                             primary: highLcolor,
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 15.0),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 40.0, vertical: 15.0),
                             child: Text(
                               'Pay Now',
-                              style: TextStyle(letterSpacing: 2.0, color: Colors.white, fontSize: 15.0, fontFamily: 'NT'),
+                              style: TextStyle(
+                                  letterSpacing: 2.0,
+                                  color: Colors.white,
+                                  fontSize: 15.0,
+                                  fontFamily: 'NT'),
                             ),
                           ),
                           onPressed: () async {
-                            List<Cart> cart = await API().getCartById(getItUserIn.userPhone);
+                            List<Cart> cart =
+                                await API().getCartById(getItUserIn.userPhone);
                             if (cart.isNotEmpty) {
-                              phoneNumberTextFeild = TextEditingController();
-                              phoneNumberTextFeild.text = getItUserIn.userPhone.toString();
-
-                              otpController = TextEditingController();
-                              showModalBottomSheet(
-                                  isScrollControlled: true,
-                                  context: context,
-                                  builder: (context) => Container(
-                                        padding:
-                                            EdgeInsets.symmetric(horizontal: Responsive.responsiveNumber(20.0, 300.0, screenSize), vertical: 20.0),
-                                        child: Padding(
-                                          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: Text(
-                                                  'Confirmation',
-                                                  style: TextStyle(letterSpacing: 2.0, color: Colors.white, fontSize: 25.0, fontFamily: 'PT'),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      'Please enter your phone number',
-                                                      style: TextStyle(letterSpacing: 2.0, color: Colors.white, fontSize: 13.0, fontFamily: 'NT'),
-                                                    ),
-                                                    SizedBox(
-                                                      height: 10.0,
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        Expanded(
-                                                          flex: 5,
-                                                          child: TextFieldWidget(
-                                                            inputType: TextInputType.phone,
-                                                            controller: phoneNumberTextFeild,
-                                                            hintText: "xxxxx-xxxxx",
-                                                            labelText: "Phone Number",
-                                                            fill: true,
-                                                            fillColor: Color(0xff707070),
-                                                          ),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 5.0,
-                                                        ),
-                                                        Expanded(
-                                                          flex: 2,
-                                                          child: Container(
-                                                            height: 53.0,
-                                                            width: 53.0,
-                                                            child: OutlinedButton(
-                                                              style: OutlinedButton.styleFrom(
-                                                                backgroundColor: Color(0xff141414),
-                                                                side: BorderSide(
-                                                                  color: highLcolor,
-                                                                  width: 1.0,
-                                                                ),
-                                                                primary: highLcolor,
-                                                              ),
-                                                              onPressed: () async {
-                                                                await Dio().post('$baseUrl/generate_otp/${phoneNumberTextFeild.text}');
-                                                                showTopSnackBar(
-                                                                  context,
-                                                                  CustomSnackBar.success(
-                                                                    backgroundColor: highLcolor,
-                                                                    message: "We have sent your OTP at ${phoneNumberTextFeild.text}",
-                                                                  ),
-                                                                );
-                                                              },
-                                                              child: Padding(
-                                                                padding: const EdgeInsets.all(3.0),
-                                                                child: Text(
-                                                                  'Get OTP',
-                                                                  textAlign: TextAlign.center,
-                                                                  style: TextStyle(
-                                                                      letterSpacing: 2.0, color: Colors.white, fontSize: 15.0, fontFamily: 'NT'),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: 20.0,
-                                              ),
-                                              Column(
-                                                children: [
-                                                  Padding(
-                                                    padding: const EdgeInsets.all(3.0),
-                                                    child: Text(
-                                                      'Enter OTP',
-                                                      textAlign: TextAlign.center,
-                                                      style: TextStyle(letterSpacing: 2.0, color: Colors.white, fontSize: 13.0, fontFamily: 'NT'),
-                                                    ),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 300.0,
-                                                    child: PinCodeTextField(
-                                                      keyboardType: TextInputType.number,
-                                                      length: 6,
-                                                      controller: otpController,
-                                                      obscureText: false,
-                                                      animationType: AnimationType.scale,
-                                                      pinTheme: PinTheme(
-                                                          shape: PinCodeFieldShape.circle,
-                                                          borderRadius: BorderRadius.circular(5.0),
-                                                          fieldHeight: 50.0,
-                                                          fieldWidth: 40.0,
-                                                          activeFillColor: highLcolor,
-                                                          selectedFillColor: Colors.white.withOpacity(0.4),
-                                                          selectedColor: Colors.white.withOpacity(0.3),
-                                                          activeColor: Color.fromRGBO(208, 85, 85, 0.5799999833106995),
-                                                          inactiveColor: Color.fromRGBO(208, 85, 85, 0.5799999833106995),
-                                                          inactiveFillColor: Colors.white.withOpacity(0.0)),
-                                                      animationDuration: Duration(milliseconds: 300),
-                                                      enableActiveFill: true,
-                                                      onCompleted: (v) {},
-                                                      beforeTextPaste: (text) {
-                                                        //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
-                                                        //but you can show anything you want here, like your pop up saying wrong paste format or etc
-                                                        return false;
-                                                      },
-                                                      onChanged: (String value) {},
-                                                      appContext: context,
-                                                    ),
-                                                  ),
-                                                  RoundedLoadingButton(
-                                                    borderRadius: 12.0,
-                                                    color: highLcolor,
-                                                    width: 70,
-                                                    child: Padding(
-                                                      padding: EdgeInsets.symmetric(
-                                                        horizontal: Responsive.responsiveNumber(9.0, 40.0, screenSize),
-                                                        vertical: 10.0,
-                                                      ),
-                                                      child: Center(
-                                                        child: Text(
-                                                          'Confirm',
-                                                          style: TextStyle(
-                                                              letterSpacing: 2.0,
-                                                              color: Colors.black,
-                                                              fontSize: Responsive.responsiveNumber(16.0, 19.0, screenSize),
-                                                              fontFamily: 'NT'),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    onPressed: () async {
-                                                      ///////////////////AT HOME-GETTING LOCATION///////////////////AT HOME-GETTING LOCATION///////////////////AT HOME-GETTING LOCATION///////////////////AT HOME GETTING LOCATION
-                                                      btController.start();
-
-                                                      try {
-                                                        var otpVer = (await Dio().get('$baseUrl/verify_customer/${phoneNumberTextFeild.text}',
-                                                                queryParameters: {"otp": otpController.text}))
-                                                            .data;
-
-                                                        if (otpVer) {
-                                                          Customers? cust = await API().getCustomerByPhone(phoneNumberTextFeild.text);
-                                                          List<Cart> carts = await API().getCartById(getItUserIn.userPhone);
-
-                                                          //razorpay
-
-                                                          Timer(Duration(milliseconds: 1000), () {
-                                                            btController.success();
-                                                            // if (kIsWeb) {
-                                                            //   print('web');
-                                                            //   print(double.parse(finalCartValue.toString()) * 100);
-                                                            //   Navigator.push(
-                                                            //       (context),
-                                                            //       MaterialPageRoute(
-                                                            //         builder: (context) => RazorpayWeb(
-                                                            //           rzpKey: 'rzp_test_SHE6sJzxN7QLMH', // Enter Your Razorpay Key Here
-                                                            //           options: RzpOptions(
-                                                            //             amount: finalCartValue.toInt() * 100,
-                                                            //             name: "Elie World",
-                                                            //             description: "Payment via RazorPay",
-                                                            //             image: "assets/elieLogo.png",
-                                                            //             prefill: PrefillData(
-                                                            //               name: getItUserIn.userName,
-                                                            //               email: getItUserIn.email,
-                                                            //               contact: '+91' + getItUserIn.userPhone.toString(),
-                                                            //             ),
-                                                            //             colorhex: "#FF0000",
-                                                            //           ),
-                                                            //           onPaymentSuccess: (String paymentId) async {
-                                                            //             getItCart.coupon = coupon.text;
-                                                            //             if (!getItUserIn.ordered) {
-                                                            //               getItUserIn.ordered = true;
-                                                            //               context.router.pushNamed('/ThankYouPage');
-                                                            //             }
-                                                            //           },
-                                                            //           onPaymentError: (String error) {
-                                                            //             print("Payment Error");
-                                                            //             context.router.pushNamed('/cart');
-                                                            //           },
-                                                            //         ),
-                                                            //       ));
-                                                            // }
-                                                            // else {
-                                                            // print('mobile');
-                                                            var options = {
-                                                              'key': 'rzp_test_SHE6sJzxN7QLMH',
-                                                              'amount': finalCartValue.toInt() * 100,
-                                                              'name': 'Elie World',
-                                                              'description': 'Payment via RazorPay',
-                                                              'prefill': {
-                                                                'contact': '+91' + getItUserIn.userPhone.toString(),
-                                                                'email': getItUserIn.email
-                                                              }
-                                                            };
-                                                            razorpay.open(options);
-
-                                                            Timer(Duration(milliseconds: 800), () {
-                                                              btController.reset();
-                                                            });
-                                                          });
-                                                        } else {
-                                                          showTopSnackBar(
-                                                            context,
-                                                            CustomSnackBar.error(
-                                                              backgroundColor: Colors.red,
-                                                              message: "Please Enter Correct OTP",
-                                                            ),
-                                                          );
-                                                          btController.error();
-                                                          Timer(Duration(seconds: 2), () {
-                                                            btController.reset();
-                                                          });
-                                                        }
-                                                      } catch (e) {
-                                                        print(e);
-                                                        showTopSnackBar(
-                                                          context,
-                                                          CustomSnackBar.error(
-                                                            backgroundColor: Colors.red,
-                                                            message: "Please Enter Correct OTP",
-                                                          ),
-                                                        );
-                                                        btController.error();
-                                                        Timer(Duration(seconds: 2), () {
-                                                          btController.reset();
-                                                        });
-                                                      }
-                                                    },
-                                                    controller: btController,
-                                                  ),
-                                                  SizedBox(
-                                                    height: 25.0,
-                                                  )
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ));
+                              getItForStock.cartData = cart;
+                              var options = {
+                                'key': 'rzp_test_SHE6sJzxN7QLMH',
+                                'amount': finalCartValue.toInt() * 100,
+                                'name': 'Elie World',
+                                'description': 'Payment via RazorPay',
+                                'prefill': {
+                                  'contact':
+                                      '+91' + getItUserIn.userPhone.toString(),
+                                  'email': getItUserIn.email
+                                }
+                              };
+                              razorpay.open(options);
                             } else {
                               showTopSnackBar(
                                 context,
@@ -781,7 +559,8 @@ class _CartPageState extends State<CartPage> {
                     ),
                   ),
                   Container(
-                    height: screenSize.height / Responsive.responsiveNumber(2.2, 2.0, screenSize),
+                    height: screenSize.height /
+                        Responsive.responsiveNumber(2.2, 2.0, screenSize),
                     width: screenSize.width,
                     child: ProductCarousel(),
                   ),
@@ -808,7 +587,10 @@ class _CartPageState extends State<CartPage> {
   }
 
   TextStyle cartTot_TextStyle(screenSize) {
-    return TextStyle(color: Colors.white, fontSize: Responsive.responsiveNumber(16.0, 21.0, screenSize), fontFamily: 'NT');
+    return TextStyle(
+        color: Colors.white,
+        fontSize: Responsive.responsiveNumber(16.0, 21.0, screenSize),
+        fontFamily: 'NT');
   }
 
   cartItems(context) async {
@@ -822,7 +604,8 @@ class _CartPageState extends State<CartPage> {
         var id = cartItemList[index].productId;
         var data = await API().getProductsByID(id);
 
-        double cartAmt = (cartItemList[index].totAmount * int.parse(cartItemList[index].quantity.toString()));
+        double cartAmt = (cartItemList[index].totAmount *
+            int.parse(cartItemList[index].quantity.toString()));
 
         cartdata.setAmt(getItCart.totAmount.toDouble() + cartAmt.toDouble());
         cartDescItem.add(
@@ -839,7 +622,8 @@ class _CartPageState extends State<CartPage> {
             cartId: cartItemList[index].cartId,
             removeFunc: () async {
               cartdata.setAmt(getItCart.totAmount.toDouble() - cartAmt);
-              await API().deleteCartId(cartItemList[index].cartId, getItUserIn.userPhone);
+              await API().deleteCartId(
+                  cartItemList[index].cartId, getItUserIn.userPhone);
               getCartValue(coupon.text);
               setState(() {
                 cartItems(context);
@@ -863,12 +647,15 @@ class _CartPageState extends State<CartPage> {
     cartServiceDescItem = [];
     for (var index = 0; index < cartItemList.length; index++) {
       if (cartItemList[index].serviceId != null) {
-        var expert = await API().getExpertByPhone(cartItemList[index].expertId).onError((error, stackTrace) => null);
+        var expert = await API()
+            .getExpertByPhone(cartItemList[index].expertId)
+            .onError((error, stackTrace) => null);
 
         cartDescItem.add(Container());
         var id = cartItemList[index].serviceId;
         var data = await API().getServiceByID(id);
-        double cartAmt = (cartItemList[index].totAmount * int.parse(cartItemList[index].quantity.toString()));
+        double cartAmt = (cartItemList[index].totAmount *
+            int.parse(cartItemList[index].quantity.toString()));
 
         cartdata.setAmt(getItCart.totAmount.toDouble() + cartAmt.toDouble());
 
@@ -886,7 +673,8 @@ class _CartPageState extends State<CartPage> {
             cartId: cartItemList[index].cartId,
             removeFunc: () async {
               cartdata.setAmt(getItCart.totAmount.toDouble() - cartAmt);
-              await API().deleteCartId(cartItemList[index].cartId, getItUserIn.userPhone);
+              await API().deleteCartId(
+                  cartItemList[index].cartId, getItUserIn.userPhone);
               getCartValue(coupon.text);
               setState(() {
                 cartItemsService(context);

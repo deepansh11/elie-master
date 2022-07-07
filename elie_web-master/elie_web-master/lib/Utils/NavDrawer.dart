@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:dio/dio.dart';
 import 'package:elie_web/HomePage/0HomePage.dart';
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Database/Locator.dart';
@@ -23,11 +24,15 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
 
   var currentPage;
 
+  var version;
+
   var searchFocus = FocusNode();
   var wallet;
   getWallet() async {
     if (getItUserIn.userPhone != null) {
-      wallet = (await Dio().get('http://68.183.89.66:8001/walletBalance/${getItUserIn.userPhone}')).data;
+      wallet = (await Dio().get(
+              'http://68.183.89.66:8001/walletBalance/${getItUserIn.userPhone}'))
+          .data;
       wallet = wallet.toString();
       setState(() {});
     }
@@ -41,11 +46,20 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
     print(currentPage.currentPage);
   }
 
+  getVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    print("Build: ${packageInfo.buildNumber}");
+    print("Version: ${packageInfo.version}");
+    version = packageInfo.version.toString();
+    setState(() {});
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getWallet();
+    getVersion();
   }
 
   @override
@@ -186,7 +200,8 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                           text: 'Logout',
                           icon: 'assets/logout.png',
                           onClicked: () async {
-                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
                             prefs.remove("userPhone");
                             prefs.remove("userPass");
                             prefs.remove("userName");
@@ -201,7 +216,8 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                   SizedBox(height: 36),
                   TextButton(
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+                      backgroundColor:
+                          MaterialStateProperty.resolveWith<Color?>(
                         (states) {
                           if (states.contains(MaterialState.hovered)) {
                             return Color(0x1D1D1D).withOpacity(1);
@@ -211,9 +227,12 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                           return Colors.transparent;
                         },
                       ),
-                      foregroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
-                        if (states.contains(MaterialState.hovered)) return Color(0xeb9571).withOpacity(1);
-                        if (states.contains(MaterialState.pressed)) return Color(0xeb9571).withOpacity(1);
+                      foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                          (Set<MaterialState> states) {
+                        if (states.contains(MaterialState.hovered))
+                          return Color(0xeb9571).withOpacity(1);
+                        if (states.contains(MaterialState.pressed))
+                          return Color(0xeb9571).withOpacity(1);
                         return Colors.white;
                         // null throus error in flutter 2.2+.
                       }),
@@ -226,7 +245,8 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                   SizedBox(height: 6),
                   TextButton(
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+                      backgroundColor:
+                          MaterialStateProperty.resolveWith<Color?>(
                         (states) {
                           if (states.contains(MaterialState.hovered)) {
                             return Color(0x1D1D1D).withOpacity(1);
@@ -236,9 +256,12 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                           return Colors.transparent;
                         },
                       ),
-                      foregroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
-                        if (states.contains(MaterialState.hovered)) return Color(0xeb9571).withOpacity(1);
-                        if (states.contains(MaterialState.pressed)) return Color(0xeb9571).withOpacity(1);
+                      foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                          (Set<MaterialState> states) {
+                        if (states.contains(MaterialState.hovered))
+                          return Color(0xeb9571).withOpacity(1);
+                        if (states.contains(MaterialState.pressed))
+                          return Color(0xeb9571).withOpacity(1);
                         return Colors.white;
                         // null throus error in flutter 2.2+.
                       }),
@@ -249,6 +272,12 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                     child: Text('Terms Of Service'),
                   ),
                   SizedBox(height: 16),
+                  Text(
+                    'Version: $version',
+                    style: TextStyle(
+                      color: highLcolorDark.withOpacity(0.5),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -313,7 +342,13 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
         width: 35,
         color: highLcolor,
       ),
-      title: Text(text, style: TextStyle(color: Colors.white, letterSpacing: 1, fontFamily: 'NT', fontSize: 16, fontWeight: FontWeight.w700)),
+      title: Text(text,
+          style: TextStyle(
+              color: Colors.white,
+              letterSpacing: 1,
+              fontFamily: 'NT',
+              fontSize: 16,
+              fontWeight: FontWeight.w700)),
       hoverColor: hoverColor,
       onTap: onClicked,
     );

@@ -14,7 +14,14 @@ import '../DateNightTime/lib/daynight_timepicker.dart';
 import 'package:intl/intl.dart';
 
 class LocationCard extends StatefulWidget {
-  LocationCard({this.name, this.img, this.decs, this.atHome = false, this.lat, this.long, this.pin});
+  LocationCard(
+      {this.name,
+      this.img,
+      this.decs,
+      this.atHome = false,
+      this.lat,
+      this.long,
+      this.pin});
   final name;
   final img;
   final decs;
@@ -34,7 +41,8 @@ class _LocationCardState extends State<LocationCard> {
   TextEditingController landmarkTextFeild = TextEditingController();
   TextEditingController houseNumberTextFeild = TextEditingController();
   TextEditingController postalTextFeild = TextEditingController();
-  final RoundedLoadingButtonController btController = RoundedLoadingButtonController();
+  final RoundedLoadingButtonController btController =
+      RoundedLoadingButtonController();
 
   //variables
   DateTime selectedDate = DateTime.now();
@@ -120,18 +128,26 @@ class _LocationCardState extends State<LocationCard> {
                       primary: highLcolor,
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 30.0, vertical: 15.0),
                       child: Text(
                         'Book Now',
-                        style: TextStyle(letterSpacing: 2.0, color: Colors.white, fontSize: 15.0, fontFamily: 'NT'),
+                        style: TextStyle(
+                            letterSpacing: 2.0,
+                            color: Colors.white,
+                            fontSize: 15.0,
+                            fontFamily: 'NT'),
                       ),
                     ),
                     onPressed: () async {
                       ///////////////////AT HOME////////////////AT HOME///////////////////////AT HOME///////////////////////AT HOME///////////////////////AT HOME///////////////////////AT HOME///////////////////////
                       if (widget.pin == 00) {
-                        context.router.pushNamed('/LocationPage');
+                        context.router.pushNamed('/LocationPage').then((value) {
+                          setState(() {});
+                        });
                       } else if (widget.atHome) {
-                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
                         if (prefs.get("userPhone") != null) {
                           showDialog(
                               context: context,
@@ -139,7 +155,8 @@ class _LocationCardState extends State<LocationCard> {
                                     contentPadding: EdgeInsets.all(0),
                                     backgroundColor: Colors.transparent,
                                     content: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         InkWell(
@@ -150,21 +167,24 @@ class _LocationCardState extends State<LocationCard> {
                                             decoration: BoxDecoration(
                                               gradient: kGradiantBackground,
                                             ),
-                                            child: SavedAddress(prefs, screenSize, true),
+                                            child: SavedAddress(
+                                                prefs, screenSize, true),
                                             height: screenSize.height / 1.15,
                                             width: screenSize.width / 1),
                                       ],
                                     ),
                                   ));
                         } else {
-                          context.router.pushNamed('/LoginPage');
+                          context.router.replaceNamed('/LoginPage');
                         }
                       } else {
                         ///////////////////////AT SALON///////////////////////AT SALON///////////////////////AT SALON///////////////////////AT SALON
-                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
                         if (prefs.get("userPhone") != null) {
                           getItCart.setLocation(widget.name);
-                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
                           showDialog(
                               context: this.context,
                               builder: (context) => AlertDialog(
@@ -181,19 +201,31 @@ class _LocationCardState extends State<LocationCard> {
                                       height: screenSize.height / 2,
                                       width: 400.0,
                                       child: SfDateRangePicker(
-                                        selectionTextStyle: TextStyle(fontSize: 15.0, color: Colors.white70),
+                                        selectionTextStyle: TextStyle(
+                                            fontSize: 15.0,
+                                            color: Colors.white70),
                                         selectionColor: highLcolor,
                                         todayHighlightColor: highLcolorDark,
                                         selectionRadius: 90.0,
-                                        selectionShape: DateRangePickerSelectionShape.rectangle,
+                                        selectionShape:
+                                            DateRangePickerSelectionShape
+                                                .rectangle,
                                         headerHeight: 100.0,
-                                        headerStyle: DateRangePickerHeaderStyle(textAlign: TextAlign.center),
+                                        headerStyle: DateRangePickerHeaderStyle(
+                                            textAlign: TextAlign.center),
                                         showNavigationArrow: true,
-                                        monthCellStyle: DateRangePickerMonthCellStyle(
-                                          textStyle: TextStyle(fontFamily: "tex", color: Colors.white, fontSize: 16.0),
-                                          disabledDatesTextStyle: TextStyle(fontStyle: FontStyle.normal, color: Colors.white54),
+                                        monthCellStyle:
+                                            DateRangePickerMonthCellStyle(
+                                          textStyle: TextStyle(
+                                              fontFamily: "tex",
+                                              color: Colors.white,
+                                              fontSize: 16.0),
+                                          disabledDatesTextStyle: TextStyle(
+                                              fontStyle: FontStyle.normal,
+                                              color: Colors.white54),
                                         ),
-                                        selectableDayPredicate: decideWhichDayToEnable,
+                                        selectableDayPredicate:
+                                            decideWhichDayToEnable,
                                         backgroundColor: Colors.black,
                                         allowViewNavigation: false,
                                         onSelectionChanged: (value) {
@@ -203,12 +235,14 @@ class _LocationCardState extends State<LocationCard> {
                                     ),
                                     actions: [
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Expanded(
                                             child: OutlinedButton(
                                               style: OutlinedButton.styleFrom(
-                                                backgroundColor: Color(0xff141414),
+                                                backgroundColor:
+                                                    Color(0xff141414),
                                                 side: BorderSide(
                                                   color: highLcolor,
                                                   width: 1.0,
@@ -217,10 +251,16 @@ class _LocationCardState extends State<LocationCard> {
                                               ),
                                               child: Padding(
                                                 padding: EdgeInsets.symmetric(
-                                                    horizontal: Responsive.responsiveNumber(4.0, 40.0, screenSize), vertical: 10.0),
+                                                    horizontal: Responsive
+                                                        .responsiveNumber(4.0,
+                                                            40.0, screenSize),
+                                                    vertical: 10.0),
                                                 child: Text(
                                                   'Cancel',
-                                                  style: TextStyle(color: Colors.white, fontSize: 14.0, fontFamily: 'NT'),
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 14.0,
+                                                      fontFamily: 'NT'),
                                                 ),
                                               ),
                                               onPressed: () {
@@ -231,7 +271,8 @@ class _LocationCardState extends State<LocationCard> {
                                           Expanded(
                                             child: OutlinedButton(
                                               style: OutlinedButton.styleFrom(
-                                                backgroundColor: Color(0xff141414),
+                                                backgroundColor:
+                                                    Color(0xff141414),
                                                 side: BorderSide(
                                                   color: highLcolor,
                                                   width: 1.0,
@@ -239,10 +280,18 @@ class _LocationCardState extends State<LocationCard> {
                                                 primary: highLcolor,
                                               ),
                                               child: Padding(
-                                                padding: EdgeInsets.symmetric(horizontal: isMobile(screenSize) ? 2.0 : 40.0, vertical: 10.0),
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal:
+                                                        isMobile(screenSize)
+                                                            ? 2.0
+                                                            : 40.0,
+                                                    vertical: 10.0),
                                                 child: Text(
                                                   'Choose your time',
-                                                  style: TextStyle(color: Colors.white, fontSize: 14.0, fontFamily: 'NT'),
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 14.0,
+                                                      fontFamily: 'NT'),
                                                 ),
                                               ),
                                               onPressed: () {
@@ -250,57 +299,96 @@ class _LocationCardState extends State<LocationCard> {
                                                   showTopSnackBar(
                                                     context,
                                                     CustomSnackBar.error(
-                                                      backgroundColor: Colors.red,
-                                                      message: "Please Select a date",
+                                                      backgroundColor:
+                                                          Colors.red,
+                                                      message:
+                                                          "Please Select a date",
                                                     ),
                                                   );
                                                 } else {
-                                                  print(double.parse(DateTime.now().hour.toString()));
+                                                  print(double.parse(
+                                                      DateTime.now()
+                                                          .hour
+                                                          .toString()));
 
-                                                  getItCart.setDate(DateFormat('dd/MM/yyyy').format(date).toString());
+                                                  getItCart.setDate(
+                                                      DateFormat('dd/MM/yyyy')
+                                                          .format(date)
+                                                          .toString());
 
                                                   print(officeTime(date));
-                                                  if (officeTime(date) != null) {
+                                                  if (officeTime(date) !=
+                                                      null) {
                                                     Navigator.of(context).push(
                                                       showPicker(
-                                                        minHour: officeTime(date),
+                                                        minHour:
+                                                            officeTime(date),
                                                         maxHour: 21.0,
-                                                        minuteInterval: MinuteInterval.THIRTY,
+                                                        minuteInterval:
+                                                            MinuteInterval
+                                                                .THIRTY,
                                                         context: context,
-                                                        accentColor: highLcolorLight,
+                                                        accentColor:
+                                                            highLcolorLight,
                                                         blurredBackground: true,
                                                         onChange: (timeOfDay) {
-                                                          time = timeOfDay.format(this.context).toString();
+                                                          time = timeOfDay
+                                                              .format(
+                                                                  this.context)
+                                                              .toString();
                                                         },
                                                         value: TimeOfDay(
-                                                          hour: officeTime(date).toInt(),
+                                                          hour: officeTime(date)
+                                                              .toInt(),
                                                           minute: 00,
                                                         ),
                                                         disableHour: false,
                                                         disableMinute: false,
-                                                        iosStylePicker: kIsWeb ? false : true,
+                                                        iosStylePicker: kIsWeb
+                                                            ? false
+                                                            : true,
                                                         displayHeader: true,
                                                         is24HrFormat: true,
                                                         dialogInsetPadding:
-                                                            EdgeInsets.symmetric(horizontal: isMobile(screenSize) ? 40.0 : 300.0, vertical: 24.0),
+                                                            EdgeInsets.symmetric(
+                                                                horizontal:
+                                                                    isMobile(
+                                                                            screenSize)
+                                                                        ? 40.0
+                                                                        : 300.0,
+                                                                vertical: 24.0),
                                                         themeData: ThemeData.dark().copyWith(
-                                                            colorScheme:
-                                                                ColorScheme.fromSwatch().copyWith(secondary: highLcolorLight, primary: Colors.white)),
+                                                            colorScheme: ColorScheme
+                                                                    .fromSwatch()
+                                                                .copyWith(
+                                                                    secondary:
+                                                                        highLcolorLight,
+                                                                    primary: Colors
+                                                                        .white)),
                                                         onSubmit: () {
-                                                          getItCart.setTime(time);
-                                                          getItCart.setLatlong(widget.lat, widget.long);
-                                                          getItCart.setLocation(widget.name);
+                                                          getItCart
+                                                              .setTime(time);
+                                                          getItCart.setLatlong(
+                                                              widget.lat,
+                                                              widget.long);
+                                                          getItCart.setLocation(
+                                                              widget.name);
                                                           print(widget.pin);
-                                                          getItCart.setPin(widget.pin);
-                                                          context.router.pushNamed('/service');
+                                                          getItCart.setPin(
+                                                              widget.pin);
+                                                          context.router
+                                                              .pushNamed(
+                                                                  '/service');
                                                         },
                                                       ),
                                                     );
                                                   } else {
                                                     showDialog(
                                                         context: context,
-                                                        builder: (context) => AlertDialog(
-                                                              title: Text('Please select a different date'),
+                                                        builder: (context) =>
+                                                            AlertDialog(
+                                                              title: Text(
+                                                                  'Please select a different date'),
                                                             ));
                                                   }
                                                 }
@@ -312,7 +400,7 @@ class _LocationCardState extends State<LocationCard> {
                                     ],
                                   ));
                         } else {
-                          context.router.pushNamed('/LoginPage');
+                          context.router.replaceNamed('/LoginPage');
                         }
                       }
                     },
@@ -326,7 +414,8 @@ class _LocationCardState extends State<LocationCard> {
     );
   }
 
-  TextStyle chooseAddMain() => TextStyle(color: Colors.white, fontWeight: FontWeight.bold);
+  TextStyle chooseAddMain() =>
+      TextStyle(color: Colors.white, fontWeight: FontWeight.bold);
   TextStyle chooseAddValue() => TextStyle(
         color: Colors.white,
       );

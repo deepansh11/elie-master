@@ -5,6 +5,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:dio/dio.dart';
 import 'package:elie_web/Anu/Footer.dart';
 import 'package:elie_web/Carousels/1ProductCarousel.dart';
+import 'package:elie_web/Database/API.dart';
 import 'package:elie_web/Database/Locator.dart';
 import 'package:elie_web/ThankYouPage/Quotes.dart';
 import 'package:elie_web/Utils/Constants.dart';
@@ -28,12 +29,24 @@ class _ThankYouPageState extends State<ThankYouPage> {
   }
 
   addOrder() async {
-    await Dio()
-        .get('$baseUrl/make_send_invoice/${getItUserIn.userPhone}', queryParameters: {'coupon': getItCart.coupon});
+    await Dio().get('$baseUrl/make_send_invoice/${getItUserIn.userPhone}',
+        queryParameters: {'coupon': getItCart.coupon});
     getItUserIn.ordered = false;
     setState(() {
       loading = false;
     });
+  }
+
+  updateStockData() async {
+    var cart = getItForStock.cartData;
+
+    for (var product in cart) {
+      if (product.productId != null) {
+        print("Product Details: ${product.productId} ${product.quantity}");
+
+        await API().updateStock(product.productId, product.quantity);
+      }
+    }
   }
 
   @override
@@ -41,6 +54,9 @@ class _ThankYouPageState extends State<ThankYouPage> {
     addOrder();
     super.initState();
     playLocal();
+    // print(getItCart.cartItems);
+    updateStockData();
+    getItCart.clearCart();
   }
 
   @override
@@ -66,7 +82,9 @@ class _ThankYouPageState extends State<ThankYouPage> {
                         )
                       : ListView(shrinkWrap: true, children: [
                           Container(
-                            height: screenSize.height / Responsive.responsiveNumber(1.4, 1.5, screenSize),
+                            height: screenSize.height /
+                                Responsive.responsiveNumber(
+                                    1.4, 1.5, screenSize),
                             width: screenSize.width,
                             padding: EdgeInsets.symmetric(vertical: 30),
                             child: Column(
@@ -114,7 +132,8 @@ class _ThankYouPageState extends State<ThankYouPage> {
                                     primary: highLcolor,
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 40, vertical: 15),
                                     child: Text(
                                       'Continue Shopping',
                                       style: TextStyle(
@@ -130,13 +149,18 @@ class _ThankYouPageState extends State<ThankYouPage> {
                                 ),
                                 SizedBox(height: 20),
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0),
                                   child: Text(
-                                    '"' + quotesList.elementAt(Random().nextInt(11)) + '"',
+                                    '"' +
+                                        quotesList
+                                            .elementAt(Random().nextInt(11)) +
+                                        '"',
                                     style: TextStyle(
                                       color: highLcolor,
                                       letterSpacing: 2,
-                                      fontSize: Responsive.responsiveNumber(25.0, 30.0, screenSize),
+                                      fontSize: Responsive.responsiveNumber(
+                                          25.0, 30.0, screenSize),
                                       fontFamily: 'IT',
                                     ),
                                     textAlign: TextAlign.center,
@@ -147,7 +171,8 @@ class _ThankYouPageState extends State<ThankYouPage> {
                             ),
                           ),
                           Container(
-                            height: screenSize.height / Responsive.responsiveNumber(2.2, 2, screenSize),
+                            height: screenSize.height /
+                                Responsive.responsiveNumber(2.2, 2, screenSize),
                             width: screenSize.width,
                             child: ProductCarousel(title: 'Similar Products'),
                           ),

@@ -70,11 +70,16 @@ class _ServiceDescPageState extends State<ServiceDescPage> {
                                 Padding(
                                   padding: const EdgeInsets.all(18.0),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         data!.name.toString(),
-                                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 25, fontFamily: 'NT'),
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 25,
+                                            fontFamily: 'NT'),
                                       ),
                                       SizedBox(
                                         height: 10,
@@ -102,11 +107,13 @@ class _ServiceDescPageState extends State<ServiceDescPage> {
                                         height: 20,
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           OutlinedButton(
                                             style: OutlinedButton.styleFrom(
-                                              backgroundColor: Color(0xff141414),
+                                              backgroundColor:
+                                                  Color(0xff141414),
                                               side: BorderSide(
                                                 color: highLcolor,
                                                 width: 1,
@@ -114,21 +121,33 @@ class _ServiceDescPageState extends State<ServiceDescPage> {
                                               primary: highLcolor,
                                             ),
                                             child: Padding(
-                                              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 40,
+                                                      vertical: 15),
                                               child: Text(
                                                 'Book An Appointment',
-                                                style:
-                                                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15, fontFamily: 'NT'),
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 15,
+                                                    fontFamily: 'NT'),
                                               ),
                                             ),
                                             onPressed: () async {
-                                              getItCart.setProductData(data, false);
-                                              SharedPreferences prefs = await SharedPreferences.getInstance();
-                                              if (prefs.get("userPhone") != null) {
+                                              getItCart.setProductData(
+                                                  data, false);
+                                              SharedPreferences prefs =
+                                                  await SharedPreferences
+                                                      .getInstance();
+                                              if (prefs.get("userPhone") !=
+                                                  null) {
                                                 print(getItCart.time);
-                                                context.router.pushNamed('/ExpertPage');
+                                                context.router
+                                                    .pushNamed('/ExpertPage');
                                               } else {
-                                                context.router.pushNamed('/LoginPage');
+                                                context.router
+                                                    .pushNamed('/LoginPage');
                                               }
                                             },
                                           ),
@@ -161,7 +180,11 @@ class _ServiceDescPageState extends State<ServiceDescPage> {
                                   children: [
                                     Text(
                                       data!.name.toString(),
-                                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 25, fontFamily: 'NT'),
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 25,
+                                          fontFamily: 'NT'),
                                     ),
                                     SizedBox(
                                       height: 10,
@@ -189,7 +212,8 @@ class _ServiceDescPageState extends State<ServiceDescPage> {
                                       height: 20,
                                     ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         OutlinedButton(
                                           style: OutlinedButton.styleFrom(
@@ -201,20 +225,31 @@ class _ServiceDescPageState extends State<ServiceDescPage> {
                                             primary: highLcolor,
                                           ),
                                           child: Padding(
-                                            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 40, vertical: 15),
                                             child: Text(
                                               'Book An Appointment',
-                                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15, fontFamily: 'NT'),
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 15,
+                                                  fontFamily: 'NT'),
                                             ),
                                           ),
                                           onPressed: () async {
-                                            getItCart.setProductData(data, false);
+                                            getItCart.setProductData(
+                                                data, false);
 
-                                            SharedPreferences prefs = await SharedPreferences.getInstance();
-                                            if (prefs.get("userPhone") != null) {
-                                              context.router.pushNamed('/ExpertPage');
+                                            SharedPreferences prefs =
+                                                await SharedPreferences
+                                                    .getInstance();
+                                            if (prefs.get("userPhone") !=
+                                                null) {
+                                              context.router
+                                                  .pushNamed('/ExpertPage');
                                             } else {
-                                              context.router.pushNamed('/LoginPage');
+                                              context.router
+                                                  .pushNamed('/LoginPage');
                                             }
                                           },
                                         ),
@@ -227,7 +262,9 @@ class _ServiceDescPageState extends State<ServiceDescPage> {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             child: Container(
-                              height: screenSize.height / Responsive.responsiveNumber(2.2, 2, screenSize),
+                              height: screenSize.height /
+                                  Responsive.responsiveNumber(
+                                      2.2, 2, screenSize),
                               width: screenSize.width,
                               child: ServiceCarousel(),
                             ),

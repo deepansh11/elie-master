@@ -1,7 +1,7 @@
-List expertiseList = [
-  'Cut & style',
-  'Styling',
-  'Touch up',
+List<String> expertiseList = [
+  'CUT&STYLE',
+  'STYLING',
+  'TOUCHUP',
   'GLOBAL HAIR COLOR',
   'HIGHLIGHTS',
   'CYSTINE /KERATINE TREARMENT',

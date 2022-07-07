@@ -96,11 +96,16 @@ class LocationPage extends StatelessWidget {
                         child: Text(
                           "Due to these uncertain times, salon hours may vary. Stylists hours will be updated regularly, so you can schedule with confidence. ",
                           textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.white70, fontSize: 14, letterSpacing: 1, fontFamily: 'p2'),
+                          style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 14,
+                              letterSpacing: 1,
+                              fontFamily: 'p2'),
                         ),
                       ),
                       SizedBox(
-                        height: Responsive.responsiveNumber(10.0, 30.0, screenSize),
+                        height:
+                            Responsive.responsiveNumber(10.0, 30.0, screenSize),
                         width: screenSize.width / 3.0,
                         child: Divider(
                           thickness: 1.0,
@@ -108,13 +113,16 @@ class LocationPage extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10),
+                        padding: EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 10),
                         child: isMobile(screenSize)
                             ? ListView(
                                 scrollDirection: Axis.vertical,
                                 physics: NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
-                                children: getItCart.isSpa ? LocationCardSpa : LocationCards,
+                                children: getItCart.isSpa
+                                    ? LocationCardSpa
+                                    : LocationCards,
                               )
                             : Padding(
                                 padding: const EdgeInsets.all(10.0),
@@ -124,7 +132,9 @@ class LocationPage extends StatelessWidget {
                                   scrollDirection: Axis.vertical,
                                   shrinkWrap: true,
                                   crossAxisCount: isMobile(screenSize) ? 1 : 3,
-                                  children: getItCart.isSpa ? LocationCardSpa : LocationCards,
+                                  children: getItCart.isSpa
+                                      ? LocationCardSpa
+                                      : LocationCards,
                                 ),
                               ),
                       ),

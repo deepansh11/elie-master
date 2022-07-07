@@ -3,28 +3,31 @@ import 'package:elie_admin/Responsive%20Dashboard/constants.dart';
 import 'package:elie_admin/Screen/Login/Login.dart';
 import 'package:elie_admin/Utils/Constants.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:side_navigation/side_navigation.dart';
 import '../../Responsive Dashboard/Header.dart';
 import 'ListOfPages.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key, required this.initialIndex}) : super(key: key);
+  final int? initialIndex;
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  var selectedIndex = 0;
+  var pageIndex = 0;
 
   var dataAdmin = getItAdminCurrentPage;
   @override
   void initState() {
     super.initState();
+    pageIndex = widget.initialIndex ?? 0;
 
-    dataAdmin.addListener(() {
+    dataAdmin.addListener(() async {
       setState(() {
-        selectedIndex = getItAdminCurrentPage.index;
+        pageIndex = getItAdminCurrentPage.index;
       });
     });
   }
@@ -37,7 +40,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: midBlue,
         elevation: 2,
         title: Header(
-          selectedTile: selectedIndex,
+          selectedTile: pageIndex,
         ),
         automaticallyImplyLeading: false,
       ),
@@ -50,12 +53,20 @@ class _HomePageState extends State<HomePage> {
               width: 250,
               child: SideNavigationBar(
                 expandable: false,
-                selectedIndex: selectedIndex,
+                selectedIndex: pageIndex,
                 footer: SideNavigationBarFooter(
                   label: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+
                       Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(builder: (context) => LoginPage()));
+                        MaterialPageRoute(
+                          builder: (context) => LoginPage(),
+                        ),
+                      );
+
+                      prefs.setBool('isLoggedIn', false);
                     },
                     child: Text('Logout'),
                   ),
@@ -115,7 +126,7 @@ class _HomePageState extends State<HomePage> {
           ),
           Expanded(
             child: Container(
-              child: views.elementAt(selectedIndex),
+              child: views.elementAt(pageIndex),
             ),
           )
         ],

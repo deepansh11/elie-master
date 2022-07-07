@@ -102,21 +102,26 @@ class _AddUserState extends State<AddUser> {
           height: screenSize.height / 2.0,
           width: 400.0,
           child: SfDateRangePicker(
-            selectionTextStyle: TextStyle(fontSize: 15.0, color: Colors.white70),
+            selectionTextStyle:
+                TextStyle(fontSize: 15.0, color: Colors.white70),
             selectionColor: primaryColor,
             selectionRadius: 90.0,
             selectionShape: DateRangePickerSelectionShape.rectangle,
             headerHeight: 100.0,
-            headerStyle: DateRangePickerHeaderStyle(textAlign: TextAlign.center),
+            headerStyle:
+                DateRangePickerHeaderStyle(textAlign: TextAlign.center),
             showNavigationArrow: true,
             monthCellStyle: DateRangePickerMonthCellStyle(
-              textStyle: TextStyle(fontFamily: "tex", color: Colors.white, fontSize: 16.0),
-              disabledDatesTextStyle: TextStyle(fontStyle: FontStyle.normal, color: Colors.white54),
+              textStyle: TextStyle(
+                  fontFamily: "tex", color: Colors.white, fontSize: 16.0),
+              disabledDatesTextStyle:
+                  TextStyle(fontStyle: FontStyle.normal, color: Colors.white54),
             ),
             backgroundColor: Colors.black,
             allowViewNavigation: true,
             onSelectionChanged: (value) {
-              cont.text = DateFormat('dd, MMMM yyyy').format(value.value).toString();
+              cont.text =
+                  DateFormat('dd, MMMM yyyy').format(value.value).toString();
             },
           ),
         ),
@@ -135,10 +140,14 @@ class _AddUserState extends State<AddUser> {
                     primary: primaryColor,
                   ),
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10.0),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 40, vertical: 10.0),
                     child: Text(
                       'Cancel',
-                      style: TextStyle(color: Colors.white, fontSize: 14.0, fontFamily: 'tex'),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14.0,
+                          fontFamily: 'tex'),
                     ),
                   ),
                   onPressed: () {
@@ -157,10 +166,14 @@ class _AddUserState extends State<AddUser> {
                     primary: primaryColor,
                   ),
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10.0),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 40, vertical: 10.0),
                     child: Text(
                       'Confirm',
-                      style: TextStyle(color: Colors.white, fontSize: 14.0, fontFamily: 'tex'),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14.0,
+                          fontFamily: 'tex'),
                     ),
                   ),
                   onPressed: () {
@@ -254,7 +267,8 @@ class _AddUserState extends State<AddUser> {
                                   isCustomer
                                       ? Container()
                                       : Expanded(
-                                          child: CustomTextFormFieldColumnOverlay(
+                                          child:
+                                              CustomTextFormFieldColumnOverlay(
                                             maxLine: 1,
                                             controller: employee,
                                             title: 'Employee or Freelance',
@@ -284,7 +298,8 @@ class _AddUserState extends State<AddUser> {
                                   isCustomer
                                       ? Container()
                                       : Expanded(
-                                          child: CustomTextFormFieldColumnOverlay(
+                                          child:
+                                              CustomTextFormFieldColumnOverlay(
                                             maxLine: 1,
                                             controller: rating,
                                             title: 'Expert Rating',
@@ -318,11 +333,21 @@ class _AddUserState extends State<AddUser> {
                                           width: 30,
                                         ),
                                         Expanded(
-                                          child: CustomTextFormFieldColumnOverlay(
+                                          child:
+                                              CustomTextFormFieldColumnOverlay(
                                             maxLine: 1,
                                             controller: bloodGrp,
                                             title: 'Blood Group',
-                                            items: ['A+', 'B+', 'O+', 'AB+', 'A-', 'B-', 'O-', 'AB-'],
+                                            items: [
+                                              'A+',
+                                              'B+',
+                                              'O+',
+                                              'AB+',
+                                              'A-',
+                                              'B-',
+                                              'O-',
+                                              'AB-'
+                                            ],
                                             onTap: (v) {
                                               bloodGrp.text = v;
                                             },
@@ -347,7 +372,11 @@ class _AddUserState extends State<AddUser> {
                                           width: 30,
                                         ),
                                         Expanded(
-                                          child: CustomTextFormFieldColumn(controller: conPass, title: "Confirm Password", maxLine: 1, ob: true),
+                                          child: CustomTextFormFieldColumn(
+                                              controller: conPass,
+                                              title: "Confirm Password",
+                                              maxLine: 1,
+                                              ob: true),
                                         ),
                                       ],
                                     ),
@@ -401,7 +430,8 @@ class _AddUserState extends State<AddUser> {
                                         Expanded(
                                           child: CustomTextFormFieldColumn(
                                             controller: period,
-                                            title: 'Expected Period Date(Next Month)',
+                                            title:
+                                                'Expected Period Date(Next Month)',
                                             maxLine: 1,
                                             onTap: () => customerDatePicker(
                                               title: 'Pick Date for Next Month',
@@ -467,11 +497,16 @@ class _AddUserState extends State<AddUser> {
                                           width: 30,
                                         ),
                                         Expanded(
-                                          child: CustomTextFormFieldColumnOverlay(
+                                          child:
+                                              CustomTextFormFieldColumnOverlay(
                                             maxLine: 1,
                                             controller: vehicle,
                                             title: 'Vehicle',
-                                            items: ['2-Wheeler', '4-Wheeler', 'No'],
+                                            items: [
+                                              '2-Wheeler',
+                                              '4-Wheeler',
+                                              'No'
+                                            ],
                                             height: 150,
                                             onTap: (v) {
                                               vehicle.text = v;
@@ -479,14 +514,17 @@ class _AddUserState extends State<AddUser> {
                                             },
                                           ),
                                         ),
-                                        vehicle.text == '2-Wheeler' || vehicle.text == '4-Wheeler'
+                                        vehicle.text == '2-Wheeler' ||
+                                                vehicle.text == '4-Wheeler'
                                             ? SizedBox(
                                                 width: 30,
                                               )
                                             : Container(),
-                                        vehicle.text == '2-Wheeler' || vehicle.text == '4-Wheeler'
+                                        vehicle.text == '2-Wheeler' ||
+                                                vehicle.text == '4-Wheeler'
                                             ? Expanded(
-                                                child: CustomTextFormFieldColumn(
+                                                child:
+                                                    CustomTextFormFieldColumn(
                                                   controller: vehicleNo,
                                                   title: 'Vehicle Number',
                                                   maxLine: 1,
@@ -559,7 +597,8 @@ class _AddUserState extends State<AddUser> {
                                           width: 30,
                                         ),
                                         Expanded(
-                                          child: CustomTextFormFieldColumnOverlay(
+                                          child:
+                                              CustomTextFormFieldColumnOverlay(
                                             maxLine: 1,
                                             controller: bankName,
                                             title: 'Bank Name',
@@ -636,7 +675,8 @@ class _AddUserState extends State<AddUser> {
                             ),
                             GestureDetector(
                               onTap: () async {
-                                FilePickerResult? result = await FilePicker.platform.pickFiles(
+                                FilePickerResult? result =
+                                    await FilePicker.platform.pickFiles(
                                   type: FileType.image,
                                 );
 
@@ -667,7 +707,8 @@ class _AddUserState extends State<AddUser> {
                                 width: 300,
                                 child: !isCustomer
                                     ? Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
@@ -680,7 +721,12 @@ class _AddUserState extends State<AddUser> {
                                             maxLine: 1,
                                             controller: status,
                                             title: 'Status',
-                                            items: ['Pending', 'Active', 'Suspend', 'Retired'],
+                                            items: [
+                                              'Pending',
+                                              'Active',
+                                              'Suspend',
+                                              'Retired'
+                                            ],
                                             height: 200,
                                             onTap: (v) {
                                               status.text = v;
@@ -754,8 +800,12 @@ class _AddUserState extends State<AddUser> {
 
                                     await API().addCustomer(parsedData);
                                     if (image != null) {
-                                      print(MultipartFile.fromBytes(image.bytes as List<int>).runtimeType);
-                                      await Dio().post('$baseURL/addCustomerProfilePic/${phone.text}', data: image.bytes);
+                                      print(MultipartFile.fromBytes(
+                                              image.bytes as List<int>)
+                                          .runtimeType);
+                                      await Dio().post(
+                                          '$baseURL/addCustomerProfilePic/${phone.text}',
+                                          data: image.bytes);
                                     }
                                     setState(() {
                                       loadingBtn = false;
@@ -776,50 +826,80 @@ class _AddUserState extends State<AddUser> {
                                 }
                                 /////EXPERT/////EXPERT/////EXPERT/////EXPERT/////EXPERT/////EXPERT
                                 else {
-                                  if (name.text.isNotEmpty && phone.text.isNotEmpty) {
-                                    await Dio().post('$baseURL/register_expert', data: {
-                                      "name": name.text,
-                                      "nickname": nickname.text,
-                                      "sex": gender.text,
-                                      "isEmployee": employee.text == "Freelancer" ? false : true,
-                                      "phone": int.parse(phone.text),
-                                      "email": email.text,
-                                      "password": pass.text,
-                                      "bankAccountName": bankName.text,
-                                      "bankAccountNumber": int.parse(bankacct.text),
-                                      "bankAccountIfsc": ifsc.text,
-                                      "averageRating": int.parse(rating.text),
-                                      "status": status.text.isEmpty ? 'Pending' : status.text,
-                                      'serviceablePins': serviceablePin.text,
-                                      'serviceList': expertise.text,
-                                      'vehicle': vehicle.text,
-                                      'vehicleNo': vehicleNo.text,
-                                      "yearsOfExperience": int.parse(experienceYear.text),
-                                      'aadharNo': int.parse(aadhar.text.isEmpty ? '0' : aadhar.text),
-                                      'panNo': pan.text,
-                                      'age': age.text,
-                                      "qualification": qualification.text,
-                                    });
+                                  if (name.text.isNotEmpty &&
+                                      phone.text.isNotEmpty) {
+                                    await Dio().post('$baseURL/register_expert',
+                                        data: {
+                                          "name": name.text,
+                                          "nickname": nickname.text,
+                                          "sex": gender.text,
+                                          "isEmployee":
+                                              employee.text == "Freelancer"
+                                                  ? false
+                                                  : true,
+                                          "phone": int.parse(phone.text),
+                                          "email": email.text,
+                                          "password": pass.text,
+                                          "bankAccountName": bankName.text,
+                                          "bankAccountNumber":
+                                              int.parse(bankacct.text),
+                                          "bankAccountIfsc": ifsc.text,
+                                          "averageRating":
+                                              int.parse(rating.text),
+                                          "status": status.text.isEmpty
+                                              ? 'Pending'
+                                              : status.text,
+                                          'serviceablePins':
+                                              serviceablePin.text,
+                                          'serviceList': expertise.text,
+                                          'vehicle': vehicle.text,
+                                          'vehicleNo': vehicleNo.text,
+                                          "yearsOfExperience":
+                                              int.parse(experienceYear.text),
+                                          'aadharNo': int.parse(
+                                              aadhar.text.isEmpty
+                                                  ? '0'
+                                                  : aadhar.text),
+                                          'panNo': pan.text,
+                                          'age': age.text,
+                                          "qualification": qualification.text,
+                                        });
 
                                     if (image != null) {
-                                      await Dio().post('$baseURL/addExpertProfilePic/${phone.text}', data: image.bytes);
+                                      await Dio().post(
+                                          '$baseURL/addExpertProfilePic/${phone.text}',
+                                          data: image.bytes);
                                     }
 
                                     if (panImage != null) {
-                                      await Dio().post('$baseURL/add_expert_pan/${phone.text}', data: panImage.bytes);
+                                      await Dio().post(
+                                          '$baseURL/add_expert_pan/${phone.text}',
+                                          data: panImage.bytes);
                                     }
                                     print('pan check');
-                                    if (aadharImage1 != null && aadharImage2 != null) {
-                                      await Dio().post('$baseURL/add_expert_aadhar/${phone.text}', data: [aadharImage1.bytes, aadharImage2.bytes]);
+                                    if (aadharImage1 != null &&
+                                        aadharImage2 != null) {
+                                      await Dio().post(
+                                          '$baseURL/add_expert_aadhar/${phone.text}',
+                                          data: [
+                                            aadharImage1.bytes,
+                                            aadharImage2.bytes
+                                          ]);
                                     }
                                     print('aadhar check');
                                     if (gender.text == 'Female') {
-                                      await Dio().put('$baseURL/add_period/${phone.text}',
-                                          queryParameters: {'thedatetime': DateFormat('dd, MMMM yyyy').parse(period.text)});
+                                      await Dio().put(
+                                          '$baseURL/add_period/${phone.text}',
+                                          queryParameters: {
+                                            'thedatetime':
+                                                DateFormat('dd, MMMM yyyy')
+                                                    .parse(period.text)
+                                          });
                                     }
                                     print('female check');
 
-                                    await Dio().post('$baseURL/add_track', data: {
+                                    await Dio()
+                                        .post('$baseURL/add_track', data: {
                                       "location": {
                                         "latitude": "18.552238",
                                         "longitude": "73.8881713",
@@ -877,7 +957,9 @@ class _AddUserState extends State<AddUser> {
   }
 
   void showMultiSelectExpertise(BuildContext context) async {
-    final item = expertiseList.map((e) => MultiSelectItem(expertiseList.indexOf(e), e)).toList();
+    final item = expertiseList
+        .map((e) => MultiSelectItem(expertiseList.indexOf(e), e))
+        .toList();
     await showDialog(
       context: context,
       builder: (ctx) {
@@ -898,7 +980,10 @@ class _AddUserState extends State<AddUser> {
               print(values[d].toString());
               expertise.text = expertise.text +
                   (expertise.text.isEmpty ? '' : ", ") +
-                  expertiseList.elementAt(int.parse(values[d].toString())).toString().toUpperCase();
+                  expertiseList
+                      .elementAt(int.parse(values[d].toString()))
+                      .toString()
+                      .toUpperCase();
             }
 
             setState(() {
@@ -911,7 +996,9 @@ class _AddUserState extends State<AddUser> {
   }
 
   void showMultiSelectPincodes(BuildContext context) async {
-    final item = pinCodes.map((e) => MultiSelectItem(pinCodes.indexOf(e), e)).toList();
+    final item = allPinCodes
+        .map((e) => MultiSelectItem(allPinCodes.indexOf(e), e))
+        .toList();
     await showDialog(
       context: context,
       builder: (ctx) {
@@ -934,7 +1021,10 @@ class _AddUserState extends State<AddUser> {
                 print(values[d].toString());
                 serviceablePin.text = serviceablePin.text +
                     (serviceablePin.text.isEmpty ? '' : ", ") +
-                    pinCodes.elementAt(int.parse(values[d].toString())).toString().toUpperCase();
+                    allPinCodes
+                        .elementAt(int.parse(values[d].toString()))
+                        .toString()
+                        .toUpperCase();
               }
 
               setState(() {

@@ -8,8 +8,11 @@ import 'package:elie_web/ExpertPage/1ExpertCard.dart';
 import 'package:elie_web/Utils/Constants.dart';
 import 'package:elie_web/Utils/NavDrawer.dart';
 import 'package:elie_web/Utils/TopBar.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ExpertPage extends StatefulWidget {
   @override
@@ -25,8 +28,8 @@ class _ExpertPageState extends State<ExpertPage> {
   List<Widget> cardList = [];
   getExperts() async {
     List<Experts?> snapshot = (await API().getExpertsByAvi(
-      DateFormat('yyyy-MM-ddTHH:mm:ss')
-          .format(DateFormat('dd/MM/yyyyTh:mm a').parse(getItCart.date + 'T' + getItCart.time)),
+      DateFormat('yyyy-MM-ddTHH:mm:ss').format(DateFormat('dd/MM/yyyyTh:mm a')
+          .parse(getItCart.date + 'T' + getItCart.time)),
       getItCart.pin,
     ));
 
@@ -48,6 +51,14 @@ class _ExpertPageState extends State<ExpertPage> {
     setState(() {
       loading = false;
     });
+  }
+
+  Future<void> _makePhoneCall(Uri url) async {
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   @override
@@ -120,7 +131,8 @@ class _ExpertPageState extends State<ExpertPage> {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: Responsive.responsiveNumber(14.0, 15.0, screenSize),
+                              fontSize: Responsive.responsiveNumber(
+                                  14.0, 15.0, screenSize),
                             ),
                           ),
                         ),
@@ -152,16 +164,49 @@ class _ExpertPageState extends State<ExpertPage> {
                                         crossAxisSpacing: 20,
                                         scrollDirection: Axis.vertical,
                                         shrinkWrap: true,
-                                        crossAxisCount: isMobile(screenSize) ? 1 : 3,
+                                        crossAxisCount:
+                                            isMobile(screenSize) ? 1 : 3,
                                         children: cardList,
                                       )
-                                    : Container(
-                                        child: Text(
-                                          'Sorry! Experts Are Not Available Right Now',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 25,
-                                            fontFamily: 'NT',
+                                    : Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          child: Text.rich(
+                                            TextSpan(
+                                              children: [
+                                                TextSpan(
+                                                  text:
+                                                      'No Experts Found, Kindly ',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 25),
+                                                ),
+                                                TextSpan(
+                                                  text: kIsWeb
+                                                      ? 'call us at +917057900707'
+                                                      : 'call',
+                                                  recognizer: TapGestureRecognizer()
+                                                    ..onTap = () => !kIsWeb
+                                                        ? _makePhoneCall(
+                                                            Uri.parse(
+                                                                'tel:7057900707'))
+                                                        : null,
+                                                  style: kIsWeb
+                                                      ? TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 25)
+                                                      : TextStyle(
+                                                          color: Colors.blue,
+                                                          fontSize: 25),
+                                                ),
+                                                TextSpan(
+                                                  text: ' to reserve',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 25),
+                                                )
+                                              ],
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -181,33 +226,40 @@ class _ExpertPageState extends State<ExpertPage> {
                 : Positioned(
                     right: 15,
                     bottom: 18,
-                    child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          backgroundColor: Color(0xff141414),
-                          side: BorderSide(
-                            color: highLcolor,
-                            width: 1,
-                          ),
-                          primary: highLcolor,
-                        ),
-                        onPressed: () async {
-                          getItCart.setExpertData(firstPhone);
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              backgroundColor: Color(0xff141414),
+                              side: BorderSide(
+                                color: highLcolor,
+                                width: 1,
+                              ),
+                              primary: highLcolor,
+                            ),
+                            onPressed: () async {
+                              getItCart.setExpertData(firstPhone);
 
-                          if (getItCart.serviceData != null) {
-                            await getItCart.addToCart(false);
-                          }
-                          context.router.pushNamed('/cart');
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),
-                          child: Text(
-                            'Let us Choose',
-                            style: TextStyle(letterSpacing: 2.0, color: Colors.white, fontSize: 15.0, fontFamily: 'NT'),
-                          ),
-                        ),
-                      )
-                    ]))
+                              if (getItCart.serviceData != null) {
+                                await getItCart.addToCart(false);
+                              }
+                              context.router.pushNamed('/cart');
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 30.0, vertical: 15.0),
+                              child: Text(
+                                'Let us Choose',
+                                style: TextStyle(
+                                    letterSpacing: 2.0,
+                                    color: Colors.white,
+                                    fontSize: 15.0,
+                                    fontFamily: 'NT'),
+                              ),
+                            ),
+                          )
+                        ]))
           ],
         ),
       ),

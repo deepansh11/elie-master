@@ -29,7 +29,9 @@ class ServiceProductCard extends StatelessWidget {
     return InkWell(
       onTap: () {
         print('from service tab' + productData.id.toString());
-        var p = isProduct ? '/ProductDescPage/${productData.id}' : '/ServiceDescPage/${productData.id}';
+        var p = isProduct
+            ? '/ProductDescPage/${productData.id}'
+            : '/ServiceDescPage/${productData.id}';
         getItCart.setProductData(productData, isProduct);
         getItPages.setCurrentPathANDTopColorOFF(p);
         context.router.pushNamed(p);
@@ -66,7 +68,8 @@ class ServiceProductCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: Responsive.responsiveNumber(nameSize - 6.0, nameSize, screenSize),
+                    fontSize: Responsive.responsiveNumber(
+                        nameSize - 6.0, nameSize, screenSize),
                     fontFamily: 'NT'),
               ),
               SizedBox(
@@ -76,7 +79,8 @@ class ServiceProductCard extends StatelessWidget {
                 'Starting From ₹$price',
                 style: TextStyle(
                     color: highLcolor,
-                    fontSize: Responsive.responsiveNumber(priceSize - 2.0, priceSize, screenSize),
+                    fontSize: Responsive.responsiveNumber(
+                        priceSize - 2.0, priceSize, screenSize),
                     fontFamily: 'NT'),
               ),
               SizedBox(

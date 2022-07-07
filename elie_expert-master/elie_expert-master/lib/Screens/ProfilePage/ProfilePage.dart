@@ -14,6 +14,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:multi_select_flutter/dialog/mult_select_dialog.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
@@ -57,6 +58,8 @@ class _ProfilePageState extends State<ProfilePage> {
   List listsItems = ['Employee', 'Freelance'];
   String? vehicle;
   List vehicleList = ['2-Wheeler', '4-Wheeler', 'No'];
+
+  var version;
 
   var image;
   var imageAadhar1;
@@ -119,16 +122,27 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {});
   }
 
+  getVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    print("Build: ${packageInfo.buildNumber}");
+    print("Version: ${packageInfo.version}");
+    version = packageInfo.version.toString();
+    setState(() {});
+  }
+
   getData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     print('ppp' + prefs.get("userPhone").toString());
-    expert = await (await Dio().get('$baseUrl/get_expert_phone/${prefs.get("userPhone").toString()}')).data;
+    expert = await (await Dio().get(
+            '$baseUrl/get_expert_phone/${prefs.get("userPhone").toString()}'))
+        .data;
 
     for (var d in expert['experience']) {
-      Uint8List tt = Uint8List.fromList(
-          (await NetworkAssetBundle(Uri.parse('$baseUrl/get_single_expert_photo/$d')).load('$baseUrl/get_single_expert_photo/$d'))
-              .buffer
-              .asUint8List());
+      Uint8List tt = Uint8List.fromList((await NetworkAssetBundle(
+                  Uri.parse('$baseUrl/get_single_expert_photo/$d'))
+              .load('$baseUrl/get_single_expert_photo/$d'))
+          .buffer
+          .asUint8List());
 
       setList(PortfolioImage(tt));
       addImage();
@@ -149,11 +163,15 @@ class _ProfilePageState extends State<ProfilePage> {
     accountNumber.text = expert['bankAccountNumber'].toString();
     ifsc.text = expert['bankAccountIfsc'].toString();
     experienceYear.text = expert['yearsOfExperience'].toInt().toString();
-    expertise.text = expert['serviceList'].toString().substring(1, expert['serviceList'].toString().length - 1);
+    expertise.text = expert['serviceList']
+        .toString()
+        .substring(1, expert['serviceList'].toString().length - 1);
     address.text = expert['address'].toString();
     // qualification.text = expert['qualification'].toString();
     employee = expert['isEmployee'] ? 'Employee' : 'Freelance';
-    serviceablePin.text = expert['serviceablePins'].toString().substring(1, expert['serviceablePins'].toString().length - 1);
+    serviceablePin.text = expert['serviceablePins']
+        .toString()
+        .substring(1, expert['serviceablePins'].toString().length - 1);
     vehicle = expert['vehicle'];
     totalTips = expert['totalTips'];
     totalCommission = expert['totalCommission'];
@@ -176,6 +194,7 @@ class _ProfilePageState extends State<ProfilePage> {
     // TODO: implement initState
     super.initState();
     getData();
+    getVersion();
   }
 
   @override
@@ -202,7 +221,9 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                             GestureDetector(
                               onTap: () async {
-                                FilePickerResult? result = await FilePicker.platform.pickFiles(withData: true, type: FileType.image);
+                                FilePickerResult? result =
+                                    await FilePicker.platform.pickFiles(
+                                        withData: true, type: FileType.image);
 
                                 if (result != null) {
                                   image = result.files.single;
@@ -213,14 +234,24 @@ class _ProfilePageState extends State<ProfilePage> {
                               },
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(100.0),
-                                child: Image.network('$baseUrl/getExpertProfilePic/${phone.text}', height: 150, width: 150, fit: BoxFit.fill,
-                                    loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                                child: Image.network(
+                                    '$baseUrl/getExpertProfilePic/${phone.text}',
+                                    height: 150,
+                                    width: 150,
+                                    fit: BoxFit.fill, loadingBuilder:
+                                        (BuildContext context, Widget child,
+                                            ImageChunkEvent? loadingProgress) {
                                   if (loadingProgress == null) return child;
                                   return Center(
                                     child: CircularProgressIndicator(
-                                      value: loadingProgress.expectedTotalBytes != null
-                                          ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                                          : null,
+                                      value:
+                                          loadingProgress.expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
+                                              : null,
                                     ),
                                   );
                                 }, errorBuilder: (a, b, c) {
@@ -252,7 +283,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ),
                                       Text(
                                         'Rs. $totalCommission',
-                                        style: TextStyle(fontSize: 35, color: highLcolor),
+                                        style: TextStyle(
+                                            fontSize: 35, color: highLcolor),
                                       ),
                                       SizedBox(
                                         height: 20,
@@ -287,20 +319,45 @@ class _ProfilePageState extends State<ProfilePage> {
                             SizedBox(
                               height: 20,
                             ),
-                            customTextField('Expert\'s Name', TextInputType.name, name, mandate: true),
-                            customTextField('Nickname', TextInputType.name, nickname),
-                            customTextField('Email', TextInputType.emailAddress, email, mandate: true),
-                            customTextField('Password', TextInputType.visiblePassword, pass,
-                                mandate: true, onSuffixPress: passwordShow, visible: visible),
-                            customTextField('Experts Aadhar Number', TextInputType.number, aadhar, mandate: true),
-                            customTextField('Experts Pan', TextInputType.name, pan, mandate: true),
-                            customTextField('Expert\'s Address', TextInputType.streetAddress, address, line: 3, mandate: true),
-                            customTextField('Expert\'s Bank Name', TextInputType.name, bankName, mandate: true),
-                            customTextField('Expert\'s Account Number', TextInputType.number, accountNumber, mandate: true),
-                            customTextField('Expert\'s Bank IFSC', TextInputType.name, ifsc, ifsc: true, mandate: true),
-                            customTextField('Expert\'s Latest Qualification', TextInputType.name, qualification),
-                            customTextField('How Many Years Of Experience Do You Have?', TextInputType.number, experienceYear),
-                            customTextField('Age', TextInputType.number, age, mandate: true),
+                            customTextField(
+                                'Expert\'s Name', TextInputType.name, name,
+                                mandate: true),
+                            customTextField(
+                                'Nickname', TextInputType.name, nickname),
+                            customTextField(
+                                'Email', TextInputType.emailAddress, email,
+                                mandate: true),
+                            customTextField(
+                                'Password', TextInputType.visiblePassword, pass,
+                                mandate: true,
+                                onSuffixPress: passwordShow,
+                                visible: visible),
+                            customTextField('Experts Aadhar Number',
+                                TextInputType.number, aadhar,
+                                mandate: true),
+                            customTextField(
+                                'Experts Pan', TextInputType.name, pan,
+                                mandate: true),
+                            customTextField('Expert\'s Address',
+                                TextInputType.streetAddress, address,
+                                line: 3, mandate: true),
+                            customTextField('Expert\'s Bank Name',
+                                TextInputType.name, bankName,
+                                mandate: true),
+                            customTextField('Expert\'s Account Number',
+                                TextInputType.number, accountNumber,
+                                mandate: true),
+                            customTextField(
+                                'Expert\'s Bank IFSC', TextInputType.name, ifsc,
+                                ifsc: true, mandate: true),
+                            customTextField('Expert\'s Latest Qualification',
+                                TextInputType.name, qualification),
+                            customTextField(
+                                'How Many Years Of Experience Do You Have?',
+                                TextInputType.number,
+                                experienceYear),
+                            customTextField('Age', TextInputType.number, age,
+                                mandate: true),
                             Padding(
                               padding: const EdgeInsets.all(10),
                               child: Container(
@@ -313,12 +370,15 @@ class _ProfilePageState extends State<ProfilePage> {
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.only(left: 12, right: 20),
+                                  padding: const EdgeInsets.only(
+                                      left: 12, right: 20),
                                   child: DropdownButton<String>(
                                     hint: Container(
                                       child: Text(
                                         'Choose your Gender',
-                                        style: TextStyle(color: Color(0xDEB6A2).withOpacity(1)),
+                                        style: TextStyle(
+                                            color:
+                                                Color(0xDEB6A2).withOpacity(1)),
                                       ),
                                     ),
                                     dropdownColor: Colors.black,
@@ -341,7 +401,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                         gender = newValue!;
                                       });
                                     },
-                                    items: listItems.map<DropdownMenuItem<String>>(
+                                    items:
+                                        listItems.map<DropdownMenuItem<String>>(
                                       (valueItem) {
                                         return DropdownMenuItem<String>(
                                           value: valueItem,
@@ -395,12 +456,15 @@ class _ProfilePageState extends State<ProfilePage> {
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.only(left: 12, right: 20),
+                                  padding: const EdgeInsets.only(
+                                      left: 12, right: 20),
                                   child: DropdownButton<String>(
                                     hint: Container(
                                       child: Text(
                                         'Employment Type',
-                                        style: TextStyle(color: Color(0xDEB6A2).withOpacity(1)),
+                                        style: TextStyle(
+                                            color:
+                                                Color(0xDEB6A2).withOpacity(1)),
                                       ),
                                     ),
                                     dropdownColor: Colors.black,
@@ -423,7 +487,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                         employee = newValue!;
                                       });
                                     },
-                                    items: listsItems.map<DropdownMenuItem<String>>(
+                                    items: listsItems
+                                        .map<DropdownMenuItem<String>>(
                                       (valueItem) {
                                         return DropdownMenuItem<String>(
                                           value: valueItem,
@@ -447,12 +512,15 @@ class _ProfilePageState extends State<ProfilePage> {
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.only(left: 12, right: 20),
+                                  padding: const EdgeInsets.only(
+                                      left: 12, right: 20),
                                   child: DropdownButton<String>(
                                     hint: Container(
                                       child: Text(
                                         'Do You Own A Vehicle?',
-                                        style: TextStyle(color: Color(0xDEB6A2).withOpacity(1)),
+                                        style: TextStyle(
+                                            color:
+                                                Color(0xDEB6A2).withOpacity(1)),
                                       ),
                                     ),
                                     dropdownColor: Colors.black,
@@ -475,7 +543,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                         vehicle = newValue!;
                                       });
                                     },
-                                    items: vehicleList.map<DropdownMenuItem<String>>(
+                                    items: vehicleList
+                                        .map<DropdownMenuItem<String>>(
                                       (valueItem) {
                                         return DropdownMenuItem<String>(
                                           value: valueItem,
@@ -488,7 +557,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                             ),
                             vehicle == '2-Wheeler' || vehicle == '4-Wheeler'
-                                ? customTextField('Vehicle Registration No.', TextInputType.text, vehicleNo, mandate: true)
+                                ? customTextField('Vehicle Registration No.',
+                                    TextInputType.text, vehicleNo,
+                                    mandate: true)
                                 : Container(),
                             gender == 'Female'
                                 ? Padding(
@@ -519,39 +590,63 @@ class _ProfilePageState extends State<ProfilePage> {
                                               height: screenSize.height / 2.0,
                                               width: 400.0,
                                               child: Theme(
-                                                data: ThemeData(brightness: Brightness.dark),
+                                                data: ThemeData(
+                                                    brightness:
+                                                        Brightness.dark),
                                                 child: SfDateRangePicker(
                                                   backgroundColor: Colors.black,
-                                                  selectionTextStyle: TextStyle(fontSize: 15.0, color: Colors.white),
+                                                  selectionTextStyle: TextStyle(
+                                                      fontSize: 15.0,
+                                                      color: Colors.white),
                                                   selectionColor: highLcolor,
-                                                  todayHighlightColor: highLcolorLight,
+                                                  todayHighlightColor:
+                                                      highLcolorLight,
                                                   selectionRadius: 90.0,
-                                                  selectionShape: DateRangePickerSelectionShape.rectangle,
+                                                  selectionShape:
+                                                      DateRangePickerSelectionShape
+                                                          .rectangle,
                                                   headerHeight: 100.0,
-                                                  headerStyle: DateRangePickerHeaderStyle(
+                                                  headerStyle:
+                                                      DateRangePickerHeaderStyle(
                                                     textAlign: TextAlign.center,
                                                   ),
                                                   showNavigationArrow: true,
-                                                  monthCellStyle: DateRangePickerMonthCellStyle(
-                                                    textStyle: TextStyle(fontFamily: "tex", color: Colors.white, fontSize: 16.0),
-                                                    disabledDatesTextStyle: TextStyle(fontStyle: FontStyle.normal, color: Colors.white),
+                                                  monthCellStyle:
+                                                      DateRangePickerMonthCellStyle(
+                                                    textStyle: TextStyle(
+                                                        fontFamily: "tex",
+                                                        color: Colors.white,
+                                                        fontSize: 16.0),
+                                                    disabledDatesTextStyle:
+                                                        TextStyle(
+                                                            fontStyle: FontStyle
+                                                                .normal,
+                                                            color:
+                                                                Colors.white),
                                                   ),
                                                   allowViewNavigation: true,
                                                   onSelectionChanged: (value) {
                                                     periodDate = value.value;
-                                                    period.text = DateFormat('dd, MMMM yyyy').format(value.value).toString();
+                                                    period.text = DateFormat(
+                                                            'dd, MMMM yyyy')
+                                                        .format(value.value)
+                                                        .toString();
                                                   },
                                                 ),
                                               ),
                                             ),
                                             actions: [
                                               Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   Expanded(
                                                     child: OutlinedButton(
-                                                      style: OutlinedButton.styleFrom(
-                                                        backgroundColor: Color(0xff141414),
+                                                      style: OutlinedButton
+                                                          .styleFrom(
+                                                        backgroundColor:
+                                                            Color(0xff141414),
                                                         side: BorderSide(
                                                           color: highLcolor,
                                                           width: 1.0,
@@ -559,21 +654,32 @@ class _ProfilePageState extends State<ProfilePage> {
                                                         primary: highLcolor,
                                                       ),
                                                       child: Padding(
-                                                        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10.0),
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal: 16,
+                                                                vertical: 10.0),
                                                         child: Text(
                                                           'Cancel',
-                                                          style: TextStyle(color: Colors.white, fontSize: 14.0, fontFamily: 'tex'),
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 14.0,
+                                                              fontFamily:
+                                                                  'tex'),
                                                         ),
                                                       ),
                                                       onPressed: () {
-                                                        Navigator.of(context).pop();
+                                                        Navigator.of(context)
+                                                            .pop();
                                                       },
                                                     ),
                                                   ),
                                                   Expanded(
                                                     child: OutlinedButton(
-                                                      style: OutlinedButton.styleFrom(
-                                                        backgroundColor: Color(0xff141414),
+                                                      style: OutlinedButton
+                                                          .styleFrom(
+                                                        backgroundColor:
+                                                            Color(0xff141414),
                                                         side: BorderSide(
                                                           color: highLcolor,
                                                           width: 1.0,
@@ -581,10 +687,18 @@ class _ProfilePageState extends State<ProfilePage> {
                                                         primary: highLcolor,
                                                       ),
                                                       child: Padding(
-                                                        padding: EdgeInsets.symmetric(horizontal: 4, vertical: 10.0),
+                                                        padding: EdgeInsets
+                                                            .symmetric(
+                                                                horizontal: 4,
+                                                                vertical: 10.0),
                                                         child: Text(
                                                           'Confirm',
-                                                          style: TextStyle(color: Colors.white, fontSize: 14.0, fontFamily: 'tex'),
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 14.0,
+                                                              fontFamily:
+                                                                  'tex'),
                                                         ),
                                                       ),
                                                       onPressed: () {
@@ -607,9 +721,12 @@ class _ProfilePageState extends State<ProfilePage> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: BorderRadiusButton(
-                                title: imageAadhar1 == null ? 'Update Your Aadhar Front' : 'Aadhar Front:' + imageAadhar1.name,
+                                title: imageAadhar1 == null
+                                    ? 'Update Your Aadhar Front'
+                                    : 'Aadhar Front:' + imageAadhar1.name,
                                 onPress: () async {
-                                  FilePickerResult? result = await FilePicker.platform.pickFiles(
+                                  FilePickerResult? result =
+                                      await FilePicker.platform.pickFiles(
                                     withData: true,
                                     type: FileType.image,
                                   );
@@ -626,9 +743,12 @@ class _ProfilePageState extends State<ProfilePage> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: BorderRadiusButton(
-                                title: imageAadhar2 == null ? 'Update Your Aadhar Back' : 'Aadhar Back:' + imageAadhar2.name,
+                                title: imageAadhar2 == null
+                                    ? 'Update Your Aadhar Back'
+                                    : 'Aadhar Back:' + imageAadhar2.name,
                                 onPress: () async {
-                                  FilePickerResult? result = await FilePicker.platform.pickFiles(
+                                  FilePickerResult? result =
+                                      await FilePicker.platform.pickFiles(
                                     withData: true,
                                     type: FileType.image,
                                   );
@@ -645,9 +765,12 @@ class _ProfilePageState extends State<ProfilePage> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: BorderRadiusButton(
-                                title: imagePan == null ? 'Update Your PAN' : imagePan.name,
+                                title: imagePan == null
+                                    ? 'Update Your PAN'
+                                    : imagePan.name,
                                 onPress: () async {
-                                  FilePickerResult? result = await FilePicker.platform.pickFiles(
+                                  FilePickerResult? result =
+                                      await FilePicker.platform.pickFiles(
                                     withData: true,
                                     type: FileType.image,
                                   );
@@ -664,9 +787,12 @@ class _ProfilePageState extends State<ProfilePage> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: BorderRadiusButton(
-                                title: portfolio == null ? 'Update Your Resume in PDF' : portfolio.name,
+                                title: portfolio == null
+                                    ? 'Update Your Resume in PDF'
+                                    : portfolio.name,
                                 onPress: () async {
-                                  FilePickerResult? result = await FilePicker.platform.pickFiles(
+                                  FilePickerResult? result =
+                                      await FilePicker.platform.pickFiles(
                                     type: FileType.custom,
                                     allowedExtensions: ['pdf'],
                                   );
@@ -687,7 +813,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                 GestureDetector(
                                   onTap: () async {
                                     FilePickerResult? result =
-                                        await FilePicker.platform.pickFiles(type: FileType.image, allowMultiple: true, withData: true);
+                                        await FilePicker.platform.pickFiles(
+                                            type: FileType.image,
+                                            allowMultiple: true,
+                                            withData: true);
 
                                     if (result != null) {
                                       setList(result.files);
@@ -700,11 +829,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                   child: Container(
                                     decoration: BoxDecoration(
                                         color: Colors.white,
-                                        boxShadow: [BoxShadow(color: Colors.grey)],
+                                        boxShadow: [
+                                          BoxShadow(color: Colors.grey)
+                                        ],
                                         borderRadius: BorderRadius.all(
                                           Radius.circular(4),
                                         )),
-                                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 10),
                                     height: 45,
                                     width: 330,
                                     child: Center(
@@ -723,7 +855,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                         height: 300,
                                         child: Container(
                                           decoration: BoxDecoration(
-                                              border: Border.all(color: highLcolorDark, width: 1),
+                                              border: Border.all(
+                                                  color: highLcolorDark,
+                                                  width: 1),
                                               borderRadius: BorderRadius.all(
                                                 Radius.circular(7),
                                               )),
@@ -749,24 +883,39 @@ class _ProfilePageState extends State<ProfilePage> {
                                   setState(() {});
                                   print(_formKey.currentState!.validate());
                                   if (_formKey.currentState!.validate()) {
-                                    var ref = (await Dio().get('$baseUrl/get_expert_phone/${int.parse(phone.text)}')).data;
+                                    var ref = (await Dio().get(
+                                            '$baseUrl/get_expert_phone/${int.parse(phone.text)}'))
+                                        .data;
                                     if (ref != null) {
-                                      await Dio().put('$baseUrl/update_expert', data: {
+                                      await Dio()
+                                          .put('$baseUrl/update_expert', data: {
                                         "name": name.text,
                                         "nickname": nickname.text,
                                         "sex": gender,
-                                        "age": int.parse(age.text.isEmpty ? '0' : age.text),
-                                        "isEmployee": employee == "Freelance" ? false : true,
-                                        "phone": int.parse(phone.text.isEmpty ? '0' : phone.text),
+                                        "age": int.parse(
+                                            age.text.isEmpty ? '0' : age.text),
+                                        "isEmployee": employee == "Freelance"
+                                            ? false
+                                            : true,
+                                        "phone": int.parse(phone.text.isEmpty
+                                            ? '0'
+                                            : phone.text),
                                         "email": email.text,
                                         "password": pass.text,
-                                        "yearsOfExperience": int.parse(experienceYear.text),
+                                        "yearsOfExperience":
+                                            int.parse(experienceYear.text),
                                         'qualification': qualification.text,
                                         'availability': true,
-                                        'bankAccountNumber': int.parse(accountNumber.text.isEmpty ? '0' : accountNumber.text),
+                                        'bankAccountNumber': int.parse(
+                                            accountNumber.text.isEmpty
+                                                ? '0'
+                                                : accountNumber.text),
                                         'bankAccountName': bankName.text,
                                         'bankAccountIfsc': ifsc.text,
-                                        'aadharNo': int.parse(aadhar.text.isEmpty ? '0' : aadhar.text),
+                                        'aadharNo': int.parse(
+                                            aadhar.text.isEmpty
+                                                ? '0'
+                                                : aadhar.text),
                                         'panNo': pan.text,
                                         'address': address.text,
                                         'serviceablePins': serviceablePin.text,
@@ -774,29 +923,50 @@ class _ProfilePageState extends State<ProfilePage> {
                                         'vehicle': vehicle,
                                       });
 
-                                      if (gender == 'Female' && period.text.isNotEmpty) {
-                                        await Dio().put('$baseUrl/add_period/${phone.text}',
-                                            queryParameters: {'thedatetime': DateFormat('dd, MMMM yyyy').parse(period.text)});
+                                      if (gender == 'Female' &&
+                                          period.text.isNotEmpty) {
+                                        await Dio().put(
+                                            '$baseUrl/add_period/${phone.text}',
+                                            queryParameters: {
+                                              'thedatetime':
+                                                  DateFormat('dd, MMMM yyyy')
+                                                      .parse(period.text)
+                                            });
                                       }
 
                                       if (image != null) {
-                                        await Dio().post('$baseUrl/addExpertProfilePic/${phone.text}', data: image.bytes);
+                                        await Dio().post(
+                                            '$baseUrl/addExpertProfilePic/${phone.text}',
+                                            data: image.bytes);
                                       }
                                       if (imagePan != null) {
-                                        await Dio().post('$baseUrl/add_expert_pan/${phone.text}', data: imagePan.bytes);
+                                        await Dio().post(
+                                            '$baseUrl/add_expert_pan/${phone.text}',
+                                            data: imagePan.bytes);
                                       }
-                                      if (imageAadhar1 != null && imageAadhar2 != null) {
-                                        await Dio().post('$baseUrl/add_expert_aadhar/${phone.text}', data: [imageAadhar1.bytes, imageAadhar2.bytes]);
+                                      if (imageAadhar1 != null &&
+                                          imageAadhar2 != null) {
+                                        await Dio().post(
+                                            '$baseUrl/add_expert_aadhar/${phone.text}',
+                                            data: [
+                                              imageAadhar1.bytes,
+                                              imageAadhar2.bytes
+                                            ]);
                                       }
 
                                       if (portfolio != null) {
-                                        await Dio().post('$baseUrl/add_expert_resume/${phone.text}', data: portfolio.bytes);
+                                        await Dio().post(
+                                            '$baseUrl/add_expert_resume/${phone.text}',
+                                            data: portfolio.bytes);
                                       }
                                       if (imagesB.isNotEmpty) {
-                                        await Dio().post('$baseUrl/add_expert_experience/${phone.text}', data: imagesB);
+                                        await Dio().post(
+                                            '$baseUrl/add_expert_experience/${phone.text}',
+                                            data: imagesB);
                                       }
                                       getData();
-                                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                                      SharedPreferences prefs =
+                                          await SharedPreferences.getInstance();
                                       int userPhone = int.parse(phone.text);
                                       prefs.setInt("userPhone", userPhone);
                                       prefs.setString("userPass", pass.text);
@@ -804,7 +974,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                       prefs.setString("userName", '');
                                       prefs.setString("userEmail", '');
                                       getItUserIn.setUserIn(
-                                          prefs.get("userPhone"), prefs.get("userPass"), prefs.get("userName"), prefs.get('userEmail'));
+                                          prefs.get("userPhone"),
+                                          prefs.get("userPass"),
+                                          prefs.get("userName"),
+                                          prefs.get('userEmail'));
 
                                       print(prefs.get("userName"));
                                       showTopSnackBar(
@@ -813,7 +986,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                             backgroundColor: Colors.green,
                                             message: "Updated",
                                           ),
-                                          displayDuration: Duration(milliseconds: 500));
+                                          displayDuration:
+                                              Duration(milliseconds: 500));
                                       btnLoad = false;
                                       setState(() {});
                                     } else {
@@ -821,7 +995,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                         context,
                                         CustomSnackBar.info(
                                           backgroundColor: highLcolor,
-                                          message: "${int.parse(phone.text)} is not already registered",
+                                          message:
+                                              "${int.parse(phone.text)} is not already registered",
                                         ),
                                       );
                                     }
@@ -830,7 +1005,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                       context,
                                       CustomSnackBar.info(
                                         backgroundColor: highLcolor,
-                                        message: "Please Enter All The Required Fields",
+                                        message:
+                                            "Please Enter All The Required Fields",
                                       ),
                                     );
                                     btnLoad = false;
@@ -845,7 +1021,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: BorderRadiusButton(
-                                title: 'LogOut',
+                                title: 'Logout',
                                 onPress: () async {
                                   showTopSnackBar(
                                       context,
@@ -853,11 +1029,16 @@ class _ProfilePageState extends State<ProfilePage> {
                                         backgroundColor: highLcolorDark,
                                         message: "You are logged out",
                                       ),
-                                      displayDuration: Duration(milliseconds: 500));
-                                  SharedPreferences preferences = await SharedPreferences.getInstance();
+                                      displayDuration:
+                                          Duration(milliseconds: 500));
+                                  SharedPreferences preferences =
+                                      await SharedPreferences.getInstance();
                                   await preferences.clear();
                                   Navigator.pop(context);
-                                  Navigator.push((context), MaterialPageRoute(builder: (context) => LoginPage()));
+                                  Navigator.push(
+                                      (context),
+                                      MaterialPageRoute(
+                                          builder: (context) => LoginPage()));
                                 },
                               ),
                             ),
@@ -869,11 +1050,24 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: TextButton(
                                 child: Text(
                                   'Privacy Policy',
-                                  style: TextStyle(color: highLcolor, fontSize: 16),
+                                  style: TextStyle(
+                                      color: highLcolor, fontSize: 16),
                                 ),
                                 onPressed: () async {
-                                  await launchUrl(Uri.parse('https://elie.world/Policy'));
+                                  await launchUrl(
+                                      Uri.parse('https://elie.world/Policy'));
                                 },
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(4),
+                              child: Center(
+                                child: Text(
+                                  'Version: $version',
+                                  style: TextStyle(
+                                      color: highLcolor.withOpacity(0.5),
+                                      fontSize: 14),
+                                ),
                               ),
                             ),
                           ],
@@ -888,7 +1082,9 @@ class _ProfilePageState extends State<ProfilePage> {
   void showMultiSelectExpertise(
     BuildContext context,
   ) async {
-    final item = expertiseList.map((e) => MultiSelectItem(expertiseList.indexOf(e), e)).toList();
+    final item = expertiseList
+        .map((e) => MultiSelectItem(expertiseList.indexOf(e), e))
+        .toList();
     await showDialog(
       context: context,
       builder: (ctx) {
@@ -902,7 +1098,10 @@ class _ProfilePageState extends State<ProfilePage> {
               print(values[d].toString());
               expertise.text = expertise.text +
                   (expertise.text.isEmpty ? '' : ", ") +
-                  expertiseList.elementAt(int.parse(values[d].toString())).toString().toUpperCase();
+                  expertiseList
+                      .elementAt(int.parse(values[d].toString()))
+                      .toString()
+                      .toUpperCase();
             }
 
             setState(() {
@@ -917,7 +1116,8 @@ class _ProfilePageState extends State<ProfilePage> {
   void showMultiSelectPincodes(
     BuildContext context,
   ) async {
-    final item = pinCodes.map((e) => MultiSelectItem(pinCodes.indexOf(e), e)).toList();
+    final item =
+        pinCodes.map((e) => MultiSelectItem(pinCodes.indexOf(e), e)).toList();
     await showDialog(
       context: context,
       builder: (ctx) {
@@ -931,7 +1131,10 @@ class _ProfilePageState extends State<ProfilePage> {
               print(values[d].toString());
               serviceablePin.text = serviceablePin.text +
                   (serviceablePin.text.isEmpty ? '' : ", ") +
-                  pinCodes.elementAt(int.parse(values[d].toString())).toString().toUpperCase();
+                  pinCodes
+                      .elementAt(int.parse(values[d].toString()))
+                      .toString()
+                      .toUpperCase();
             }
 
             setState(() {

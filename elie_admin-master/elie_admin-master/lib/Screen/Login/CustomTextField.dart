@@ -1,3 +1,4 @@
+import 'package:elie_admin/Responsive%20Dashboard/constants.dart';
 import 'package:elie_admin/Utils/Constants.dart';
 import 'package:flutter/material.dart';
 
@@ -46,7 +47,7 @@ class CustomTextField extends StatelessWidget {
             ifsc ? TextCapitalization.characters : TextCapitalization.none,
         controller: cont,
         style: TextStyle(
-          color: whiteSmoke.withOpacity(1),
+          color: highLcolorDark.withOpacity(1),
         ),
         decoration: InputDecoration(
           // suffixIcon: onSuffixPress != null
@@ -59,18 +60,23 @@ class CustomTextField extends StatelessWidget {
           //         onPressed: () =>
           //             onSuffixPress != null ? onSuffixPress!() : null)
           //     : null,
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4),
-              borderSide: BorderSide(color: whiteSmoke.withOpacity(1))),
-          enabledBorder: OutlineInputBorder(
+          focusedBorder: UnderlineInputBorder(
             borderRadius: BorderRadius.circular(4),
-            borderSide: BorderSide(color: whiteSmoke.withOpacity(1)),
+            borderSide: BorderSide(
+              color: highLcolorDark.withOpacity(1),
+              style: BorderStyle.solid,
+            ),
+          ),
+          enabledBorder: UnderlineInputBorder(
+            borderRadius: BorderRadius.circular(4),
+            borderSide: BorderSide(color: highLcolorDark.withOpacity(1)),
           ),
           labelText: title,
           labelStyle: TextStyle(
-            fontSize: 18,
-            color: whiteSmoke.withOpacity(1),
-          ),
+              color: highLcolorLight,
+              fontSize: 16,
+              fontFamily: 'NT',
+              fontWeight: FontWeight.normal),
         ),
         keyboardType: type,
       ),

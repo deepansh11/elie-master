@@ -38,7 +38,8 @@ class ActionButtons extends StatelessWidget {
                         title: Center(
                           child: Column(
                             children: [
-                              Icon(Icons.delete_outlined, size: 36, color: Colors.red),
+                              Icon(Icons.delete_outlined,
+                                  size: 36, color: Colors.red),
                               SizedBox(height: 20),
                               Text("Confirm"),
                             ],
@@ -60,7 +61,8 @@ class ActionButtons extends StatelessWidget {
                                         Icons.close,
                                         size: 14,
                                       ),
-                                      style: ElevatedButton.styleFrom(primary: Colors.grey),
+                                      style: ElevatedButton.styleFrom(
+                                          primary: Colors.grey),
                                       onPressed: () {
                                         Navigator.pop(context);
                                       },
@@ -73,7 +75,8 @@ class ActionButtons extends StatelessWidget {
                                         Icons.delete,
                                         size: 14,
                                       ),
-                                      style: ElevatedButton.styleFrom(primary: Colors.redAccent),
+                                      style: ElevatedButton.styleFrom(
+                                          primary: Colors.redAccent),
                                       onPressed: () async {
                                         if (item == 'p') {
                                           print(id);
@@ -109,13 +112,41 @@ class ActionButtons extends StatelessWidget {
             onPressed: () async {
               if (item == 'p') {
                 Product product = await API().getProductsByID(id);
-                getItEditProduct.setProduct(product.productTitle, product.regularPrice, product.salePrice, product.productDesc, 0, product.tax,
-                    product.stock, product.lowStockThreshold, product.status, id, true, product.aff, product.hsn, product.sku, '');
+                getItEditProduct.setProduct(
+                    product.productTitle,
+                    product.regularPrice,
+                    product.salePrice,
+                    product.productDesc,
+                    0,
+                    product.tax,
+                    product.stock,
+                    product.lowStockThreshold,
+                    product.status,
+                    id,
+                    true,
+                    product.aff,
+                    product.hsn,
+                    product.sku,
+                    '');
                 getItAdminCurrentPage.setIndex(15);
               } else if (item == 's') {
                 Services service = await API().getServiceByID(id);
-                getItEditProduct.setProduct(service.name, service.cost, service.saleCost, service.desc, service.duration, service.tax, 0, 0,
-                    service.status, id, service.isSpa, '', '', '', service.category);
+                getItEditProduct.setProduct(
+                    service.name,
+                    service.cost,
+                    service.saleCost,
+                    service.desc,
+                    service.duration,
+                    service.tax,
+                    0,
+                    0,
+                    service.status,
+                    id,
+                    service.isSpa,
+                    '',
+                    '',
+                    '',
+                    service.category);
                 getItAdminCurrentPage.setIndex(16);
               } else if (item == 'c') {
                 Customers? customer = await API().getCustomerByPhone(id);
@@ -134,6 +165,7 @@ class ActionButtons extends StatelessWidget {
                 getItAdminCurrentPage.setIndex(17);
               } else if (item == 'e') {
                 Experts? expert = await API().getExpertsByID(id);
+
                 getItEditUser.setProduct(
                   expert!.name,
                   expert.phone,
@@ -163,9 +195,11 @@ class ActionButtons extends StatelessWidget {
                   onPressed: () {
                     imageCache.clear();
                     if (item == 's') {
-                      js.context.callMethod('open', ['http://elie.world/ServiceDescPage/$id']);
+                      js.context.callMethod(
+                          'open', ['http://elie.world/ServiceDescPage/$id']);
                     } else if (item == 'p') {
-                      js.context.callMethod('open', ['http://elie.world/ProductDescPage/$id']);
+                      js.context.callMethod(
+                          'open', ['http://elie.world/ProductDescPage/$id']);
                     }
                   },
                   icon: Icon(

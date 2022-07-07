@@ -19,14 +19,30 @@ class _TopBarState extends State<TopBar> with SingleTickerProviderStateMixin {
   var currentPage;
   var searchFocus = FocusNode();
 
-  List _isHovering = [false, false, false, false, false, false, false, false, false, false, false, false, false];
+  List _isHovering = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ];
 
   var name;
   late SharedPreferences prefs;
 
   setSearchtap(tap) {
     searchTaped = tap;
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   var searchTaped = false;
@@ -48,7 +64,9 @@ class _TopBarState extends State<TopBar> with SingleTickerProviderStateMixin {
   tabDisableColor() {
     for (var count = 0; count < getItPages.onTapTopBar.length; count++) {
       getItPages.onTapTopBar[count] = false;
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     }
   }
 
@@ -70,9 +88,11 @@ class _TopBarState extends State<TopBar> with SingleTickerProviderStateMixin {
     } else if (title == 'SALON') {
       getItCart.setSpa(false);
     }
-    setState(() {
-      getItPages.setonTapTopBar(x, true);
-    });
+    if (mounted) {
+      setState(() {
+        getItPages.setonTapTopBar(x, true);
+      });
+    }
   }
 
   navLink(x, title, path, {isIcon = false, icon}) {
@@ -83,9 +103,11 @@ class _TopBarState extends State<TopBar> with SingleTickerProviderStateMixin {
         highlightColor: Colors.transparent,
         hoverColor: Colors.transparent,
         onHover: (value) {
-          setState(() {
-            value ? _isHovering[x] = true : _isHovering[x] = false;
-          });
+          if (mounted) {
+            setState(() {
+              value ? _isHovering[x] = true : _isHovering[x] = false;
+            });
+          }
         },
         onTap: () => tapColorChange(x, title, path: path),
         child: Column(
@@ -176,20 +198,25 @@ class _TopBarState extends State<TopBar> with SingleTickerProviderStateMixin {
             preferredSize: Size(screenSize.width, 100),
             child: Container(
               decoration: BoxDecoration(
-                gradient: LinearGradient(begin: FractionalOffset.topRight, end: FractionalOffset.bottomLeft, stops: [
-                  0.2,
-                  0.4,
-                  0.6,
-                  0.7,
-                  0.9
-                ], colors: [
-                  Color(0x101010).withOpacity(1),
-                  Color(0x333333).withOpacity(1),
-                  Color(0x212020).withOpacity(1),
-                  Color(0x242424).withOpacity(1),
-                  Color(0x000000).withOpacity(1),
-                ]),
-                border: Border(bottom: BorderSide(color: highLcolorLight, width: 0.5)),
+                gradient: LinearGradient(
+                    begin: FractionalOffset.topRight,
+                    end: FractionalOffset.bottomLeft,
+                    stops: [
+                      0.2,
+                      0.4,
+                      0.6,
+                      0.7,
+                      0.9
+                    ],
+                    colors: [
+                      Color(0x101010).withOpacity(1),
+                      Color(0x333333).withOpacity(1),
+                      Color(0x212020).withOpacity(1),
+                      Color(0x242424).withOpacity(1),
+                      Color(0x000000).withOpacity(1),
+                    ]),
+                border: Border(
+                    bottom: BorderSide(color: highLcolorLight, width: 0.5)),
               ),
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
@@ -259,7 +286,9 @@ class _TopBarState extends State<TopBar> with SingleTickerProviderStateMixin {
                                     SizedBox(
                                       height: 25,
                                     ),
-                                    navLink(10, getItUserIn.userName ?? '', '/OrderPage', isIcon: false),
+                                    navLink(10, getItUserIn.userName ?? '',
+                                        '/OrderPage',
+                                        isIcon: false),
                                   ],
                                 )
                               : Column(
@@ -267,13 +296,18 @@ class _TopBarState extends State<TopBar> with SingleTickerProviderStateMixin {
                                     SizedBox(
                                       height: 25,
                                     ),
-                                    navLink(7, 'LOGIN', '/LoginPage', isIcon: false),
+                                    navLink(7, 'LOGIN', '/LoginPage',
+                                        isIcon: false),
                                   ],
                                 ),
                           SizedBox(width: screenSize.width / 40),
-                          navLink(8, '', '', isIcon: true, icon: FontAwesomeIcons.search),
+                          navLink(8, '', '',
+                              isIcon: true, icon: FontAwesomeIcons.search),
                           SizedBox(width: screenSize.width / 40),
-                          getItUserIn.userPhone != null ? navLink(9, '', '/cart', isIcon: true, icon: FontAwesomeIcons.opencart) : Container(),
+                          getItUserIn.userPhone != null
+                              ? navLink(9, '', '/cart',
+                                  isIcon: true, icon: FontAwesomeIcons.opencart)
+                              : Container(),
                         ],
                       ),
                   ],
@@ -289,7 +323,8 @@ class _TopBarState extends State<TopBar> with SingleTickerProviderStateMixin {
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.black,
-                border: Border(bottom: BorderSide(color: highLcolorLight, width: 0.5)),
+                border: Border(
+                    bottom: BorderSide(color: highLcolorLight, width: 0.5)),
               ),
               child: Padding(
                 padding: const EdgeInsets.only(
@@ -340,7 +375,8 @@ class _TopBarState extends State<TopBar> with SingleTickerProviderStateMixin {
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      currentPage.setCurrentPathANDTopColorOFF('/');
+                                      currentPage
+                                          .setCurrentPathANDTopColorOFF('/');
 
                                       context.router.pushNamed('/');
                                     },

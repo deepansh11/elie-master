@@ -79,11 +79,16 @@ class _ProductDescPageState extends State<ProductDescPage> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         data!.productTitle.toString(),
-                                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 25, fontFamily: 'NT'),
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 25,
+                                            fontFamily: 'NT'),
                                       ),
                                       SizedBox(
                                         height: 10,
@@ -112,7 +117,10 @@ class _ProductDescPageState extends State<ProductDescPage> {
                                       ),
                                       Text(
                                         "Product Description",
-                                        style: TextStyle(color: Colors.white, fontSize: 22, fontFamily: 'NT'),
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 22,
+                                            fontFamily: 'NT'),
                                       ),
                                       SizedBox(
                                         height: 10,
@@ -139,16 +147,19 @@ class _ProductDescPageState extends State<ProductDescPage> {
                             )
                           else
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 45.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 45.0),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.only(left: 18.0, bottom: 8),
+                                    padding: const EdgeInsets.only(
+                                        left: 18.0, bottom: 8),
                                     child: Container(
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(15.0),
+                                        borderRadius:
+                                            BorderRadius.circular(15.0),
                                         color: Color(0xff141414),
                                       ),
                                       clipBehavior: Clip.antiAlias,
@@ -164,12 +175,14 @@ class _ProductDescPageState extends State<ProductDescPage> {
                                   ),
                                   Expanded(
                                       child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         data!.productTitle.toString(),
                                         style: TextStyle(
-                                            decoration: TextDecoration.underline,
+                                            decoration:
+                                                TextDecoration.underline,
                                             color: Colors.white,
                                             fontWeight: FontWeight.bold,
                                             fontSize: 25,
@@ -202,7 +215,10 @@ class _ProductDescPageState extends State<ProductDescPage> {
                                       ),
                                       Text(
                                         "Product Description",
-                                        style: TextStyle(color: Colors.white, fontSize: 22, fontFamily: 'NT'),
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 22,
+                                            fontFamily: 'NT'),
                                       ),
                                       SizedBox(
                                         height: 20,
@@ -229,7 +245,9 @@ class _ProductDescPageState extends State<ProductDescPage> {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             child: Container(
-                              height: screenSize.height / Responsive.responsiveNumber(2.2, 2, screenSize),
+                              height: screenSize.height /
+                                  Responsive.responsiveNumber(
+                                      2.2, 2, screenSize),
                               width: screenSize.width,
                               child: ProductCarousel(),
                             ),
@@ -265,7 +283,8 @@ class _BuyNowBTNState extends State<BuyNowBTN> {
   TextEditingController landmarkTextFeild = TextEditingController();
   TextEditingController houseNumberTextFeild = TextEditingController();
   TextEditingController postalTextFeild = TextEditingController();
-  final RoundedLoadingButtonController btController = RoundedLoadingButtonController();
+  final RoundedLoadingButtonController btController =
+      RoundedLoadingButtonController();
 
   //variables
   var locResponse;
@@ -289,7 +308,11 @@ class _BuyNowBTNState extends State<BuyNowBTN> {
             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
             child: Text(
               'Buy Now',
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15, fontFamily: 'NT'),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                  fontFamily: 'NT'),
             ),
           ),
           onPressed: () async {
@@ -321,7 +344,7 @@ class _BuyNowBTNState extends State<BuyNowBTN> {
                         ),
                       ));
             } else {
-              context.router.pushNamed('/LoginPage');
+              context.router.replaceNamed('/LoginPage');
             }
           },
         ),
@@ -329,7 +352,8 @@ class _BuyNowBTNState extends State<BuyNowBTN> {
     );
   }
 
-  TextStyle chooseAddMain() => TextStyle(color: Colors.white, fontWeight: FontWeight.bold);
+  TextStyle chooseAddMain() =>
+      TextStyle(color: Colors.white, fontWeight: FontWeight.bold);
   TextStyle chooseAddValue() => TextStyle(
         color: Colors.white,
       );

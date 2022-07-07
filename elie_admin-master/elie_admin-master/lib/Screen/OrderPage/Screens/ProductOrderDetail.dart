@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:js';
 
 import 'package:data_table_2/data_table_2.dart';
@@ -21,7 +22,7 @@ class ProductOrderDetail extends StatefulWidget {
 }
 
 class _ProductOrderDetailState extends State<ProductOrderDetail> {
-  late List<List> orderList = [];
+  late ValueNotifier<List<List>> orderList = ValueNotifier([]);
   var loading = true;
 
   getOrders() async {
@@ -33,7 +34,7 @@ class _ProductOrderDetailState extends State<ProductOrderDetail> {
       if (item['productId'] != null) {
         var p = await API().getProductsByID(item['productId']);
         if (p.id != 0) {
-          orderList.add([item, p, customer]);
+          orderList.value.add([item, p, customer]);
         }
       }
     }
@@ -41,6 +42,13 @@ class _ProductOrderDetailState extends State<ProductOrderDetail> {
     setState(() {
       loading = false;
     });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    orderList.dispose();
   }
 
   @override
@@ -65,56 +73,60 @@ class _ProductOrderDetailState extends State<ProductOrderDetail> {
                     ),
                   ),
                 )
-              : Expanded(
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: DataTable2(
-                      scrollController:
-                          ScrollController(keepScrollOffset: true),
-                      bottomMargin: 200,
-                      columnSpacing: 8.0,
-                      minWidth: 2000,
-                      columns: [
-                        DataColumn(
-                          label: _TextHeadingCell(title: "Order ID"),
-                        ),
-                        DataColumn(
-                          label: _TextHeadingCell(title: "Product"),
-                        ),
-                        DataColumn(
-                          label: _TextHeadingCell(title: "Customer"),
-                        ),
-                        DataColumn(
-                          label: _TextHeadingCell(title: "Address"),
-                        ),
-                        DataColumn(
-                          label: _TextHeadingCell(title: "Date"),
-                        ),
-                        DataColumn(
-                          label: _TextHeadingCell(title: "Quantity"),
-                        ),
-                        DataColumn(
-                          label: _TextHeadingCell(title: "Amount"),
-                        ),
-                        DataColumn(
-                          label: _TextHeadingCell(title: "Payment"),
-                        ),
-                        DataColumn(
-                          label: _TextHeadingCell(title: "Mode"),
-                        ),
-                        DataColumn(
-                          label: _TextHeadingCell(title: "Order Status"),
-                        ),
-                      ],
-                      rows: List.generate(orderList.length, (index) {
-                        print(orderList.length);
+              : ValueListenableBuilder(
+                  valueListenable: orderList,
+                  builder: (context, List<List> value, child) {
+                    return Expanded(
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: DataTable2(
+                          scrollController:
+                              ScrollController(keepScrollOffset: true),
+                          bottomMargin: 200,
+                          columnSpacing: 8.0,
+                          minWidth: 2000,
+                          columns: [
+                            DataColumn(
+                              label: _TextHeadingCell(title: "Order ID"),
+                            ),
+                            DataColumn(
+                              label: _TextHeadingCell(title: "Product"),
+                            ),
+                            DataColumn(
+                              label: _TextHeadingCell(title: "Customer"),
+                            ),
+                            DataColumn(
+                              label: _TextHeadingCell(title: "Address"),
+                            ),
+                            DataColumn(
+                              label: _TextHeadingCell(title: "Date"),
+                            ),
+                            DataColumn(
+                              label: _TextHeadingCell(title: "Quantity"),
+                            ),
+                            DataColumn(
+                              label: _TextHeadingCell(title: "Amount"),
+                            ),
+                            DataColumn(
+                              label: _TextHeadingCell(title: "Payment"),
+                            ),
+                            DataColumn(
+                              label: _TextHeadingCell(title: "Mode"),
+                            ),
+                            DataColumn(
+                              label: _TextHeadingCell(title: "Order Status"),
+                            ),
+                          ],
+                          rows: List.generate(value.length, (index) {
+                            print(value.length);
 
-                        return BuildDataRow(orderList[index][0],
-                            orderList[index][1], orderList[index][2], context);
-                      }),
-                    ),
-                  ),
-                ),
+                            return BuildDataRow(value[index][0],
+                                value[index][1], value[index][2], context);
+                          }),
+                        ),
+                      ),
+                    );
+                  }),
         ],
       ),
     );

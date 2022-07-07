@@ -54,9 +54,12 @@ class _LoginPageState extends State<LoginPage> {
                     Container(
                       height: 450.0,
                       margin: EdgeInsets.symmetric(
-                          horizontal: Responsive.responsiveNumber(10.0, 300.0, screenSize),
-                          vertical: Responsive.responsiveNumber(20.0, 100.0, screenSize)),
-                      padding: const EdgeInsets.only(top: 20.0, bottom: 5.0, right: 30.0, left: 30.0),
+                          horizontal: Responsive.responsiveNumber(
+                              10.0, 300.0, screenSize),
+                          vertical: Responsive.responsiveNumber(
+                              20.0, 100.0, screenSize)),
+                      padding: const EdgeInsets.only(
+                          top: 20.0, bottom: 5.0, right: 30.0, left: 30.0),
                       decoration: BoxDecoration(
                         border: Border.all(color: highLcolorLight),
                       ),
@@ -101,22 +104,27 @@ class _LoginPageState extends State<LoginPage> {
                                     primary: highLcolor,
                                   ),
                                   onPressed: () async {
-                                    Customers? ref = await API().getCustomerByPhone(int.parse(phoneController.text));
+                                    Customers? ref = await API()
+                                        .getCustomerByPhone(
+                                            int.parse(phoneController.text));
                                     if (ref == null) {
                                       showTopSnackBar(
                                         context,
                                         CustomSnackBar.error(
                                           backgroundColor: Colors.red,
-                                          message: "Your Phone No. Is Not Registered",
+                                          message:
+                                              "Your Phone No. Is Not Registered",
                                         ),
                                       );
                                     } else {
-                                      await Dio().post('$baseUrl/generate_otp/${phoneController.text}');
+                                      await Dio().post(
+                                          '$baseUrl/generate_otp/${phoneController.text}');
                                       showTopSnackBar(
                                         context,
                                         CustomSnackBar.success(
                                           backgroundColor: highLcolor,
-                                          message: "We have sent your OTP at ${phoneController.text}",
+                                          message:
+                                              "We have sent your OTP at ${phoneController.text}",
                                         ),
                                       );
                                     }
@@ -126,7 +134,11 @@ class _LoginPageState extends State<LoginPage> {
                                     child: Text(
                                       'Get OTP',
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(letterSpacing: 1.0, color: Colors.white, fontSize: 14.0, fontFamily: 'NT'),
+                                      style: TextStyle(
+                                          letterSpacing: 1.0,
+                                          color: Colors.white,
+                                          fontSize: 14.0,
+                                          fontFamily: 'NT'),
                                     ),
                                   ),
                                 ),
@@ -156,7 +168,8 @@ class _LoginPageState extends State<LoginPage> {
                                 width: 90,
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(
-                                    horizontal: Responsive.responsiveNumber(9.0, 40.0, screenSize),
+                                    horizontal: Responsive.responsiveNumber(
+                                        9.0, 40.0, screenSize),
                                     vertical: 10.0,
                                   ),
                                   child: Center(
@@ -166,7 +179,8 @@ class _LoginPageState extends State<LoginPage> {
                                           letterSpacing: 1.0,
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold,
-                                          fontSize: Responsive.responsiveNumber(14.0, 15.0, screenSize),
+                                          fontSize: Responsive.responsiveNumber(
+                                              14.0, 15.0, screenSize),
                                           fontFamily: 'NT'),
                                     ),
                                   ),
@@ -174,35 +188,52 @@ class _LoginPageState extends State<LoginPage> {
                                 onPressed: () async {
                                   btController.start();
                                   try {
-                                    var otpVer = (await Dio()
-                                            .get('$baseUrl/verify_customer/${phoneController.text}', queryParameters: {"otp": otpController.text}))
+                                    var otpVer = (await Dio().get(
+                                            '$baseUrl/verify_customer/${phoneController.text}',
+                                            queryParameters: {
+                                          "otp": otpController.text
+                                        }))
                                         .data;
 
                                     if (otpVer) {
-                                      SharedPreferences prefs = await SharedPreferences.getInstance();
-                                      int userPhone = int.parse(phoneController.text);
+                                      SharedPreferences prefs =
+                                          await SharedPreferences.getInstance();
+                                      int userPhone =
+                                          int.parse(phoneController.text);
 
-                                      var user = await API().getCustomerByPhone(userPhone);
+                                      var user = await API()
+                                          .getCustomerByPhone(userPhone);
 
                                       if (user != null) {
                                         prefs.setInt("userPhone", userPhone);
-                                        prefs.setString("userPass", otpController.text);
+                                        prefs.setString(
+                                            "userPass", otpController.text);
                                         prefs.setString("userName", user.name);
-                                        prefs.setString("userEmail", user.email);
+                                        prefs.setString(
+                                            "userEmail", user.email);
                                         getItUserIn.setUserIn(
-                                            prefs.get("userPhone"), prefs.get("userPass"), prefs.get("userName"), prefs.get('userEmail'));
+                                            prefs.get("userPhone"),
+                                            prefs.get("userPass"),
+                                            prefs.get("userName"),
+                                            prefs.get('userEmail'));
                                         Timer(Duration(milliseconds: 1000), () {
                                           btController.success();
 
-                                          Timer(Duration(milliseconds: 800), () {
+                                          Timer(Duration(milliseconds: 800),
+                                              () {
                                             if (getItCart.productData != null) {
-                                              context.router.pushNamed('/ProductDescPage/${getItCart.productData!.id}');
-                                            } else if (getItCart.isSpa == false) {
-                                              context.router.pushNamed('/LocationPage');
-                                            } else if (getItCart.isSpa == true) {
-                                              context.router.pushNamed('/LocationPage');
+                                              context.router.replaceNamed(
+                                                  '/ProductDescPage/${getItCart.productData!.id}');
+                                            } else if (getItCart.isSpa ==
+                                                false) {
+                                              context.router.replaceNamed(
+                                                  '/LocationPage');
+                                            } else if (getItCart.isSpa ==
+                                                true) {
+                                              context.router.replaceNamed(
+                                                  '/LocationPage');
                                             } else {
-                                              context.router.pushNamed('/');
+                                              context.router.replaceNamed('/');
                                             }
                                             btController.reset();
                                           });
@@ -212,7 +243,8 @@ class _LoginPageState extends State<LoginPage> {
                                       } else {
                                         Timer(Duration(milliseconds: 500), () {
                                           btController.error();
-                                          Timer(Duration(milliseconds: 500), () {
+                                          Timer(Duration(milliseconds: 500),
+                                              () {
                                             btController.reset();
                                           });
                                         });
@@ -221,7 +253,8 @@ class _LoginPageState extends State<LoginPage> {
                                           context,
                                           CustomSnackBar.error(
                                             backgroundColor: Colors.red,
-                                            message: "Please Register Your Number",
+                                            message:
+                                                "Please Register Your Number",
                                           ),
                                         );
                                       }
@@ -277,15 +310,21 @@ class _LoginPageState extends State<LoginPage> {
                                   primary: highLcolor,
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 15.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 40.0, vertical: 15.0),
                                   child: Text(
                                     'REGISTER',
                                     style: TextStyle(
-                                        color: highLcolorDark, fontWeight: FontWeight.bold, fontSize: 14.0, fontFamily: 'NT', letterSpacing: 1),
+                                        color: highLcolorDark,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14.0,
+                                        fontFamily: 'NT',
+                                        letterSpacing: 1),
                                   ),
                                 ),
                                 onPressed: () {
-                                  getItPages.setCurrentPathANDTopColorOFF(RegisterPage.id);
+                                  getItPages.setCurrentPathANDTopColorOFF(
+                                      RegisterPage.id);
                                   context.router.pushNamed('/RegisterPage');
                                 },
                               ),

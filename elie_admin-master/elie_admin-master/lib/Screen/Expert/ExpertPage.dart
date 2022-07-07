@@ -71,8 +71,6 @@ class _ExpertPageState extends State<ExpertPage> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: DataTable2(
-                            scrollController:
-                                ScrollController(keepScrollOffset: true),
                             bottomMargin: 10,
                             minWidth: 900,
                             columnSpacing: 8.0,
