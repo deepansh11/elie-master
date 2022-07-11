@@ -134,6 +134,7 @@ class CartData extends ChangeNotifier {
   var date;
   var time;
   var isSpa;
+  var isPackage;
   //expert
   var expertId;
   var coupon;

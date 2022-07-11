@@ -19,7 +19,7 @@ class _TopBarState extends State<TopBar> with SingleTickerProviderStateMixin {
   var currentPage;
   var searchFocus = FocusNode();
 
-  List _isHovering = [
+  List<bool> _isHovering = [
     false,
     false,
     false,
@@ -32,7 +32,9 @@ class _TopBarState extends State<TopBar> with SingleTickerProviderStateMixin {
     false,
     false,
     false,
-    false
+    false,
+    false,
+    false,
   ];
 
   var name;
@@ -87,6 +89,8 @@ class _TopBarState extends State<TopBar> with SingleTickerProviderStateMixin {
       getItCart.setSpa(true);
     } else if (title == 'SALON') {
       getItCart.setSpa(false);
+    } else if (title == 'PACKAGES') {
+      getItCart.setSpa(false);
     }
     if (mounted) {
       setState(() {
@@ -95,7 +99,8 @@ class _TopBarState extends State<TopBar> with SingleTickerProviderStateMixin {
     }
   }
 
-  navLink(x, title, path, {isIcon = false, icon}) {
+  navLink(int x, String title, String path,
+      {bool isIcon = false, IconData? icon}) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -245,7 +250,6 @@ class _TopBarState extends State<TopBar> with SingleTickerProviderStateMixin {
                         children: [
                           SizedBox(width: screenSize.width / 17),
                           navLink(0, 'HOME', '/'),
-
                           SizedBox(width: screenSize.width / 30),
                           navLink(1, 'SALON', '/LocationChoicePage'),
                           SizedBox(width: screenSize.width / 30),
@@ -262,6 +266,8 @@ class _TopBarState extends State<TopBar> with SingleTickerProviderStateMixin {
                           // navLink(5, 'FITNESS', '/Fitness'),
                           // SizedBox(width: screenSize.width / 30),
                           // navLink(6, 'EVENTS', '/ThankYouPage'),
+                          SizedBox(width: screenSize.width / 30),
+                          navLink(4, 'PACKAGES', '/Packages'),
                         ],
                       ),
                     ),

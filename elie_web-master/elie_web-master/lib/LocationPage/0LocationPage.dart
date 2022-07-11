@@ -11,7 +11,7 @@ class LocationPage extends StatelessWidget {
   LocationPage({Key? key}) : super(key: key);
   static String id = '/Location';
 
-  List<Widget> LocationCards = [
+  final List<Widget> locationCards = [
     LocationCard(
       name: 'Ritz Carlton Pune',
       img: "assets/l1.png",
@@ -46,7 +46,7 @@ class LocationPage extends StatelessWidget {
     ),
   ];
 
-  List<Widget> LocationCardSpa = [
+  final List<Widget> locationCardSpa = [
     LocationCard(
       name: 'Panchshil Towers',
       img: "assets/l2.png",
@@ -121,8 +121,8 @@ class LocationPage extends StatelessWidget {
                                 physics: NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 children: getItCart.isSpa
-                                    ? LocationCardSpa
-                                    : LocationCards,
+                                    ? locationCardSpa
+                                    : locationCards,
                               )
                             : Padding(
                                 padding: const EdgeInsets.all(10.0),
@@ -133,8 +133,8 @@ class LocationPage extends StatelessWidget {
                                   shrinkWrap: true,
                                   crossAxisCount: isMobile(screenSize) ? 1 : 3,
                                   children: getItCart.isSpa
-                                      ? LocationCardSpa
-                                      : LocationCards,
+                                      ? locationCardSpa
+                                      : locationCards,
                                 ),
                               ),
                       ),

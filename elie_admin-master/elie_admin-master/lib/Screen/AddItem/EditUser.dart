@@ -1159,7 +1159,8 @@ class _EditUserState extends State<EditUser> {
                                           ]);
                                     }
 
-                                    if (gender.text == 'Female') {
+                                    if (gender.text == 'Female' &&
+                                        period.text.isNotEmpty) {
                                       await Dio().put(
                                           '$baseURL/add_period/${phone.text}',
                                           queryParameters: {
@@ -1185,8 +1186,8 @@ class _EditUserState extends State<EditUser> {
                                     loadingBtn = false;
                                   });
                                 }
-                              } catch (e) {
-                                print(e);
+                              } catch (e, s) {
+                                print('$e $s');
                                 showTopSnackBar(
                                   context,
                                   CustomSnackBar.success(

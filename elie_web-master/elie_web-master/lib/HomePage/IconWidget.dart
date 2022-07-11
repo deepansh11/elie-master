@@ -20,11 +20,17 @@ import '../Services/GetLocation.dart';
 import '../Utils/TextFieldWidget.dart';
 
 class IconWidget extends StatefulWidget {
-  IconWidget({Key? key, required this.items, required this.iconPath, this.link, required this.focusNode}) : super(key: key);
+  IconWidget(
+      {Key? key,
+      required this.items,
+      required this.iconPath,
+      this.link,
+      required this.focusNode})
+      : super(key: key);
   final items;
   final iconPath;
   final link;
-  FocusNode focusNode;
+  final FocusNode focusNode;
 
   @override
   _IconWidgetState createState() => _IconWidgetState();
@@ -46,7 +52,8 @@ class _IconWidgetState extends State<IconWidget> {
   TextEditingController landmarkTextFeild = TextEditingController();
   TextEditingController houseNumberTextFeild = TextEditingController();
   TextEditingController postalTextFeild = TextEditingController();
-  final RoundedLoadingButtonController btController = RoundedLoadingButtonController();
+  final RoundedLoadingButtonController btController =
+      RoundedLoadingButtonController();
 
   @override
   void initState() {
@@ -86,7 +93,8 @@ class _IconWidgetState extends State<IconWidget> {
                   context.router.pushNamed('/LocationPage');
                   FocusScope.of(context).unfocus();
                 } else {
-                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
                   if (prefs.get("userPhone") != null) {
                     showDialog(
                         context: context,
@@ -105,7 +113,8 @@ class _IconWidgetState extends State<IconWidget> {
                                       decoration: BoxDecoration(
                                         gradient: kGradiantBackground,
                                       ),
-                                      child: SavedAddress(prefs, screenSize, true),
+                                      child:
+                                          SavedAddress(prefs, screenSize, true),
                                       height: screenSize.height / 1.15,
                                       width: screenSize.width / 1),
                                 ],
@@ -133,11 +142,15 @@ class _IconWidgetState extends State<IconWidget> {
         var screenSize = MediaQuery.of(context).size;
         return Positioned(
           height: items.length * 60,
-          width: Responsive.responsiveNumber(MediaQuery.of(context).size.width - 16, MediaQuery.of(context).size.width / 2, screenSize),
+          width: Responsive.responsiveNumber(
+              MediaQuery.of(context).size.width - 16,
+              MediaQuery.of(context).size.width / 2,
+              screenSize),
           child: CompositedTransformFollower(
             link: layerLink,
             showWhenUnlinked: false,
-            offset: Offset(Responsive.responsiveNumber(0.0, 200.0, screenSize), size.height.toDouble()),
+            offset: Offset(Responsive.responsiveNumber(0.0, 200.0, screenSize),
+                size.height.toDouble()),
             child: Material(
               color: Colors.transparent,
               child: Container(
@@ -207,7 +220,8 @@ class _IconWidgetState extends State<IconWidget> {
     );
   }
 
-  TextStyle chooseAddMain() => TextStyle(color: Colors.white, fontWeight: FontWeight.bold);
+  TextStyle chooseAddMain() =>
+      TextStyle(color: Colors.white, fontWeight: FontWeight.bold);
   TextStyle chooseAddValue() => TextStyle(
         color: Colors.white,
       );

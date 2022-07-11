@@ -27,6 +27,7 @@ class HorizontalListView extends StatelessWidget {
     'Education': '/Education',
     'Fitness': '/Fitness',
     'Events': '/Event',
+    'Packages': '/Packages',
   };
 
   final Color backgroundColor = Color(0xFF141414);
@@ -63,7 +64,9 @@ class HorizontalListView extends StatelessWidget {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                          color: backgroundColor, borderRadius: BorderRadius.circular(50), border: Border.all(color: highLcolorDark)),
+                          color: backgroundColor,
+                          borderRadius: BorderRadius.circular(50),
+                          border: Border.all(color: highLcolorDark)),
                       padding: const EdgeInsets.all(10),
                       child: Image.asset(
                         '$value',

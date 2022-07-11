@@ -119,6 +119,14 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                         Navigator.pop(context);
                         changePage(path: '/product');
                       }),
+                  SizedBox(height: 5),
+                  buildMenuItem(
+                      text: 'Packages',
+                      icon: 'assets/cosmetics.png',
+                      onClicked: () {
+                        Navigator.pop(context);
+                        changePage(path: '/Packages');
+                      }),
                   // SizedBox(height: 5),
                   // buildMenuItem(
                   //     text: 'Education',
@@ -160,7 +168,8 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                             Navigator.pop(context);
                             getItOrderPage.setPageIndex(2);
                             changePage(path: '/OrderPage');
-                          })
+                          },
+                        )
                       : Container(),
                   getItUserIn.userPhone != null
                       ? buildMenuItem(
@@ -170,7 +179,8 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                             Navigator.pop(context);
                             getItOrderPage.setPageIndex(3);
                             changePage(path: '/OrderPage');
-                          })
+                          },
+                        )
                       : Container(),
                   SizedBox(height: 6),
                   Divider(color: highLcolorLight),

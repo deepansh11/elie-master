@@ -232,6 +232,10 @@ class _LoginPageState extends State<LoginPage> {
                                                 true) {
                                               context.router.replaceNamed(
                                                   '/LocationPage');
+                                            } else if (getItCart.isPackage ==
+                                                true) {
+                                              context.router.replaceNamed(
+                                                  '/LocationPage');
                                             } else {
                                               context.router.replaceNamed('/');
                                             }

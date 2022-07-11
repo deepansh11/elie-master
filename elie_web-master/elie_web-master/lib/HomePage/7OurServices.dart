@@ -22,7 +22,8 @@ class _HomeOurServicesState extends State<HomeOurServices> {
       height: screenSize.height / 2.8,
       child: Center(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: isMobile(screenSize) ? 5 : 180),
+          padding:
+              EdgeInsets.symmetric(horizontal: isMobile(screenSize) ? 5 : 180),
           child: Column(
             children: [
               Padding(
@@ -38,9 +39,15 @@ class _HomeOurServicesState extends State<HomeOurServices> {
                         )),
                   ),
                   Text(
-                    'How do you want to${isMobile(screenSize) ? '\n' : ' '}focus on wellness today?'.toUpperCase(),
+                    'How do you want to${isMobile(screenSize) ? '\n' : ' '}focus on wellness today?'
+                        .toUpperCase(),
                     style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold, height: 1.5, letterSpacing: 3, fontSize: 13, fontFamily: 'HD'),
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        height: 1.5,
+                        letterSpacing: 3,
+                        fontSize: 13,
+                        fontFamily: 'HD'),
                     textAlign: TextAlign.center,
                   ),
                   Expanded(
@@ -82,7 +89,11 @@ class _HomeOurServicesState extends State<HomeOurServices> {
                                 ),
                                 Text(
                                   'SALON',
-                                  style: TextStyle(color: Colors.white, fontSize: 18, letterSpacing: 1, fontFamily: 'NT'),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      letterSpacing: 1,
+                                      fontFamily: 'NT'),
                                 ),
                                 SizedBox(
                                   height: 10,
@@ -90,11 +101,15 @@ class _HomeOurServicesState extends State<HomeOurServices> {
                                 InkWell(
                                   onTap: () {
                                     getItCart.setSpa(false);
-                                    context.router.pushNamed('/LocationChoicePage');
+                                    context.router
+                                        .pushNamed('/LocationChoicePage');
                                   },
                                   child: Text(
                                     'Explore More',
-                                    style: TextStyle(color: highLcolorLight, fontSize: 15, fontFamily: 'NT'),
+                                    style: TextStyle(
+                                        color: highLcolorLight,
+                                        fontSize: 15,
+                                        fontFamily: 'NT'),
                                   ),
                                 ),
                               ],
@@ -115,7 +130,11 @@ class _HomeOurServicesState extends State<HomeOurServices> {
                                 ),
                                 Text(
                                   'SPA',
-                                  style: TextStyle(color: Colors.white, fontSize: 18, letterSpacing: 1, fontFamily: 'NT'),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      letterSpacing: 1,
+                                      fontFamily: 'NT'),
                                 ),
                                 SizedBox(
                                   height: 10,
@@ -128,7 +147,10 @@ class _HomeOurServicesState extends State<HomeOurServices> {
                                   },
                                   child: Text(
                                     'Explore More',
-                                    style: TextStyle(color: highLcolorLight, fontSize: 15, fontFamily: 'NT'),
+                                    style: TextStyle(
+                                        color: highLcolorLight,
+                                        fontSize: 15,
+                                        fontFamily: 'NT'),
                                   ),
                                 ),
                               ],
@@ -161,7 +183,11 @@ class _HomeOurServicesState extends State<HomeOurServices> {
                           ),
                           Text(
                             'SALON',
-                            style: TextStyle(color: Colors.white, fontSize: 18, letterSpacing: 1, fontFamily: 'NT'),
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                letterSpacing: 1,
+                                fontFamily: 'NT'),
                           ),
                           SizedBox(
                             height: 10,
@@ -174,7 +200,10 @@ class _HomeOurServicesState extends State<HomeOurServices> {
                             },
                             child: Text(
                               'Explore More',
-                              style: TextStyle(color: highLcolorLight, fontSize: 15, fontFamily: 'NT'),
+                              style: TextStyle(
+                                  color: highLcolorLight,
+                                  fontSize: 15,
+                                  fontFamily: 'NT'),
                             ),
                           ),
                         ],
@@ -195,7 +224,11 @@ class _HomeOurServicesState extends State<HomeOurServices> {
                           ),
                           Text(
                             'SPA',
-                            style: TextStyle(color: Colors.white, fontSize: 18, letterSpacing: 1, fontFamily: 'NT'),
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                letterSpacing: 1,
+                                fontFamily: 'NT'),
                           ),
                           SizedBox(
                             height: 10,
@@ -208,7 +241,10 @@ class _HomeOurServicesState extends State<HomeOurServices> {
                             },
                             child: Text(
                               'Explore More',
-                              style: TextStyle(color: highLcolorLight, fontSize: 15, fontFamily: 'NT'),
+                              style: TextStyle(
+                                  color: highLcolorLight,
+                                  fontSize: 15,
+                                  fontFamily: 'NT'),
                             ),
                           ),
                         ],

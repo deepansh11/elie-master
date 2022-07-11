@@ -11,7 +11,7 @@ class LocationChoicePage extends StatelessWidget {
   LocationChoicePage({Key? key}) : super(key: key);
   static String id = '/Location';
 
-  List<Widget> LocationCards = [
+  final List<Widget> locationCards = [
     LocationCard(
       name: 'At ${getItCart.isSpa ? 'Spa' : 'Salon'}',
       img: "assets/l1.png",
@@ -56,7 +56,7 @@ class LocationChoicePage extends StatelessWidget {
                                 scrollDirection: Axis.vertical,
                                 physics: NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
-                                children: LocationCards,
+                                children: locationCards,
                               )
                             : GridView.count(
                                 physics: NeverScrollableScrollPhysics(),
@@ -66,7 +66,7 @@ class LocationChoicePage extends StatelessWidget {
                                 scrollDirection: Axis.vertical,
                                 shrinkWrap: true,
                                 crossAxisCount: isMobile(screenSize) ? 1 : 2,
-                                children: LocationCards,
+                                children: locationCards,
                               ),
                       ),
                       isMobile(screenSize) ? Container() : Footer()

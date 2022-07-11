@@ -25,7 +25,7 @@ class LocationCard extends StatefulWidget {
   final name;
   final img;
   final decs;
-  var atHome;
+  final bool atHome;
   final lat;
   final long;
   final pin;
