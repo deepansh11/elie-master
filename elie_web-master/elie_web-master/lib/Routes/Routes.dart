@@ -22,6 +22,7 @@ import 'package:elie_web/ThankYouPage/0ThankYouPage.dart';
 import '../Anu/PolicyPage.dart';
 import '../Anu/TermsPage.dart';
 import '../PackagesPage/0PackagesPage.dart';
+import '../PackagesPage/1PackagesDescPage.dart';
 
 @CustomAutoRouter(replaceInRouteName: 'Page,Route', routes: <AutoRoute>[
   AutoRoute(path: '/', page: HomePage, initial: true),
@@ -108,6 +109,10 @@ import '../PackagesPage/0PackagesPage.dart';
   AutoRoute(
     path: '/Packages',
     page: PackagesPage,
+  ),
+  AutoRoute(
+    path: '/PackagesDescPage/:id',
+    page: PackagesDesc,
   ),
 ])
 class $AppRouter {}

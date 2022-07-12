@@ -33,7 +33,12 @@ class ServicesPage extends StatelessWidget {
                       Center(
                         child: Text(
                           "Book A Service",
-                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, letterSpacing: 3, fontSize: 18, fontFamily: 'NT'),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 3,
+                              fontSize: 18,
+                              fontFamily: 'NT'),
                         ),
                       ),
                       SizedBox(
@@ -41,14 +46,16 @@ class ServicesPage extends StatelessWidget {
                       ),
                       FutureBuilder<List<Services>>(
                         future: API().getServices(),
-                        builder: (BuildContext context, AsyncSnapshot<List<Services>> snapshot) {
+                        builder: (BuildContext context,
+                            AsyncSnapshot<List<Services>> snapshot) {
                           List<Widget> cartlist = [];
                           if (snapshot.hasData) {
                             for (var d in snapshot.data!) {
                               if (d.isSpa && getItCart.isSpa) {
                                 cartlist.add(ServiceProductCard(
                                   img: "$baseUrl/getServiceImageByID/${d.id}",
-                                  name: d.name.replaceAll(new RegExp(r'[^\w\s]+'), ''),
+                                  name: d.name
+                                      .replaceAll(new RegExp(r'[^\w\s]+'), ''),
                                   price: d.saleCost,
                                   desc: d.desc,
                                   productData: d,
@@ -58,7 +65,8 @@ class ServicesPage extends StatelessWidget {
                               if (!d.isSpa && !getItCart.isSpa) {
                                 cartlist.add(ServiceProductCard(
                                   img: "$baseUrl/getServiceImageByID/${d.id}",
-                                  name: d.name.replaceAll(new RegExp(r'[^\w\s]+'), ''),
+                                  name: d.name
+                                      .replaceAll(new RegExp(r'[^\w\s]+'), ''),
                                   price: d.saleCost,
                                   desc: d.desc,
                                   productData: d,

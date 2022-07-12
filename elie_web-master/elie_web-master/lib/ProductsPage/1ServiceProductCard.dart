@@ -19,8 +19,8 @@ class ServiceProductCard extends StatelessWidget {
   final name;
   final price;
   final desc;
-  var nameSize;
-  var priceSize;
+  final nameSize;
+  final priceSize;
   final isProduct;
 
   @override

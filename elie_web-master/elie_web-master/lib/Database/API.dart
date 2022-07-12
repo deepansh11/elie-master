@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:elie_web/Database/Packages.dart';
 import 'package:elie_web/Utils/Constants.dart';
 import 'Cart.dart';
 import 'Expert.dart';
@@ -193,6 +194,38 @@ class API {
       print('Error!!');
       throw Exception('Failed to Load Post');
     }
+  }
+
+  Future<List<Packages>?> getPackages() async {
+    // response = await dio.get('$baseUrl/getPackage');
+
+    // if (response.statusCode == 200) {
+    //   final List packages = response.data;
+
+    //   final List<Packages>? packagesList =
+    //       packages.map((e) => Packages.fromJson(e)).toList();
+    //   return packagesList;
+    // } else {
+    //   print('Error!!');
+    //   throw Exception('Failed to Load Packages');
+    // }
+    List<Packages>? packagesList = [];
+    await Future.delayed(Duration(seconds: 1), () {
+      packagesList = dummyJson.map((e) => Packages.fromJson(e)).toList();
+    });
+    return packagesList;
+  }
+
+  Future<Packages?> getPackagesById(String? id) async {
+    // response = await dio.get('$baseUrl/getPackageById/$id');
+    Packages? packages;
+    await Future.delayed(Duration(seconds: 1), () {
+      List<Packages?> data =
+          dummyJson.map((e) => Packages.fromJson(e)).toList();
+      packages = data.firstWhere((element) => element?.id.toString() == id);
+    });
+    return packages;
+    // return Packages.fromJson();
   }
 
   Future<Services> getServiceByID(id) async {
