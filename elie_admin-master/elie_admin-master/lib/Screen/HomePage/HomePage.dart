@@ -116,6 +116,10 @@ class _HomePageState extends State<HomePage> {
                     icon: Icons.local_hospital_outlined,
                     label: 'SOS',
                   ),
+                  SideNavigationBarItem(
+                    icon: Icons.question_answer,
+                    label: 'Enquiry',
+                  ),
                 ],
                 onTap: (int value) {
                   getItAdminCurrentPage.setIndex(value);

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:elie_admin/Database/Enquiry.dart';
 import 'package:elie_admin/Database/Expert.dart';
 import 'package:elie_admin/Database/Tracking.dart';
 import 'package:elie_admin/Utils/Constants.dart';
@@ -126,6 +127,18 @@ class API {
       var track = await response.data;
 
       var cards = LocationForTracking.fromJson(track);
+      return cards;
+    } else {
+      print('Error!!');
+      throw Exception('Failed to Load Post');
+    }
+  }
+
+  Future<List<Enquiry?>?> getEnquiry() async {
+    response = await dio.get('$baseURL/getAllEnquiries');
+    if (response.statusCode == 200) {
+      List user = response.data;
+      List<Enquiry?>? cards = user.map((e) => Enquiry.fromJson(e)).toList();
       return cards;
     } else {
       print('Error!!');

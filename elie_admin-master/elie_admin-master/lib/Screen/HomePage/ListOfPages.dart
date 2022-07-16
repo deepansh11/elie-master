@@ -18,6 +18,7 @@ import 'package:elie_admin/Screen/Tracking/TrackingPage.dart';
 import 'package:flutter/material.dart';
 
 import '../../Responsive Dashboard/dashboard_screen.dart';
+import '../Enquiry/Enquiry.dart';
 
 List<Widget> views = [
   DashboardScreen(), //0
@@ -31,6 +32,7 @@ List<Widget> views = [
   ReviewPage(), //8
   CouponPage(), //9
   SOSpage(), //10
+  EnquiryPage(),
   AddItem(title: 'Product'), //11
   AddItem(title: 'Service'), //12
   AddUser(title: 'Expert'), //13
