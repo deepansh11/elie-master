@@ -87,10 +87,13 @@ class _TopBarState extends State<TopBar> with SingleTickerProviderStateMixin {
     }
     if (title == 'SPA') {
       getItCart.setSpa(true);
+
+      getItCart.setPackage(false);
     } else if (title == 'SALON') {
       getItCart.setSpa(false);
+      getItCart.setPackage(false);
     } else if (title == 'PACKAGES') {
-      getItCart.setSpa(false);
+      getItCart.setPackage(true);
     }
     if (mounted) {
       setState(() {

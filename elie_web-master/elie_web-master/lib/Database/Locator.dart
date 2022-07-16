@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 
 import 'API.dart';
 import 'Cart.dart';
+import 'Enquiry.dart';
 import 'Order.dart';
 import 'Product.dart';
 import 'Service.dart';
@@ -135,6 +136,8 @@ class CartData extends ChangeNotifier {
   var time;
   var isSpa;
   var isPackage;
+  var packageId;
+
   //expert
   var expertId;
   var coupon;
@@ -273,6 +276,14 @@ class CartData extends ChangeNotifier {
 
   setSpa(s) {
     isSpa = s;
+  }
+
+  setPackage(s) {
+    isPackage = s;
+  }
+
+  setPackageId(d) {
+    packageId = d;
   }
 
   setExpertData(e) {

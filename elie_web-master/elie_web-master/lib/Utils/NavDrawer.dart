@@ -122,8 +122,10 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                   SizedBox(height: 5),
                   buildMenuItem(
                       text: 'Packages',
-                      icon: 'assets/cosmetics.png',
+                      icon: 'assets/donation.png',
                       onClicked: () {
+                        getItCart.setPackage(true);
+
                         Navigator.pop(context);
                         changePage(path: '/Packages');
                       }),

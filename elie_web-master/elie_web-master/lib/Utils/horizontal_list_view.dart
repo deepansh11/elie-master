@@ -13,6 +13,8 @@ class HorizontalListView extends StatelessWidget {
     'Tattoo': 'assets/ttt.png',
     'Products': 'assets/cosmetics.png',
     'Careers': 'assets/growth-career.png',
+    'Packages': 'assets/donation.png',
+
     // 'Education': 'edu.png',
     // 'Fitness': 'fit.png',
     // 'Events': 'calendar.png',
@@ -24,10 +26,10 @@ class HorizontalListView extends StatelessWidget {
     'Tattoo': '/Tattoo',
     'Products': '/product',
     'Careers': '/Career',
+    'Packages': '/Packages',
     'Education': '/Education',
     'Fitness': '/Fitness',
     'Events': '/Event',
-    'Packages': '/Packages',
   };
 
   final Color backgroundColor = Color(0xFF141414);
@@ -55,6 +57,8 @@ class HorizontalListView extends StatelessWidget {
                   getItCart.setSpa(true);
                 } else if (content.keys.elementAt(index) == 'Salon') {
                   getItCart.setSpa(false);
+                } else if (content.keys.elementAt(index) == 'Packages') {
+                  getItCart.setPackage(true);
                 }
                 context.router.pushNamed(path);
               },

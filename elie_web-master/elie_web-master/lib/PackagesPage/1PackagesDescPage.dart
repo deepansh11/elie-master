@@ -1,15 +1,15 @@
-import 'package:auto_route/annotations.dart';
+import 'dart:convert';
+
 import 'package:auto_route/auto_route.dart';
+import 'package:elie_web/Database/Enquiry.dart';
 import 'package:elie_web/Database/Packages.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:elie_web/Utils/GradientDivider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Anu/Footer.dart';
 import '../Anu/Review.dart';
-import '../Carousels/2ServiceCarousel.dart';
+import '../Carousels/3PackageCarousel.dart';
 import '../Database/API.dart';
 import '../Utils/Constants.dart';
 import '../Utils/NavDrawer.dart';
@@ -41,6 +41,45 @@ class _PackagesDescState extends State<PackagesDesc> {
 
   @override
   Widget build(BuildContext context) {
+    String priceString() {
+      String p = '';
+      if (data?.costRange?.length == 1 && data?.durationRange?.length == 1) {
+        p = '\u{20B9}${data?.costRange?[0]} for ${data?.durationRange?[0]} hrs';
+        return p;
+      } else if (data?.costRange?.length == data?.durationRange?.length &&
+          data?.costRange != null &&
+          data!.costRange!.length > 1) {
+        for (var i = 0; i < data!.costRange!.length; i++) {
+          p = i > 0
+              ? '\u{20B9}${data?.costRange?[i - 1]} for ${data?.durationRange?[i - 1]} hrs, \u{20B9}${data?.costRange?[i]} for ${data?.durationRange?[i]} hrs'
+              : '${data?.costRange?[i]} for ${data?.durationRange?[i]} hrs';
+        }
+        return p;
+      } else {
+        p = 'Negotiable';
+        return p;
+      }
+    }
+
+    String durationString() {
+      String d = '';
+      if (data?.durationRange?.length == 1) {
+        d = '${data?.durationRange?[0]} hrs';
+        return d;
+      } else if (data?.durationRange?.length != null &&
+          data!.durationRange!.length >= 1) {
+        for (var i = 0; i < data!.costRange!.length; i++) {
+          d = i > 0
+              ? '${data?.durationRange?[i - 1]} hrs/${data?.durationRange?[i]} hrs'
+              : '${data?.durationRange?[i]} hrs';
+        }
+        return d;
+      } else {
+        d = 'Negotiable';
+        return d;
+      }
+    }
+
     var screenSize = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
@@ -68,84 +107,134 @@ class _PackagesDescState extends State<PackagesDesc> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text(
-                                  'Packages',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 30,
-                                      fontFamily: 'IT'),
+                                Text.rich(
+                                  TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: 'Book an',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 32,
+                                            fontFamily: 'NT'),
+                                      ),
+                                      TextSpan(
+                                        text: ' Appointment',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 37,
+                                            fontFamily: 'QT'),
+                                      )
+                                    ],
+                                  ),
                                 ),
                                 SizedBox(
                                   height: 20,
                                 ),
-                                Image.asset(
-                                  // "$baseUrl/getServiceImageByID/${data!.id}",
-                                  data?.images?[0] ?? '',
-                                  fit: BoxFit.cover,
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                  ),
+                                  child: GradientDivider(
+                                    width: screenSize.width,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                Text.rich(
+                                  TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: data?.title.toString(),
+                                        style: TextStyle(
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.normal),
+                                      ),
+                                      TextSpan(
+                                        text: " Package",
+                                        style: TextStyle(
+                                          fontSize: 45,
+                                          fontWeight: FontWeight.normal,
+                                          fontFamily: 'QT',
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 20,
                                 ),
                                 Padding(
-                                    padding: const EdgeInsets.all(18.0),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                  ),
+                                  child: Image.network(
+                                    // "$baseUrl/getServiceImageByID/${data!.id}",
+                                    '$baseUrl/getPackagesImageByID/${data?.id}',
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                Padding(
+                                    padding: const EdgeInsets.all(32),
                                     child: Column(
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                          CrossAxisAlignment.center,
                                       children: [
-                                        Text(
-                                          data?.title.toString() ?? '',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 25,
-                                              fontFamily: 'NT'),
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text.rich(TextSpan(children: [
+                                        Text.rich(
                                           TextSpan(
-                                            text: 'Charges: ',
-                                            style: TextStyle(
-                                              color: Colors.grey.shade700,
-                                              fontSize: 20,
-                                              fontFamily: 'NT',
-                                            ),
+                                            children: [
+                                              TextSpan(
+                                                text: 'Number of Therapists: ',
+                                                style: TextStyle(
+                                                  color: Colors.grey.shade600,
+                                                  fontSize: 16,
+                                                  fontFamily: 'NT',
+                                                ),
+                                              ),
+                                              TextSpan(
+                                                text:
+                                                    '${data?.numberOfTherapists} Multitaskers',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 16,
+                                                  fontFamily: 'NT',
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                          TextSpan(
-                                            text: data?.costRange ?? '',
-                                            style: TextStyle(
-                                              color: highLcolor,
-                                              fontSize: 20,
-                                              fontFamily: 'NT',
-                                            ),
-                                          )
-                                        ])),
+                                        ),
                                         SizedBox(
                                           height: 20,
                                         ),
-                                        Text.rich(TextSpan(children: [
+                                        Text.rich(
                                           TextSpan(
-                                            text: 'Number of Therapists: ',
-                                            style: TextStyle(
-                                              color: Colors.grey.shade600,
-                                              fontSize: 16,
-                                              fontFamily: 'NT',
-                                            ),
+                                            children: [
+                                              TextSpan(
+                                                text: 'Duration: ',
+                                                style: TextStyle(
+                                                  color: Colors.grey.shade600,
+                                                  fontSize: 16,
+                                                  fontFamily: 'NT',
+                                                ),
+                                              ),
+                                              TextSpan(
+                                                text: durationString(),
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 16,
+                                                  fontFamily: 'NT',
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                          TextSpan(
-                                            text:
-                                                '${data?.numberOfTherapists} Multitaskers',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16,
-                                              fontFamily: 'NT',
-                                            ),
-                                          )
-                                        ])),
+                                        ),
                                         SizedBox(
                                           height: 20,
                                         ),
                                         Text(
-                                          data?.description ?? '',
+                                          'Charges: ${priceString()}',
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 16,
@@ -155,49 +244,16 @@ class _PackagesDescState extends State<PackagesDesc> {
                                         SizedBox(
                                           height: 20,
                                         ),
-                                        Row(
-                                          children: [
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                border: Border.all(
-                                                  color: highLcolor,
-                                                  width: 1,
-                                                ),
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(20)),
-                                              ),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Row(
-                                                  children: [
-                                                    Icon(
-                                                      Icons.star_border_rounded,
-                                                      color: highLcolor,
-                                                    ),
-                                                    Text(
-                                                      data?.rating.toString() ??
-                                                          '',
-                                                      style: TextStyle(
-                                                          color: highLcolor,
-                                                          fontSize: 20,
-                                                          fontFamily: 'NT'),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: 5,
-                                            ),
-                                            Text(
-                                              'Rating',
-                                              style: TextStyle(
-                                                  color: Colors.grey.shade700,
-                                                  fontFamily: 'NT',
-                                                  fontSize: 20),
-                                            )
-                                          ],
+                                        Text(
+                                          data?.description
+                                                  ?.replaceAll('\\n', '') ??
+                                              '',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                            fontFamily: 'NT',
+                                          ),
+                                          textAlign: TextAlign.justify,
                                         ),
                                         SizedBox(
                                           height: 20,
@@ -205,8 +261,13 @@ class _PackagesDescState extends State<PackagesDesc> {
                                         Center(
                                           child: OutlinedButton(
                                             style: OutlinedButton.styleFrom(
-                                              backgroundColor:
-                                                  Color(0xff141414),
+                                              backgroundColor: Colors.black,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                  20,
+                                                ),
+                                              ),
                                               side: BorderSide(
                                                 color: highLcolor,
                                                 width: 1,
@@ -216,14 +277,15 @@ class _PackagesDescState extends State<PackagesDesc> {
                                             child: Padding(
                                               padding:
                                                   const EdgeInsets.symmetric(
-                                                      horizontal: 40,
-                                                      vertical: 15),
+                                                      horizontal: 12,
+                                                      vertical: 8),
                                               child: Text(
                                                 'Get In Touch',
                                                 style: TextStyle(
                                                     color: Colors.white,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 15,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    fontSize: 20,
                                                     fontFamily: 'NT'),
                                               ),
                                             ),
@@ -233,220 +295,285 @@ class _PackagesDescState extends State<PackagesDesc> {
                                                       .getInstance();
                                               if (prefs.get("userPhone") !=
                                                   null) {
-                                                // context.router
-                                                //     .pushNamed('/ExpertPage');
+                                                var userName =
+                                                    prefs.get("userName");
+                                                var userEmail =
+                                                    prefs.get("userEmail");
+                                                var userPhone =
+                                                    prefs.get("userPhone");
+
+                                                var parsedJson = Enquiry(
+                                                    userName.toString(),
+                                                    userEmail.toString(),
+                                                    userPhone.toString(),
+                                                    false,
+                                                    false,
+                                                    widget.id,
+                                                    '',
+                                                    '',
+                                                    false,
+                                                    data?.numberOfTherapists,
+                                                    '');
+
+                                                var sendData = await API()
+                                                    .addEnquiry(parsedJson);
+
+                                                print(jsonEncode(parsedJson));
+                                                print(sendData);
+
+                                                print('Enquiry page');
+
+                                                context.router
+                                                    .pushNamed('/Enquiry');
                                               } else {
                                                 context.router
                                                     .pushNamed('/LoginPage');
                                               }
                                             },
                                           ),
-                                        ),
-                                        SizedBox(
-                                          width: 10,
                                         ),
                                       ],
                                     )),
                               ],
                             )
                           else
-                            Column(
-                              children: [
-                                Text(
-                                  'Packages',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 30,
-                                      fontFamily: 'IT'),
-                                ),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: SizedBox(
-                                        height: 350,
-                                        child: Image.asset(
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 200,
+                              ),
+                              child: Column(
+                                children: [
+                                  Text.rich(
+                                    TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: 'Book an',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 35,
+                                              fontFamily: 'NT'),
+                                        ),
+                                        TextSpan(
+                                          text: ' Appointment',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.normal,
+                                              fontSize: 45,
+                                              fontFamily: 'QT'),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 4,
+                                        child: Image.network(
                                           // "$baseUrl/getServiceImageByID/${data!.id}",
-                                          data?.images?[0] ?? '',
+                                          '$baseUrl/getPackagesImageByID/${data?.id}',
                                           fit: BoxFit.cover,
+                                          height: 350,
+                                          width: 150,
                                         ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 16,
-                                      ),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            data?.title.toString() ?? '',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 25,
-                                                fontFamily: 'NT'),
-                                          ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
-                                          Text.rich(TextSpan(children: [
-                                            TextSpan(
-                                              text: 'Charges: ',
-                                              style: TextStyle(
-                                                color: Colors.grey.shade700,
-                                                fontSize: 20,
-                                                fontFamily: 'NT',
-                                              ),
-                                            ),
-                                            TextSpan(
-                                              text: data?.costRange ?? '',
-                                              style: TextStyle(
-                                                color: highLcolor,
-                                                fontSize: 20,
-                                                fontFamily: 'NT',
-                                              ),
-                                            )
-                                          ])),
-                                          SizedBox(
-                                            height: 20,
-                                          ),
-                                          Text.rich(TextSpan(children: [
-                                            TextSpan(
-                                              text: 'Number of Therapists: ',
-                                              style: TextStyle(
-                                                color: Colors.grey.shade600,
-                                                fontSize: 16,
-                                                fontFamily: 'NT',
-                                              ),
-                                            ),
-                                            TextSpan(
-                                              text:
-                                                  '${data?.numberOfTherapists} Multitaskers',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 16,
-                                                fontFamily: 'NT',
-                                              ),
-                                            )
-                                          ])),
-                                          SizedBox(
-                                            height: 20,
-                                          ),
-                                          Text(
-                                            data?.description ?? '',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 16,
-                                              fontFamily: 'NT',
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 20,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                    color: highLcolor,
-                                                    width: 1,
+                                      Expanded(child: SizedBox()),
+                                      Expanded(
+                                        flex: 3,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text.rich(
+                                              TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text:
+                                                        data?.title.toString(),
+                                                    style: TextStyle(
+                                                      fontSize: 28,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                    ),
                                                   ),
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                          Radius.circular(20)),
-                                                ),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Row(
-                                                    children: [
-                                                      Icon(
-                                                        Icons
-                                                            .star_border_rounded,
-                                                        color: highLcolor,
-                                                      ),
-                                                      Text(
-                                                        data?.rating
-                                                                .toString() ??
-                                                            '',
-                                                        style: TextStyle(
-                                                            color: highLcolor,
-                                                            fontSize: 20,
-                                                            fontFamily: 'NT'),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
+                                                  TextSpan(
+                                                    text: " Package",
+                                                    style: TextStyle(
+                                                      fontSize: 38,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      fontFamily: 'QT',
+                                                    ),
+                                                  )
+                                                ],
                                               ),
-                                              SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(
-                                                'Rating',
+                                            ),
+                                            SizedBox(
+                                              height: 20,
+                                            ),
+                                            Text.rich(TextSpan(children: [
+                                              TextSpan(
+                                                text: 'Number of Therapists: ',
                                                 style: TextStyle(
-                                                    color: Colors.grey.shade700,
-                                                    fontFamily: 'NT',
-                                                    fontSize: 20),
+                                                  color: Colors.grey.shade600,
+                                                  fontSize: 16,
+                                                  fontFamily: 'NT',
+                                                ),
+                                              ),
+                                              TextSpan(
+                                                text:
+                                                    '${data?.numberOfTherapists} Multitaskers',
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 16,
+                                                  fontFamily: 'NT',
+                                                ),
                                               )
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            height: 20,
-                                          ),
-                                          OutlinedButton(
-                                            style: OutlinedButton.styleFrom(
-                                              backgroundColor:
-                                                  Color(0xff141414),
-                                              side: BorderSide(
-                                                color: highLcolor,
-                                                width: 1,
-                                              ),
-                                              primary: highLcolor,
+                                            ])),
+                                            SizedBox(
+                                              height: 20,
                                             ),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 40,
-                                                      vertical: 15),
-                                              child: Text(
-                                                'Get In Touch',
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 15,
-                                                    fontFamily: 'NT'),
+                                            Text.rich(
+                                              TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: 'Duration: ',
+                                                    style: TextStyle(
+                                                      color:
+                                                          Colors.grey.shade600,
+                                                      fontSize: 16,
+                                                      fontFamily: 'NT',
+                                                    ),
+                                                  ),
+                                                  TextSpan(
+                                                    text: durationString(),
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 16,
+                                                      fontFamily: 'NT',
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
-                                            onPressed: () async {
-                                              SharedPreferences prefs =
-                                                  await SharedPreferences
-                                                      .getInstance();
-                                              if (prefs.get("userPhone") !=
-                                                  null) {
-                                                // context.router
-                                                //     .pushNamed('/ExpertPage');
-                                              } else {
-                                                context.router
-                                                    .pushNamed('/LoginPage');
-                                              }
-                                            },
-                                          ),
-                                        ],
+                                            SizedBox(
+                                              height: 20,
+                                            ),
+                                            Text(
+                                              'Charges: ${priceString()}',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                                fontFamily: 'NT',
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: 20,
+                                            ),
+                                            Text(
+                                              data?.description?.replaceAll(
+                                                      '\\n', '\n') ??
+                                                  '',
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                                fontFamily: 'NT',
+                                              ),
+                                              softWrap: true,
+                                              overflow: TextOverflow.clip,
+                                            ),
+                                            SizedBox(
+                                              height: 90,
+                                            ),
+                                            OutlinedButton(
+                                              style: OutlinedButton.styleFrom(
+                                                backgroundColor: Colors.black,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                    20,
+                                                  ),
+                                                ),
+                                                side: BorderSide(
+                                                  color: highLcolor,
+                                                  width: 1,
+                                                ),
+                                                primary: highLcolor,
+                                              ),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 16,
+                                                        vertical: 8),
+                                                child: Text(
+                                                  'Get In Touch',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      fontSize: 25,
+                                                      fontFamily: 'NT'),
+                                                ),
+                                              ),
+                                              onPressed: () async {
+                                                SharedPreferences prefs =
+                                                    await SharedPreferences
+                                                        .getInstance();
+                                                if (prefs.get("userPhone") !=
+                                                    null) {
+                                                  var userName =
+                                                      prefs.get("userName");
+                                                  var userEmail =
+                                                      prefs.get("userEmail");
+                                                  var userPhone =
+                                                      prefs.get("userPhone");
+
+                                                  var parsedJson = Enquiry(
+                                                      userName.toString(),
+                                                      userEmail.toString(),
+                                                      userPhone.toString(),
+                                                      false,
+                                                      false,
+                                                      widget.id,
+                                                      '',
+                                                      '',
+                                                      false,
+                                                      data?.numberOfTherapists,
+                                                      '');
+
+                                                  var sendData = await API()
+                                                      .addEnquiry(parsedJson);
+
+                                                  print(jsonEncode(parsedJson));
+                                                  print(sendData);
+
+                                                  print('Enquiry page');
+
+                                                  context.router
+                                                      .pushNamed('/Enquiry');
+                                                } else {
+                                                  context.router
+                                                      .pushNamed('/LoginPage');
+                                                }
+                                              },
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: Responsive.responsiveNumber(
+                                    20.0, 200.0, screenSize)),
                             child: Container(
                               height: screenSize.height /
                                   Responsive.responsiveNumber(
@@ -455,7 +582,6 @@ class _PackagesDescState extends State<PackagesDesc> {
                               child: PackageCarousel(),
                             ),
                           ),
-                          Review(),
                           isMobile(screenSize) ? Container() : Footer()
                         ],
                       ),

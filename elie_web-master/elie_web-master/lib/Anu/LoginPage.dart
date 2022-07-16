@@ -224,15 +224,16 @@ class _LoginPageState extends State<LoginPage> {
                                             if (getItCart.productData != null) {
                                               context.router.replaceNamed(
                                                   '/ProductDescPage/${getItCart.productData!.id}');
+                                            } else if (getItCart.isPackage ==
+                                                    true &&
+                                                getItCart.packageId != null) {
+                                              context.router.replaceNamed(
+                                                  '/PackagesDescPage/${getItCart.packageId}');
                                             } else if (getItCart.isSpa ==
                                                 false) {
                                               context.router.replaceNamed(
                                                   '/LocationPage');
                                             } else if (getItCart.isSpa ==
-                                                true) {
-                                              context.router.replaceNamed(
-                                                  '/LocationPage');
-                                            } else if (getItCart.isPackage ==
                                                 true) {
                                               context.router.replaceNamed(
                                                   '/LocationPage');

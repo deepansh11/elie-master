@@ -9,11 +9,15 @@ part of 'Packages.dart';
 Packages _$PackagesFromJson(Map<String, dynamic> json) => Packages(
       json['id'] as int?,
       json['title'] as String?,
-      json['numberOfTherapists'] as int?,
-      json['durationRange'] as String?,
-      json['costRange'] as String?,
+      json['numberOfTherapists'] as int,
+      (json['durationRange'] as List<dynamic>?)
+          ?.map((e) => (e as num).toDouble())
+          .toList(),
+      (json['costRange'] as List<dynamic>?)
+          ?.map((e) => (e as num).toDouble())
+          .toList(),
       json['description'] as String?,
-      (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      json['images'] as String?,
       (json['rating'] as num).toDouble(),
     );
 

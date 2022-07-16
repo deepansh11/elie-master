@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:elie_web/Database/Enquiry.dart';
 import 'package:elie_web/Database/Packages.dart';
 import 'package:elie_web/Utils/Constants.dart';
 import 'Cart.dart';
@@ -10,6 +11,8 @@ import 'Customers.dart';
 import 'Product.dart';
 import 'Service.dart';
 import 'Tracking.dart';
+
+import 'About.dart';
 
 class API {
   late Response response;
@@ -197,35 +200,87 @@ class API {
   }
 
   Future<List<Packages>?> getPackages() async {
-    // response = await dio.get('$baseUrl/getPackage');
+    response = await dio.get('$baseUrl/getPackages');
 
-    // if (response.statusCode == 200) {
-    //   final List packages = response.data;
+    if (response.statusCode == 200) {
+      try {
+        final List packages = response.data;
 
-    //   final List<Packages>? packagesList =
-    //       packages.map((e) => Packages.fromJson(e)).toList();
+        final List<Packages>? packagesList =
+            packages.map((e) => Packages.fromJson(e)).toList();
+        return packagesList;
+      } on Exception catch (e, s) {
+        // TODO
+        print('$e $s');
+      }
+    } else {
+      print('Error!!');
+      throw Exception('Failed to Load Packages');
+    }
+    // try {
+    //   List<Packages>? packagesList = [];
+    //   await Future.delayed(Duration(seconds: 1), () {
+    //     packagesList = dummyJson.map((e) => Packages.fromJson(e)).toList();
+    //   });
     //   return packagesList;
-    // } else {
-    //   print('Error!!');
-    //   throw Exception('Failed to Load Packages');
+    // } catch (e, s) {
+    //   print('$e,$s');
     // }
-    List<Packages>? packagesList = [];
-    await Future.delayed(Duration(seconds: 1), () {
-      packagesList = dummyJson.map((e) => Packages.fromJson(e)).toList();
-    });
-    return packagesList;
+  }
+
+  getPackagesImage(id) async {
+    response = await dio.get('$baseUrl/getPackagesImageByID/$id');
+
+    if (response.statusCode == 200) {
+      print(response.data);
+      return response.data;
+    } else {
+      print('Error!!');
+      throw Exception('Failed to Load Packages');
+    }
   }
 
   Future<Packages?> getPackagesById(String? id) async {
-    // response = await dio.get('$baseUrl/getPackageById/$id');
-    Packages? packages;
-    await Future.delayed(Duration(seconds: 1), () {
-      List<Packages?> data =
-          dummyJson.map((e) => Packages.fromJson(e)).toList();
-      packages = data.firstWhere((element) => element?.id.toString() == id);
-    });
-    return packages;
+    response = await dio.get('$baseUrl/getPackagesByID/$id');
+    if (response.statusCode == 200) {
+      print(response.data);
+      return Packages.fromJson(response.data);
+    } else {
+      print('Error!!');
+      throw Exception('Failed to Load Packages');
+    }
     // return Packages.fromJson();
+  }
+
+  Future<List<About>?> getLanding() async {
+    response = await dio.get('$baseUrl/getLandingItems');
+    if (response.statusCode == 200) {
+      print(response.data);
+      var data = response.data;
+      List<About> about = data.map((e) => About.fromJson(e)).toList();
+      return about;
+    } else {
+      print('Error!!');
+      throw Exception('Failed to Load landing data');
+    }
+  }
+
+  getLandingImage(id) async {
+    response = await dio.get('$baseUrl/getLandingImageByID/$id');
+
+    if (response.statusCode == 200) {
+      print(response.data);
+      return response.data;
+    } else {
+      print('Error!!');
+      throw Exception('Failed to Load Images');
+    }
+  }
+
+  addEnquiry(Enquiry enquiry) async {
+    response = await dio.post('$baseUrl/addEnquiry', data: jsonEncode(enquiry));
+    print('response: ${response.statusMessage}');
+    print('response: ${response.data}');
   }
 
   Future<Services> getServiceByID(id) async {
