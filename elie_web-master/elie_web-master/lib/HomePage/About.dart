@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:elie_web/Database/API.dart';
 import 'package:elie_web/Utils/Constants.dart';
 import 'package:elie_web/Utils/LandingCard.dart';
@@ -14,11 +15,36 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
-  List<About> women = [];
+  late List<About> women;
 
-  List<About> men = [];
+  late List<About> men;
 
-  List<About> unisex = [];
+  late List<About> unisex;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    men = [];
+    women = [];
+    unisex = [];
+  }
+
+  void _dataFill(List<About>? data) {
+    if (data != null) {
+      for (About d in data) {
+        if (d.type == 'W') {
+          women.add(d);
+        }
+        if (d.type == 'M') {
+          men.add(d);
+        }
+        if (d.type == 'U') {
+          unisex.add(d);
+        }
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,14 +130,15 @@ doesn’t take all day.''';
                       Text(
                         data,
                         style: style.copyWith(
-                          fontSize: 12,
-                          color: Colors.white,
+                          fontSize: 14,
+                          color: Colors.grey.shade600,
                           fontWeight: FontWeight.normal,
+                          height: 1.2,
                         ),
                         textAlign: TextAlign.center,
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 10,
                       ),
                     ],
                   ),
@@ -119,7 +146,7 @@ doesn’t take all day.''';
               ],
             ),
             SizedBox(
-              height: 40,
+              height: 20,
             ),
             Center(
               child: Text.rich(
@@ -152,19 +179,7 @@ doesn’t take all day.''';
                 builder: (context, AsyncSnapshot snapshot) {
                   List<About>? data = snapshot.data;
 
-                  if (data != null) {
-                    for (About d in data) {
-                      if (d.type == 'W') {
-                        women.add(d);
-                      }
-                      if (d.type == 'M') {
-                        men.add(d);
-                      }
-                      if (d.type == 'U') {
-                        unisex.add(d);
-                      }
-                    }
-                  }
+                  _dataFill(data);
 
                   return Column(
                     children: [
@@ -178,10 +193,18 @@ doesn’t take all day.''';
                             LandingPageCard(
                               data: d,
                             ),
-                          Image.asset(
-                            'images/model.png',
+                          CachedNetworkImage(
+                            imageUrl: 'images/model.png',
                             fit: BoxFit.contain,
                             height: MediaQuery.of(context).size.height * 0.8,
+                            progressIndicatorBuilder:
+                                (context, url, progress) =>
+                                    CircularProgressIndicator(
+                              color: highLcolorDark,
+                              value: progress.progress,
+                            ),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
                           )
                         ],
                       ),
@@ -198,7 +221,11 @@ doesn’t take all day.''';
                           for (About? d in men)
                             LandingPageCard(
                               data: d,
-                            )
+                              shouldReplace: true,
+                            ),
+                          SizedBox(
+                            width: 40,
+                          ),
                         ],
                       ),
                       SizedBox(
@@ -214,6 +241,7 @@ doesn’t take all day.''';
                           for (About? d in unisex)
                             LandingPageCard(
                               data: d,
+                              isWidth: d?.id == 9,
                             )
                         ],
                       ),

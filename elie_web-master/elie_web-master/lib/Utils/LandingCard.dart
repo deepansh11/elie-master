@@ -4,9 +4,16 @@ import 'package:elie_web/Utils/Constants.dart';
 import 'package:flutter/material.dart';
 
 class LandingPageCard extends StatelessWidget {
-  const LandingPageCard({Key? key, required this.data}) : super(key: key);
+  const LandingPageCard(
+      {Key? key,
+      required this.data,
+      this.shouldReplace = false,
+      this.isWidth = false})
+      : super(key: key);
 
   final About? data;
+  final bool shouldReplace;
+  final bool isWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -26,25 +33,34 @@ class LandingPageCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           children: [
-            CachedNetworkImage(
-              imageUrl: '$baseUrl/getLandingImageByID/${data?.id}',
-              progressIndicatorBuilder: (context, url, progress) =>
-                  CircularProgressIndicator(
-                color: highLcolorDark,
-                value: progress.progress,
+            Padding(
+              padding: isWidth ? EdgeInsets.only(top: 250) : EdgeInsets.zero,
+              child: CachedNetworkImage(
+                imageUrl: '$baseUrl/getLandingImageByID/${data?.id}',
+                progressIndicatorBuilder: (context, url, progress) =>
+                    CircularProgressIndicator(
+                  color: highLcolorDark,
+                  value: progress.progress,
+                ),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+                height:
+                    !isWidth ? MediaQuery.of(context).size.height * 0.45 : 100,
+                width: MediaQuery.of(context).size.width / 12,
+                fit: !isWidth ? BoxFit.fill : BoxFit.fitWidth,
               ),
-              errorWidget: (context, url, error) => Icon(Icons.error),
-              height: MediaQuery.of(context).size.height / 4,
-              width: MediaQuery.of(context).size.width * 0.1,
-              fit: BoxFit.contain,
+            ),
+            SizedBox(
+              height: 20,
             ),
             Text(
-              data?.title?.replaceAll(' ', '\n').toString() ?? '',
+              !shouldReplace
+                  ? data?.title?.replaceAll(' ', '\n').toString() ?? ''
+                  : data?.title?.toString() ?? '',
               style: style,
               maxLines: 2,
             ),
             SizedBox(
-              height: 20,
+              height: 10,
             ),
             Text(
               data?.subTitle.toString() ?? '',
@@ -52,9 +68,10 @@ class LandingPageCard extends StatelessWidget {
                 color: Colors.grey.shade600,
                 fontSize: 16,
               ),
+              textAlign: TextAlign.justify,
             ),
             SizedBox(
-              height: data?.subTitle != null ? 20 : 0,
+              height: data?.subTitle != null ? 10 : 0,
             ),
             Text(
               data?.description.toString() ?? '',

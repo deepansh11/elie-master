@@ -37,16 +37,6 @@ class PackagesCard extends StatefulWidget {
 
 class _PackagesCardState extends State<PackagesCard> {
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  _loadImages(id) {
-    return API().getPackagesImage(id);
-  }
-
-  @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
 

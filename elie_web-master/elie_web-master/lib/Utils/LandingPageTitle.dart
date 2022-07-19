@@ -25,7 +25,7 @@ class LandingPageTitle extends StatelessWidget {
               )),
           child: Padding(
             padding: const EdgeInsets.symmetric(
-              horizontal: 24,
+              horizontal: 32,
               vertical: 8,
             ),
             child: Center(
