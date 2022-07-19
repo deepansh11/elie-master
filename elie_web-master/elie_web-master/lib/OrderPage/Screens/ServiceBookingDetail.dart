@@ -35,7 +35,8 @@ class _ServiceBookingDetailState extends State<ServiceBookingDetail> {
       if (item.serviceId != null) {
         var s = await API().getServiceByID(item.serviceId);
         if (s.id != null) {
-          List review = (await Dio().get('$baseUrl/get_order_reviewsByIdandOrderId/${item.id}',
+          List review = (await Dio().get(
+                  '$baseUrl/get_order_reviewsByIdandOrderId/${item.id}',
                   queryParameters: {"orderId": item.orderId}))
               .data;
 
@@ -102,7 +103,8 @@ class _ServiceBookingDetailState extends State<ServiceBookingDetail> {
                       ),
                     ],
                     rows: List.generate(serviceList.length, (index) {
-                      return recentFileDataRow(serviceList[index][0], serviceList[index][1], serviceList[index][2]);
+                      return recentFileDataRow(serviceList[index][0],
+                          serviceList[index][1], serviceList[index][2]);
                     }),
                   ),
                 ),
@@ -162,11 +164,15 @@ class _ServiceBookingDetailState extends State<ServiceBookingDetail> {
                     primary: highLcolor,
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     child: Text(
                       review.isEmpty ? 'Review' : 'Edit Review',
-                      style:
-                          TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15, fontFamily: 'NT'),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          fontFamily: 'NT'),
                     ),
                   ),
                   onPressed: () async {
@@ -193,12 +199,14 @@ class _ServiceBookingDetailState extends State<ServiceBookingDetail> {
                       // logo
                       image: '$baseUrl/getServiceImageByID/${service.id}',
                       submitButtonText: 'Submit',
-                      submitButtonTextStyle: TextStyle(color: highLcolor, fontSize: 18),
+                      submitButtonTextStyle:
+                          TextStyle(color: highLcolor, fontSize: 18),
                       commentHint: 'Tell us about your experience',
 
                       onCancelled: () => print('cancelled'),
                       onSubmitted: (response) async {
-                        print('rating: ${response.rating}, comment: ${response.comment}');
+                        print(
+                            'rating: ${response.rating}, comment: ${response.comment}');
 
                         await Dio().post('$baseUrl/add_review/', data: {
                           "reviewId": order.id,
@@ -220,12 +228,14 @@ class _ServiceBookingDetailState extends State<ServiceBookingDetail> {
                     if (review.isEmpty) {
                       showDialog(
                           context: context,
-                          barrierDismissible: true, // set to false if you want to force a rating
+                          barrierDismissible:
+                              true, // set to false if you want to force a rating
                           builder: (context) => rateDia);
                     } else {
                       TextEditingController descContt = TextEditingController();
                       descContt.text = review[0]['reviewDesc'] ?? "";
-                      var ratingStar = double.parse(review[0]['rating'].toString());
+                      var ratingStar =
+                          double.parse(review[0]['rating'].toString());
                       var rateDiaD = RatingDialog(
                         commentController: descContt,
                         initialRating: ratingStar,
@@ -243,17 +253,20 @@ class _ServiceBookingDetailState extends State<ServiceBookingDetail> {
                         message: Text(
                           'order #${order.orderId}',
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 15, color: highLcolorLight),
+                          style:
+                              TextStyle(fontSize: 15, color: highLcolorLight),
                         ),
                         // logo
                         image: '$baseUrl/getServiceImageByID/${service.id}',
                         submitButtonText: 'Submit',
-                        submitButtonTextStyle: TextStyle(color: highLcolor, fontSize: 18),
+                        submitButtonTextStyle:
+                            TextStyle(color: highLcolor, fontSize: 18),
                         commentHint: 'Tell us about your experience',
 
                         onCancelled: () => print('cancelled'),
                         onSubmitted: (response) async {
-                          print('rating: ${response.rating}, comment: ${response.comment}');
+                          print(
+                              'rating: ${response.rating}, comment: ${response.comment}');
 
                           await Dio().post('$baseUrl/add_review/', data: {
                             "reviewId": order.id,
@@ -274,7 +287,8 @@ class _ServiceBookingDetailState extends State<ServiceBookingDetail> {
 
                       showDialog(
                           context: context,
-                          barrierDismissible: true, // set to false if you want to force a rating
+                          barrierDismissible:
+                              true, // set to false if you want to force a rating
                           builder: (context) => rateDiaD);
                     }
                   },
@@ -292,17 +306,23 @@ class _ServiceBookingDetailState extends State<ServiceBookingDetail> {
                         primary: highLcolor,
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 5),
                         child: Text(
                           'Cancel',
                           style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15, fontFamily: 'NT'),
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              fontFamily: 'NT'),
                         ),
                       ),
                       onPressed: () async {
-                        API().updateOrderById(order.orderId, 'status', 'Canceled');
+                        API().updateOrderById(
+                            order.orderId, 'status', 'Canceled');
 
-                        API().updateOrderById(order.orderId, 'completeDate', DateTime.now().toString());
+                        API().updateOrderById(order.orderId, 'completeDate',
+                            DateTime.now().toString());
                         getOrders();
                         setState(() {});
                       },

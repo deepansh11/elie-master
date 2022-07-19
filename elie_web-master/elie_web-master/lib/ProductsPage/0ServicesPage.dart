@@ -74,7 +74,7 @@ class ServicesPage extends StatelessWidget {
                                 ));
                               }
                             }
-                            print(cartlist);
+
                             return GridView.count(
                               physics: NeverScrollableScrollPhysics(),
                               childAspectRatio: 1,

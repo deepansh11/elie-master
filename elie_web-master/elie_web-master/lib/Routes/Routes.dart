@@ -122,7 +122,7 @@ import '../PackagesPage/Enquiry.dart';
   ),
   AutoRoute(
     path: '/sp',
-    page: About,
+    page: LandingPage,
   ),
 ])
 class $AppRouter {}

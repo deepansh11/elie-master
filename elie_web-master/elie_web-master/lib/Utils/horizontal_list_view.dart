@@ -52,7 +52,6 @@ class HorizontalListView extends StatelessWidget {
             String value = content[key]!;
             return GestureDetector(
               onTap: () {
-                print(path);
                 if (content.keys.elementAt(index) == 'Spa') {
                   getItCart.setSpa(true);
                 } else if (content.keys.elementAt(index) == 'Salon') {

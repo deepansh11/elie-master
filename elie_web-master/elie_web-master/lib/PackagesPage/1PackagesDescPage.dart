@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:elie_web/Database/Enquiry.dart';
 import 'package:elie_web/Database/Packages.dart';
 import 'package:elie_web/Utils/GradientDivider.dart';
@@ -170,9 +171,19 @@ class _PackagesDescState extends State<PackagesDesc> {
                                   padding: const EdgeInsets.symmetric(
                                     horizontal: 12,
                                   ),
-                                  child: Image.network(
+                                  child: CachedNetworkImage(
                                     // "$baseUrl/getServiceImageByID/${data!.id}",
-                                    '$baseUrl/getPackagesImageByID/${data?.id}',
+
+                                    imageUrl:
+                                        '$baseUrl/getPackagesImageByID/${data?.id}',
+                                    progressIndicatorBuilder:
+                                        (context, url, progress) => Center(
+                                      child: CircularProgressIndicator(
+                                        value: progress.progress,
+                                      ),
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -318,11 +329,6 @@ class _PackagesDescState extends State<PackagesDesc> {
                                                 var sendData = await API()
                                                     .addEnquiry(parsedJson);
 
-                                                print(jsonEncode(parsedJson));
-                                                print(sendData);
-
-                                                print('Enquiry page');
-
                                                 context.router
                                                     .pushNamed('/Enquiry');
                                               } else {
@@ -372,9 +378,20 @@ class _PackagesDescState extends State<PackagesDesc> {
                                     children: [
                                       Expanded(
                                         flex: 4,
-                                        child: Image.network(
+                                        child: CachedNetworkImage(
                                           // "$baseUrl/getServiceImageByID/${data!.id}",
-                                          '$baseUrl/getPackagesImageByID/${data?.id}',
+                                          imageUrl:
+                                              '$baseUrl/getPackagesImageByID/${data?.id}',
+                                          progressIndicatorBuilder:
+                                              (context, url, progress) =>
+                                                  Center(
+                                            child: CircularProgressIndicator(
+                                              value: progress.progress,
+                                            ),
+                                          ),
+                                          errorWidget: (context, url, error) =>
+                                              Icon(Icons.error),
+
                                           fit: BoxFit.cover,
                                           height: 350,
                                           width: 150,
@@ -548,11 +565,6 @@ class _PackagesDescState extends State<PackagesDesc> {
 
                                                   var sendData = await API()
                                                       .addEnquiry(parsedJson);
-
-                                                  print(jsonEncode(parsedJson));
-                                                  print(sendData);
-
-                                                  print('Enquiry page');
 
                                                   context.router
                                                       .pushNamed('/Enquiry');

@@ -142,7 +142,6 @@ class _ServiceDescPageState extends State<ServiceDescPage> {
                                                       .getInstance();
                                               if (prefs.get("userPhone") !=
                                                   null) {
-                                                print(getItCart.time);
                                                 context.router
                                                     .pushNamed('/ExpertPage');
                                               } else {

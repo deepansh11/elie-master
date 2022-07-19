@@ -78,7 +78,7 @@ class _IconWidgetState extends State<IconWidget> {
     final overlay = Overlay.of(context);
     final renderBox = context.findRenderObject() as RenderBox;
     final size = renderBox.size;
-    print(size.width);
+
     var screenSize = MediaQuery.of(context).size;
 
     List<Widget> items = itemList
@@ -137,8 +137,6 @@ class _IconWidgetState extends State<IconWidget> {
 
     entry = OverlayEntry(
       builder: (context) {
-        print(items.length);
-        print(layerLink.leaderSize?.width);
         var screenSize = MediaQuery.of(context).size;
         return Positioned(
           height: items.length * 60,

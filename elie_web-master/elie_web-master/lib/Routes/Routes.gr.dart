@@ -230,10 +230,10 @@ class AppRouter extends _i26.RootStackRouter {
           opaque: true,
           barrierDismissible: false);
     },
-    About.name: (routeData) {
+    LandingRoute.name: (routeData) {
       return _i26.CustomPage<dynamic>(
           routeData: routeData,
-          child: const _i25.About(),
+          child: const _i25.LandingPage(),
           opaque: true,
           barrierDismissible: false);
     }
@@ -265,7 +265,7 @@ class AppRouter extends _i26.RootStackRouter {
         _i26.RouteConfig(PackagesRoute.name, path: '/Packages'),
         _i26.RouteConfig(PackagesDesc.name, path: '/PackagesDescPage/:id'),
         _i26.RouteConfig(EnquiryRegistered.name, path: '/Enquiry'),
-        _i26.RouteConfig(About.name, path: '/sp')
+        _i26.RouteConfig(LandingRoute.name, path: '/sp')
       ];
 }
 
@@ -561,9 +561,9 @@ class EnquiryRegistered extends _i26.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i25.About]
-class About extends _i26.PageRouteInfo<void> {
-  const About() : super(About.name, path: '/sp');
+/// [_i25.LandingPage]
+class LandingRoute extends _i26.PageRouteInfo<void> {
+  const LandingRoute() : super(LandingRoute.name, path: '/sp');
 
-  static const String name = 'About';
+  static const String name = 'LandingRoute';
 }

@@ -4,8 +4,8 @@ part 'About.g.dart';
 
 @JsonSerializable()
 class About {
-  final String? title;
   final int? id;
+  final String? title;
   final String? subTitle;
   final String? type;
   final String? description;

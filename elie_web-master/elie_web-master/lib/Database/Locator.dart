@@ -221,7 +221,7 @@ class CartData extends ChangeNotifier {
     ).toJson();
 
     var id = await API().addOrder(parsedJson);
-    print(id.data['orderId']);
+
     if (d.serviceId != null) {
       var service = await API().getServiceByID(d.serviceId);
 
@@ -230,7 +230,7 @@ class CartData extends ChangeNotifier {
       var endTimee = startTimee.add(Duration(minutes: service.duration));
       var startTime = DateFormat('yyyy-MM-ddTHH:mm:ss').format(startTimee);
       var endTime = DateFormat('yyyy-MM-ddTHH:mm:ss').format(endTimee);
-      print(startTime);
+
       await Dio().post("$baseUrl/add_booking", data: {
         "orderId": id.data['orderId'],
         "expertId": d.expertId,
@@ -248,7 +248,6 @@ class CartData extends ChangeNotifier {
   }
 
   clearCart() {
-    print('Cart cleared');
     cartItems.clear();
     notifyListeners();
   }

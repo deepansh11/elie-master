@@ -52,7 +52,9 @@ class _NewAddressState extends State<NewAddress> {
             padding: const EdgeInsets.only(left: 40, right: 40),
             child: SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: isMobile(screenSize) ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+                crossAxisAlignment: isMobile(screenSize)
+                    ? CrossAxisAlignment.center
+                    : CrossAxisAlignment.start,
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 40),
@@ -216,10 +218,12 @@ class _NewAddressState extends State<NewAddress> {
                               ),
                             );
                           } else {
-                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
 
                             await Dio().post('$baseUrl/add_address', data: {
-                              "customerId": int.parse(prefs.get("userPhone").toString()),
+                              "customerId":
+                                  int.parse(prefs.get("userPhone").toString()),
                               "address1": houseNumberTextFeild.text,
                               "address2": landmarkTextFeild.text,
                               "city": cityTextFeild.text,
@@ -227,9 +231,12 @@ class _NewAddressState extends State<NewAddress> {
                               "pincode": double.parse(postalTextFeild.text),
                             });
 
-                            getItCart.setLocation(
-                                houseNumberTextFeild.text + landmarkTextFeild.text + cityTextFeild.text + stateTextFeild.text + postalTextFeild.text);
-                            print(postalTextFeild.text);
+                            getItCart.setLocation(houseNumberTextFeild.text +
+                                landmarkTextFeild.text +
+                                cityTextFeild.text +
+                                stateTextFeild.text +
+                                postalTextFeild.text);
+
                             getItCart.setPin(postalTextFeild.text);
                             if (widget.expert) {
                               if (getItCart.serviceData != null) {
@@ -251,19 +258,33 @@ class _NewAddressState extends State<NewAddress> {
                                           height: screenSize.height / 2,
                                           width: 400.0,
                                           child: SfDateRangePicker(
-                                            selectionTextStyle: TextStyle(fontSize: 15.0, color: Colors.white70),
+                                            selectionTextStyle: TextStyle(
+                                                fontSize: 15.0,
+                                                color: Colors.white70),
                                             selectionColor: highLcolor,
                                             todayHighlightColor: highLcolorDark,
                                             selectionRadius: 90.0,
-                                            selectionShape: DateRangePickerSelectionShape.rectangle,
+                                            selectionShape:
+                                                DateRangePickerSelectionShape
+                                                    .rectangle,
                                             headerHeight: 100.0,
-                                            headerStyle: DateRangePickerHeaderStyle(textAlign: TextAlign.center),
+                                            headerStyle:
+                                                DateRangePickerHeaderStyle(
+                                                    textAlign:
+                                                        TextAlign.center),
                                             showNavigationArrow: true,
-                                            monthCellStyle: DateRangePickerMonthCellStyle(
-                                              textStyle: TextStyle(fontFamily: "tex", color: Colors.white, fontSize: 16.0),
-                                              disabledDatesTextStyle: TextStyle(fontStyle: FontStyle.normal, color: Colors.white54),
+                                            monthCellStyle:
+                                                DateRangePickerMonthCellStyle(
+                                              textStyle: TextStyle(
+                                                  fontFamily: "tex",
+                                                  color: Colors.white,
+                                                  fontSize: 16.0),
+                                              disabledDatesTextStyle: TextStyle(
+                                                  fontStyle: FontStyle.normal,
+                                                  color: Colors.white54),
                                             ),
-                                            selectableDayPredicate: decideWhichDayToEnable,
+                                            selectableDayPredicate:
+                                                decideWhichDayToEnable,
                                             backgroundColor: Colors.black,
                                             allowViewNavigation: false,
                                             onSelectionChanged: (value) {
@@ -273,12 +294,15 @@ class _NewAddressState extends State<NewAddress> {
                                         ),
                                         actions: [
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               Expanded(
                                                 child: OutlinedButton(
-                                                  style: OutlinedButton.styleFrom(
-                                                    backgroundColor: Color(0xff141414),
+                                                  style:
+                                                      OutlinedButton.styleFrom(
+                                                    backgroundColor:
+                                                        Color(0xff141414),
                                                     side: BorderSide(
                                                       color: highLcolor,
                                                       width: 1.0,
@@ -287,10 +311,18 @@ class _NewAddressState extends State<NewAddress> {
                                                   ),
                                                   child: Padding(
                                                     padding: EdgeInsets.symmetric(
-                                                        horizontal: Responsive.responsiveNumber(4.0, 40.0, screenSize), vertical: 10.0),
+                                                        horizontal: Responsive
+                                                            .responsiveNumber(
+                                                                4.0,
+                                                                40.0,
+                                                                screenSize),
+                                                        vertical: 10.0),
                                                     child: Text(
                                                       'Cancel',
-                                                      style: TextStyle(color: Colors.white, fontSize: 14.0, fontFamily: 'NT'),
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 14.0,
+                                                          fontFamily: 'NT'),
                                                     ),
                                                   ),
                                                   onPressed: () {
@@ -300,8 +332,10 @@ class _NewAddressState extends State<NewAddress> {
                                               ),
                                               Expanded(
                                                 child: OutlinedButton(
-                                                  style: OutlinedButton.styleFrom(
-                                                    backgroundColor: Color(0xff141414),
+                                                  style:
+                                                      OutlinedButton.styleFrom(
+                                                    backgroundColor:
+                                                        Color(0xff141414),
                                                     side: BorderSide(
                                                       color: highLcolor,
                                                       width: 1.0,
@@ -309,10 +343,19 @@ class _NewAddressState extends State<NewAddress> {
                                                     primary: highLcolor,
                                                   ),
                                                   child: Padding(
-                                                    padding: EdgeInsets.symmetric(horizontal: isMobile(screenSize) ? 2.0 : 40.0, vertical: 10.0),
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: isMobile(
+                                                                    screenSize)
+                                                                ? 2.0
+                                                                : 40.0,
+                                                            vertical: 10.0),
                                                     child: Text(
                                                       'Choose your time',
-                                                      style: TextStyle(color: Colors.white, fontSize: 14.0, fontFamily: 'NT'),
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 14.0,
+                                                          fontFamily: 'NT'),
                                                     ),
                                                   ),
                                                   onPressed: () {
@@ -320,44 +363,78 @@ class _NewAddressState extends State<NewAddress> {
                                                       showTopSnackBar(
                                                         context,
                                                         CustomSnackBar.error(
-                                                          backgroundColor: Colors.red,
-                                                          message: "Please Select a date",
+                                                          backgroundColor:
+                                                              Colors.red,
+                                                          message:
+                                                              "Please Select a date",
                                                         ),
                                                       );
                                                     } else {
-                                                      print(double.parse(DateTime.now().hour.toString()));
+                                                      getItCart.setDate(
+                                                          DateFormat(
+                                                                  'dd/MM/yyyy')
+                                                              .format(date)
+                                                              .toString());
 
-                                                      getItCart.setDate(DateFormat('dd/MM/yyyy').format(date).toString());
-
-                                                      Navigator.of(context).push(
+                                                      Navigator.of(context)
+                                                          .push(
                                                         showPicker(
-                                                          minHour: officeTime(date),
+                                                          minHour:
+                                                              officeTime(date),
                                                           maxHour: 21.0,
-                                                          minuteInterval: MinuteInterval.THIRTY,
+                                                          minuteInterval:
+                                                              MinuteInterval
+                                                                  .THIRTY,
                                                           context: context,
-                                                          accentColor: highLcolorLight,
-                                                          blurredBackground: true,
-                                                          onChange: (timeOfDay) {
-                                                            time = timeOfDay.format(this.context).toString();
+                                                          accentColor:
+                                                              highLcolorLight,
+                                                          blurredBackground:
+                                                              true,
+                                                          onChange:
+                                                              (timeOfDay) {
+                                                            time = timeOfDay
+                                                                .format(this
+                                                                    .context)
+                                                                .toString();
                                                           },
                                                           value: TimeOfDay(
-                                                            hour: officeTime(date).toInt(),
+                                                            hour:
+                                                                officeTime(date)
+                                                                    .toInt(),
                                                             minute: 00,
                                                           ),
                                                           disableHour: false,
                                                           disableMinute: false,
-                                                          iosStylePicker: kIsWeb ? false : true,
+                                                          iosStylePicker: kIsWeb
+                                                              ? false
+                                                              : true,
                                                           displayHeader: true,
                                                           is24HrFormat: true,
                                                           dialogInsetPadding:
-                                                              EdgeInsets.symmetric(horizontal: isMobile(screenSize) ? 40.0 : 300.0, vertical: 24.0),
+                                                              EdgeInsets.symmetric(
+                                                                  horizontal:
+                                                                      isMobile(
+                                                                              screenSize)
+                                                                          ? 40.0
+                                                                          : 300.0,
+                                                                  vertical:
+                                                                      24.0),
                                                           themeData: ThemeData.dark().copyWith(
-                                                              colorScheme: ColorScheme.fromSwatch()
-                                                                  .copyWith(secondary: highLcolorLight, primary: Colors.white)),
+                                                              colorScheme: ColorScheme
+                                                                      .fromSwatch()
+                                                                  .copyWith(
+                                                                      secondary:
+                                                                          highLcolorLight,
+                                                                      primary:
+                                                                          Colors
+                                                                              .white)),
                                                           onSubmit: () {
-                                                            getItCart.setTime(time);
+                                                            getItCart
+                                                                .setTime(time);
 
-                                                            context.router.pushNamed('/service');
+                                                            context.router
+                                                                .pushNamed(
+                                                                    '/service');
                                                           },
                                                         ),
                                                       );
@@ -388,10 +465,14 @@ class _NewAddressState extends State<NewAddress> {
                               child: Ink(
                                 decoration: BoxDecoration(
                                   gradient: kGradiantButton,
-                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(5.0)),
                                 ),
                                 child: Container(
-                                  constraints: BoxConstraints(minWidth: 70, minHeight: 40.0), // min sizes for Material buttons
+                                  constraints: BoxConstraints(
+                                      minWidth: 70,
+                                      minHeight:
+                                          40.0), // min sizes for Material buttons
                                   alignment: Alignment.center,
                                   child: Text(
                                     'Continue  Shopping',
@@ -418,7 +499,7 @@ class _NewAddressState extends State<NewAddress> {
                             getAddText = 'Loading...';
                           });
                           // if (kIsWeb) {
-                          //   print('isWeb');
+                          //
                           //   locResponse = await getLocationData();
                           //   getItCart.setLatlong(locResponse['lat'], locResponse['lon']);
                           //
@@ -435,12 +516,15 @@ class _NewAddressState extends State<NewAddress> {
                               longitude = value.longitude;
                             });
 
-                            var address = await placemarkFromCoordinates(latitude, longitude).onError((error, stackTrace) {
+                            var address = await placemarkFromCoordinates(
+                                    latitude, longitude)
+                                .onError((error, stackTrace) {
                               showTopSnackBar(
                                 context,
                                 CustomSnackBar.info(
                                   backgroundColor: highLcolor,
-                                  message: "Not able to determine your location",
+                                  message:
+                                      "Not able to determine your location",
                                 ),
                               );
                               return [];
@@ -449,11 +533,26 @@ class _NewAddressState extends State<NewAddress> {
 
                             if (address != []) {
                               setState(() {
-                                postalTextFeild.text = (address[0].postalCode == null ? '' : address[0].postalCode)!;
-                                landmarkTextFeild.text = (address[0].subLocality == null ? '' : address[0].subLocality)!;
-                                houseNumberTextFeild.text = (address[0].name == null ? '' : address[0].name)!;
-                                cityTextFeild.text = (address[0].locality == null ? '' : address[0].locality)!;
-                                stateTextFeild.text = (address[0].administrativeArea == null ? '' : address[0].administrativeArea)!;
+                                postalTextFeild.text =
+                                    (address[0].postalCode == null
+                                        ? ''
+                                        : address[0].postalCode)!;
+                                landmarkTextFeild.text =
+                                    (address[0].subLocality == null
+                                        ? ''
+                                        : address[0].subLocality)!;
+                                houseNumberTextFeild.text =
+                                    (address[0].name == null
+                                        ? ''
+                                        : address[0].name)!;
+                                cityTextFeild.text =
+                                    (address[0].locality == null
+                                        ? ''
+                                        : address[0].locality)!;
+                                stateTextFeild.text =
+                                    (address[0].administrativeArea == null
+                                        ? ''
+                                        : address[0].administrativeArea)!;
                               });
                             }
                           } catch (e) {
@@ -472,10 +571,14 @@ class _NewAddressState extends State<NewAddress> {
                               child: Ink(
                                 decoration: BoxDecoration(
                                   color: highLcolor,
-                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(5.0)),
                                 ),
                                 child: Container(
-                                  constraints: BoxConstraints(minWidth: 70, minHeight: 40.0), // min sizes for Material buttons
+                                  constraints: BoxConstraints(
+                                      minWidth: 70,
+                                      minHeight:
+                                          40.0), // min sizes for Material buttons
                                   alignment: Alignment.center,
                                   child: Text(
                                     getAddText,

@@ -77,7 +77,8 @@ class _SavedAddressState extends State<SavedAddress> {
       ),
     ));
 
-    var address = await Dio().get("$baseUrl/get_customer_addresses/${prefs.get("userPhone")}");
+    var address = await Dio()
+        .get("$baseUrl/get_customer_addresses/${prefs.get("userPhone")}");
 
     List cardList = address.data;
     for (var e in cardList) {
@@ -89,11 +90,11 @@ class _SavedAddressState extends State<SavedAddress> {
             var longitude;
 
             // if (kIsWeb) {
-            //   print('isWeb');
+            //
             //   locResponse = await getLocationData();
             //   getItCart.setLatlong(locResponse['lat'], locResponse['lon']);
             // } else {
-            //   print('isAndroid');
+            //
             //   await determinePosition().then((value) {
             //     latitude = value.latitude;
             //     longitude = value.longitude;
@@ -102,11 +103,12 @@ class _SavedAddressState extends State<SavedAddress> {
             //   getItCart.setLatlong(latitude, longitude);
             // }
             getItCart.setLatlong(0, 0);
-            getItCart.setLocation('''${getItUserIn.userName}
+            getItCart.setLocation(
+                '''${getItUserIn.userName}
 ${e['address1']}, 
 ${e['address2']}
 ${e['city']}, ${e['state']} - ${e['pincode']}''');
-            print(e['pincode']);
+
             getItCart.setPin(e['pincode']);
 
             if (widget.expert) {
@@ -130,17 +132,25 @@ ${e['city']}, ${e['state']} - ${e['pincode']}''');
                           height: screenSize.height / 2,
                           width: 400.0,
                           child: SfDateRangePicker(
-                            selectionTextStyle: TextStyle(fontSize: 15.0, color: Colors.white70),
+                            selectionTextStyle: TextStyle(
+                                fontSize: 15.0, color: Colors.white70),
                             selectionColor: highLcolor,
                             todayHighlightColor: highLcolorDark,
                             selectionRadius: 90.0,
-                            selectionShape: DateRangePickerSelectionShape.rectangle,
+                            selectionShape:
+                                DateRangePickerSelectionShape.rectangle,
                             headerHeight: 100.0,
-                            headerStyle: DateRangePickerHeaderStyle(textAlign: TextAlign.center),
+                            headerStyle: DateRangePickerHeaderStyle(
+                                textAlign: TextAlign.center),
                             showNavigationArrow: true,
                             monthCellStyle: DateRangePickerMonthCellStyle(
-                              textStyle: TextStyle(fontFamily: "tex", color: Colors.white, fontSize: 16.0),
-                              disabledDatesTextStyle: TextStyle(fontStyle: FontStyle.normal, color: Colors.white54),
+                              textStyle: TextStyle(
+                                  fontFamily: "tex",
+                                  color: Colors.white,
+                                  fontSize: 16.0),
+                              disabledDatesTextStyle: TextStyle(
+                                  fontStyle: FontStyle.normal,
+                                  color: Colors.white54),
                             ),
                             selectableDayPredicate: decideWhichDayToEnable,
                             backgroundColor: Colors.black,
@@ -166,10 +176,15 @@ ${e['city']}, ${e['state']} - ${e['pincode']}''');
                                   ),
                                   child: Padding(
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: Responsive.responsiveNumber(4.0, 40.0, screenSize), vertical: 10.0),
+                                        horizontal: Responsive.responsiveNumber(
+                                            4.0, 40.0, screenSize),
+                                        vertical: 10.0),
                                     child: Text(
                                       'Cancel',
-                                      style: TextStyle(color: Colors.white, fontSize: 14.0, fontFamily: 'NT'),
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 14.0,
+                                          fontFamily: 'NT'),
                                     ),
                                   ),
                                   onPressed: () {
@@ -189,10 +204,15 @@ ${e['city']}, ${e['state']} - ${e['pincode']}''');
                                   ),
                                   child: Padding(
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: isMobile(screenSize) ? 2.0 : 40.0, vertical: 10.0),
+                                        horizontal:
+                                            isMobile(screenSize) ? 2.0 : 40.0,
+                                        vertical: 10.0),
                                     child: Text(
                                       'Choose your time',
-                                      style: TextStyle(color: Colors.white, fontSize: 14.0, fontFamily: 'NT'),
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 14.0,
+                                          fontFamily: 'NT'),
                                     ),
                                   ),
                                   onPressed: () {
@@ -205,9 +225,9 @@ ${e['city']}, ${e['state']} - ${e['pincode']}''');
                                         ),
                                       );
                                     } else {
-                                      print(double.parse(DateTime.now().hour.toString()));
-
-                                      getItCart.setDate(DateFormat('dd/MM/yyyy').format(date).toString());
+                                      getItCart.setDate(DateFormat('dd/MM/yyyy')
+                                          .format(date)
+                                          .toString());
 
                                       Navigator.of(context).push(
                                         showPicker(
@@ -218,7 +238,9 @@ ${e['city']}, ${e['state']} - ${e['pincode']}''');
                                           accentColor: highLcolorLight,
                                           blurredBackground: true,
                                           onChange: (timeOfDay) {
-                                            time = timeOfDay.format(this.context).toString();
+                                            time = timeOfDay
+                                                .format(this.context)
+                                                .toString();
                                           },
                                           value: TimeOfDay(
                                             hour: officeTime(date).toInt(),
@@ -229,15 +251,26 @@ ${e['city']}, ${e['state']} - ${e['pincode']}''');
                                           iosStylePicker: kIsWeb ? false : true,
                                           displayHeader: true,
                                           is24HrFormat: true,
-                                          dialogInsetPadding: EdgeInsets.symmetric(
-                                              horizontal: isMobile(screenSize) ? 40.0 : 300.0, vertical: 24.0),
+                                          dialogInsetPadding:
+                                              EdgeInsets.symmetric(
+                                                  horizontal:
+                                                      isMobile(screenSize)
+                                                          ? 40.0
+                                                          : 300.0,
+                                                  vertical: 24.0),
                                           themeData: ThemeData.dark().copyWith(
-                                              colorScheme: ColorScheme.fromSwatch()
-                                                  .copyWith(secondary: highLcolorLight, primary: Colors.white)),
+                                              colorScheme:
+                                                  ColorScheme.fromSwatch()
+                                                      .copyWith(
+                                                          secondary:
+                                                              highLcolorLight,
+                                                          primary:
+                                                              Colors.white)),
                                           onSubmit: () {
                                             getItCart.setTime(time);
 
-                                            context.router.pushNamed('/service');
+                                            context.router
+                                                .pushNamed('/service');
                                           },
                                         ),
                                       );
@@ -259,7 +292,8 @@ ${e['city']}, ${e['state']} - ${e['pincode']}''');
           },
           style: ButtonStyle(
             foregroundColor: getColor(Colors.white, Colors.black),
-            backgroundColor: getColor(Color(0xffebab8b).withOpacity(0.1), Color(0xffebab8b).withOpacity(1)),
+            backgroundColor: getColor(Color(0xffebab8b).withOpacity(0.1),
+                Color(0xffebab8b).withOpacity(1)),
             side: getBorder(Color(0xffebab8b), Color(0xffbd7853)),
           ),
           child: Padding(
@@ -275,15 +309,18 @@ ${e['city']}, ${e['state']} - ${e['pincode']}''');
                       children: [
                         Icon(
                           Icons.home,
-                          size: Responsive.responsiveNumber(18.0, 25.0, screenSize),
+                          size: Responsive.responsiveNumber(
+                              18.0, 25.0, screenSize),
                         ),
                         SizedBox(
-                          width: Responsive.responsiveNumber(5.0, 10.0, screenSize),
+                          width: Responsive.responsiveNumber(
+                              5.0, 10.0, screenSize),
                         ),
                         Text(
                           'Home',
                           style: TextStyle(
-                            fontSize: Responsive.responsiveNumber(18.0, 25.0, screenSize),
+                            fontSize: Responsive.responsiveNumber(
+                                18.0, 25.0, screenSize),
                             fontWeight: FontWeight.bold,
                             letterSpacing: 1,
                             fontFamily: 'NT',
@@ -320,12 +357,14 @@ ${e['city']}, ${e['state']} - ${e['pincode']} ''',
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: Responsive.responsiveNumber(20.0, 40.0, screenSize)),
+                  padding: EdgeInsets.only(
+                      top: Responsive.responsiveNumber(20.0, 40.0, screenSize)),
                   child: Row(
                     children: [
                       InkWell(
                         onTap: () async {
-                          await Dio().delete('$baseUrl/delete_address_id/${e['addressId']}');
+                          await Dio().delete(
+                              '$baseUrl/delete_address_id/${e['addressId']}');
                           savedAddress(prefs, screenSize);
                         },
                         child: Padding(
@@ -338,7 +377,8 @@ ${e['city']}, ${e['state']} - ${e['pincode']} ''',
                                 size: 20,
                               ),
                               SizedBox(
-                                width: Responsive.responsiveNumber(5.0, 10.0, screenSize),
+                                width: Responsive.responsiveNumber(
+                                    5.0, 10.0, screenSize),
                               ),
                               Text(
                                 'Remove',
@@ -354,7 +394,8 @@ ${e['city']}, ${e['state']} - ${e['pincode']} ''',
                         ),
                       ),
                       SizedBox(
-                        width: Responsive.responsiveNumber(20.0, 40.0, screenSize),
+                        width:
+                            Responsive.responsiveNumber(20.0, 40.0, screenSize),
                       ),
                       // Row(
                       //   crossAxisAlignment: CrossAxisAlignment.end,
@@ -408,7 +449,8 @@ ${e['city']}, ${e['state']} - ${e['pincode']} ''',
             ),
           )
         : GridView.count(
-            childAspectRatio: Responsive.responsiveNumber(1.0, 1.45, screenSize),
+            childAspectRatio:
+                Responsive.responsiveNumber(1.0, 1.45, screenSize),
             crossAxisCount: Responsive.responsiveNumber(1, 2, screenSize),
             children: addressList,
           );

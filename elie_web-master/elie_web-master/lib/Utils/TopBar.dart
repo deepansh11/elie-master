@@ -83,7 +83,6 @@ class _TopBarState extends State<TopBar> with SingleTickerProviderStateMixin {
     } else {
       context.router.pushNamed(path);
       currentPage.setCurrentPathANDTopColorOFF(path);
-      print(currentPage.currentPage);
     }
     if (title == 'SPA') {
       getItCart.setSpa(true);
@@ -239,7 +238,6 @@ class _TopBarState extends State<TopBar> with SingleTickerProviderStateMixin {
                       onTap: () {
                         if ('/' != currentPage.currentPage) {
                           currentPage.setCurrentPathANDTopColorOFF('/');
-                          print(currentPage.currentPage);
                         }
                       },
                       child: Image.asset(

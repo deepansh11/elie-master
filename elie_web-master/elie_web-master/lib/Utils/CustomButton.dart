@@ -28,10 +28,6 @@ class CustomButton extends StatelessWidget {
           onPressed: () async {
             getItCart.setPackageId(productData.id);
 
-            print(getItCart.packageId);
-
-            print(getItCart.isPackage);
-
             SharedPreferences prefs = await SharedPreferences.getInstance();
             if (prefs.get("userPhone") != null) {
               var userName = prefs.get("userName");
@@ -53,10 +49,6 @@ class CustomButton extends StatelessWidget {
 
               var sendData = await API().addEnquiry(parsedJson);
 
-              print(jsonEncode(parsedJson));
-              print(sendData);
-
-              print('Enquiry page');
               context.router.pushNamed('/Enquiry');
             } else {
               context.router.pushNamed('/LoginPage');
@@ -94,7 +86,7 @@ class CustomButton extends StatelessWidget {
           hoverColor: Color(0xff141414),
           onTap: () {
             getItCart.isPackage = true;
-            print('from service tab' + productData.id.toString());
+
             var p = '/PackagesDescPage/${productData.id}';
             getItCart.setPackageId(productData.id);
             getItPages.setCurrentPathANDTopColorOFF(p);

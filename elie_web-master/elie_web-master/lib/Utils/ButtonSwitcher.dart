@@ -23,10 +23,10 @@ class _ButtonSwitcherState extends State<ButtonSwitcher>
   @override
   Widget build(BuildContext context) {
     final style =
-        TextStyle(fontWeight: FontWeight.bold, fontSize: 20, fontFamily: 'NT');
+        TextStyle(fontWeight: FontWeight.bold, fontSize: 21, fontFamily: 'NT');
 
     final labelStyle =
-        TextStyle(fontWeight: FontWeight.bold, fontSize: 20, fontFamily: 'NT');
+        TextStyle(fontWeight: FontWeight.bold, fontSize: 21, fontFamily: 'NT');
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -50,13 +50,15 @@ class _ButtonSwitcherState extends State<ButtonSwitcher>
             labelStyle: labelStyle,
             tabs: [
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                 child: Text(
                   'At Home',
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                 child: Text(
                   'At Salon',
                 ),

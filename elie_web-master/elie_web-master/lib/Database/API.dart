@@ -53,11 +53,9 @@ class API {
     response = await dio.put(
       '$baseUrl/updateProductInventoryAfterCheckOut/$productId?decrease_stock_by=-$quantity',
     );
-    print(response);
   }
 
   Future<Response> addOrder(json) async {
-    print(json.toString());
     response = await dio.post('$baseUrl/addOrder', data: jsonEncode(json));
     return response;
   }
@@ -71,7 +69,6 @@ class API {
       List<Customers> cards = user.map((e) => Customers.fromJson(e)).toList();
       return cards;
     } else {
-      print('Error!!');
       throw Exception('Failed to Load Post');
     }
   }
@@ -89,7 +86,6 @@ class API {
 
       return cards;
     } else {
-      print('Error!!');
       throw Exception('Failed to Load Post');
     }
   }
@@ -107,7 +103,6 @@ class API {
         return null;
       }
     } else {
-      print('Error!!');
       return null;
     }
   }
@@ -122,11 +117,9 @@ class API {
         var cards = Experts.fromJson(user);
         return cards;
       } else {
-        print('expert null');
         return null;
       }
     } else {
-      print('Error!!');
       return null;
     }
   }
@@ -139,7 +132,6 @@ class API {
       List<Tracking> cards = loc.map((e) => Tracking.fromJson(e)).toList();
       return cards;
     } else {
-      print('Error!!');
       return null;
     }
   }
@@ -153,7 +145,6 @@ class API {
           productList.map((e) => Product.fromJson(e)).toList();
       return cards;
     } else {
-      print('Error!!');
       throw Exception('Failed to Load Post');
     }
   }
@@ -166,10 +157,9 @@ class API {
       for (var d in response.data) {
         cards.add(await getProductsByID(d));
       }
-      print(cards);
+
       return cards;
     } else {
-      print('Error!!');
       throw Exception('Failed to Load Post');
     }
   }
@@ -178,7 +168,6 @@ class API {
     response = await dio.get('$baseUrl/getProductByID/$id');
 
     if (response.statusCode == 200 && response.data != null) {
-      print(response.data);
       return Product.fromJson(response.data);
     } else {
       return Product(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
@@ -194,7 +183,6 @@ class API {
           serviceList.map((e) => Services.fromJson(e)).toList();
       return cards;
     } else {
-      print('Error!!');
       throw Exception('Failed to Load Post');
     }
   }
@@ -211,10 +199,9 @@ class API {
         return packagesList;
       } on Exception catch (e, s) {
         // TODO
-        print('$e $s');
+
       }
     } else {
-      print('Error!!');
       throw Exception('Failed to Load Packages');
     }
     // try {
@@ -224,7 +211,7 @@ class API {
     //   });
     //   return packagesList;
     // } catch (e, s) {
-    //   print('$e,$s');
+    //
     // }
   }
 
@@ -232,10 +219,8 @@ class API {
     response = await dio.get('$baseUrl/getPackagesImageByID/$id');
 
     if (response.statusCode == 200) {
-      print(response.data);
       return response.data;
     } else {
-      print('Error!!');
       throw Exception('Failed to Load Packages');
     }
   }
@@ -243,10 +228,8 @@ class API {
   Future<Packages?> getPackagesById(String? id) async {
     response = await dio.get('$baseUrl/getPackagesByID/$id');
     if (response.statusCode == 200) {
-      print(response.data);
       return Packages.fromJson(response.data);
     } else {
-      print('Error!!');
       throw Exception('Failed to Load Packages');
     }
     // return Packages.fromJson();
@@ -254,33 +237,29 @@ class API {
 
   Future<List<About>?> getLanding() async {
     response = await dio.get('$baseUrl/getLandingItems');
-    if (response.statusCode == 200) {
-      print(response.data);
-      var data = response.data;
-      List<About> about = data.map((e) => About.fromJson(e)).toList();
-      return about;
-    } else {
-      print('Error!!');
-      throw Exception('Failed to Load landing data');
-    }
+    try {
+      if (response.statusCode == 200) {
+        List data = response.data;
+        List<About>? about = data.map((e) => About.fromJson(e)).toList();
+        return about;
+      } else {
+        throw Exception('Failed to Load landing data');
+      }
+    } catch (e, s) {}
   }
 
   getLandingImage(id) async {
     response = await dio.get('$baseUrl/getLandingImageByID/$id');
 
     if (response.statusCode == 200) {
-      print(response.data);
       return response.data;
     } else {
-      print('Error!!');
       throw Exception('Failed to Load Images');
     }
   }
 
   addEnquiry(Enquiry enquiry) async {
     response = await dio.post('$baseUrl/addEnquiry', data: jsonEncode(enquiry));
-    print('response: ${response.statusMessage}');
-    print('response: ${response.data}');
   }
 
   Future<Services> getServiceByID(id) async {
@@ -304,7 +283,6 @@ class API {
 
       return cards;
     } else {
-      print('Error!!');
       throw Exception('Failed to Load Post');
     }
   }
@@ -318,7 +296,6 @@ class API {
 
       return cards;
     } else {
-      print('Error!!');
       throw Exception('Failed to Load Post');
     }
   }
@@ -331,7 +308,6 @@ class API {
       List<Order> cards = serviceList.map((e) => Order.fromJson(e)).toList();
       return cards;
     } else {
-      print('Error!!');
       throw Exception('Failed to Load Post');
     }
   }
@@ -344,7 +320,6 @@ class API {
       List<Order> cards = serviceList.map((e) => Order.fromJson(e)).toList();
       return cards;
     } else {
-      print('Error!!');
       throw Exception('Failed to Load Post');
     }
   }
@@ -355,7 +330,6 @@ class API {
     if (response.statusCode == 200) {
       return Order.fromJson(response.data);
     } else {
-      print('Error!!');
       throw Exception('Failed to Load Post');
     }
   }

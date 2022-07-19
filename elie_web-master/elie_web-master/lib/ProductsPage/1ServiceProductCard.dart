@@ -28,7 +28,6 @@ class ServiceProductCard extends StatelessWidget {
     var screenSize = MediaQuery.of(context).size;
     return InkWell(
       onTap: () {
-        print('from service tab' + productData.id.toString());
         var p = isProduct
             ? '/ProductDescPage/${productData.id}'
             : '/ServiceDescPage/${productData.id}';

@@ -31,7 +31,8 @@ class _ProductOrderDetailState extends State<ProductOrderDetail> {
       if (item.productId != null) {
         var p = await API().getProductsByID(item.productId);
         if (p.id != 0) {
-          List review = (await Dio().get('$baseUrl/get_order_reviewsByIdandOrderId/${item.id}',
+          List review = (await Dio().get(
+                  '$baseUrl/get_order_reviewsByIdandOrderId/${item.id}',
                   queryParameters: {"orderId": item.orderId}))
               .data;
           orderList.add([item, p, review]);
@@ -94,7 +95,8 @@ class _ProductOrderDetailState extends State<ProductOrderDetail> {
                       ),
                     ],
                     rows: List.generate(orderList.length, (index) {
-                      return recentFileDataRow(orderList[index][0], orderList[index][1], orderList[index][2]);
+                      return recentFileDataRow(orderList[index][0],
+                          orderList[index][1], orderList[index][2]);
                     }),
                   ),
                 ),
@@ -150,11 +152,15 @@ class _ProductOrderDetailState extends State<ProductOrderDetail> {
                     primary: highLcolor,
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     child: Text(
                       review.isEmpty ? 'Review' : 'Edit Review',
-                      style:
-                          TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15, fontFamily: 'NT'),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          fontFamily: 'NT'),
                     ),
                   ),
                   onPressed: () async {
@@ -181,12 +187,14 @@ class _ProductOrderDetailState extends State<ProductOrderDetail> {
                       // logo
                       image: '$baseUrl/getProductImageByID/${product.id}',
                       submitButtonText: 'Submit',
-                      submitButtonTextStyle: TextStyle(color: highLcolor, fontSize: 18),
+                      submitButtonTextStyle:
+                          TextStyle(color: highLcolor, fontSize: 18),
                       commentHint: 'Tell us about your experience',
 
                       onCancelled: () => print('cancelled'),
                       onSubmitted: (response) async {
-                        print('rating: ${response.rating}, comment: ${response.comment}');
+                        print(
+                            'rating: ${response.rating}, comment: ${response.comment}');
 
                         await Dio().post('$baseUrl/add_review/', data: {
                           "reviewId": order.id,
@@ -209,12 +217,14 @@ class _ProductOrderDetailState extends State<ProductOrderDetail> {
                     if (review.isEmpty) {
                       showDialog(
                           context: context,
-                          barrierDismissible: true, // set to false if you want to force a rating
+                          barrierDismissible:
+                              true, // set to false if you want to force a rating
                           builder: (context) => rateDia);
                     } else {
                       TextEditingController descContt = TextEditingController();
                       descContt.text = review[0]['reviewDesc'] ?? "";
-                      var ratingStar = double.parse(review[0]['rating'].toString());
+                      var ratingStar =
+                          double.parse(review[0]['rating'].toString());
                       var rateDiaD = RatingDialog(
                         commentController: descContt,
                         initialRating: ratingStar,
@@ -232,17 +242,20 @@ class _ProductOrderDetailState extends State<ProductOrderDetail> {
                         message: Text(
                           'order #${order.orderId}',
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 15, color: highLcolorLight),
+                          style:
+                              TextStyle(fontSize: 15, color: highLcolorLight),
                         ),
                         // logo
                         image: '$baseUrl/getProductImageByID/${product.id}',
                         submitButtonText: 'Submit',
-                        submitButtonTextStyle: TextStyle(color: highLcolor, fontSize: 18),
+                        submitButtonTextStyle:
+                            TextStyle(color: highLcolor, fontSize: 18),
                         commentHint: 'Tell us about your experience',
 
                         onCancelled: () => print('cancelled'),
                         onSubmitted: (response) async {
-                          print('rating: ${response.rating}, comment: ${response.comment}');
+                          print(
+                              'rating: ${response.rating}, comment: ${response.comment}');
 
                           await Dio().post('$baseUrl/add_review/', data: {
                             "reviewId": order.id,
@@ -263,7 +276,8 @@ class _ProductOrderDetailState extends State<ProductOrderDetail> {
 
                       showDialog(
                           context: context,
-                          barrierDismissible: true, // set to false if you want to force a rating
+                          barrierDismissible:
+                              true, // set to false if you want to force a rating
                           builder: (context) => rateDiaD);
                     }
                   },
@@ -280,16 +294,22 @@ class _ProductOrderDetailState extends State<ProductOrderDetail> {
                     primary: highLcolor,
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     child: Text(
                       'Cancel',
-                      style:
-                          TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15, fontFamily: 'NT'),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                          fontFamily: 'NT'),
                     ),
                   ),
                   onPressed: () async {
-                    await API().updateOrderById(order.orderId, 'status', 'Canceled');
-                    await API().updateOrderById(order.orderId, 'completeDate', DateTime.now().toString());
+                    await API()
+                        .updateOrderById(order.orderId, 'status', 'Canceled');
+                    await API().updateOrderById(order.orderId, 'completeDate',
+                        DateTime.now().toString());
 
                     getOrders();
                   },

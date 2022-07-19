@@ -1,18 +1,25 @@
 import 'package:elie_web/Database/API.dart';
 import 'package:elie_web/Utils/Constants.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:elie_web/Utils/LandingCard.dart';
+import 'package:elie_web/Utils/LandingPageTitle.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
-class About extends StatefulWidget {
-  const About({Key? key}) : super(key: key);
+import '../Database/About.dart';
+
+class LandingPage extends StatefulWidget {
+  const LandingPage({Key? key}) : super(key: key);
 
   @override
-  State<About> createState() => _AboutState();
+  State<LandingPage> createState() => _LandingPageState();
 }
 
-class _AboutState extends State<About> {
+class _LandingPageState extends State<LandingPage> {
+  List<About> women = [];
+
+  List<About> men = [];
+
+  List<About> unisex = [];
+
   @override
   Widget build(BuildContext context) {
     var style = TextStyle(color: highLcolor, fontFamily: 'NT', fontSize: 35);
@@ -53,35 +60,15 @@ doesn’t take all day.''';
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        children: [
-                          Image.asset(
-                            'images/mascot.jpg',
-                            fit: BoxFit.cover,
-                            height: MediaQuery.of(context).size.height * 0.2,
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            'DR. ELIE',
-                            style: style,
-                          ),
-                          Text(
-                            'ORGANICS',
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.white,
-                              letterSpacing: 3,
-                            ),
-                          ),
-                        ],
+                      Image.asset(
+                        'images/elie-logo.png',
+                        fit: BoxFit.contain,
+                        height: MediaQuery.of(context).size.height * 0.3,
                       ),
-                      Column(
-                        children: [
-                          Text('ELIE', style: style),
-                          Text('WORLD', style: style),
-                        ],
+                      Image.asset(
+                        'images/logo.png',
+                        fit: BoxFit.contain,
+                        height: MediaQuery.of(context).size.height * 0.3,
                       ),
                     ],
                   ),
@@ -117,20 +104,122 @@ doesn’t take all day.''';
                       Text(
                         data,
                         style: style.copyWith(
-                            fontSize: 16,
-                            color: Colors.white,
-                            fontWeight: FontWeight.normal),
+                          fontSize: 12,
+                          color: Colors.white,
+                          fontWeight: FontWeight.normal,
+                        ),
                         textAlign: TextAlign.center,
+                      ),
+                      SizedBox(
+                        height: 20,
                       ),
                     ],
                   ),
                 ),
               ],
             ),
-            Container(
+            SizedBox(
+              height: 40,
+            ),
+            Center(
+              child: Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(
+                      text: 'Selfcare ',
+                      style: style.copyWith(
+                        color: Colors.black,
+                        fontFamily: 'QT',
+                        fontSize: 60,
+                      ),
+                    ),
+                    TextSpan(
+                      text: 'Essentials',
+                      style: style.copyWith(
+                        color: Colors.black,
+                        fontSize: 60,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
               height: 20,
-              width: 20,
-            )
+            ),
+            FutureBuilder(
+                future: API().getLanding(),
+                builder: (context, AsyncSnapshot snapshot) {
+                  List<About>? data = snapshot.data;
+
+                  if (data != null) {
+                    for (About d in data) {
+                      if (d.type == 'W') {
+                        women.add(d);
+                      }
+                      if (d.type == 'M') {
+                        men.add(d);
+                      }
+                      if (d.type == 'U') {
+                        unisex.add(d);
+                      }
+                    }
+                  }
+
+                  return Column(
+                    children: [
+                      LandingPageTitle(
+                        title: 'Women',
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          for (About? d in women)
+                            LandingPageCard(
+                              data: d,
+                            ),
+                          Image.asset(
+                            'images/model.png',
+                            fit: BoxFit.contain,
+                            height: MediaQuery.of(context).size.height * 0.8,
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      LandingPageTitle(title: 'Men'),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          for (About? d in men)
+                            LandingPageCard(
+                              data: d,
+                            )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      LandingPageTitle(title: 'Unisex'),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          for (About? d in unisex)
+                            LandingPageCard(
+                              data: d,
+                            )
+                        ],
+                      ),
+                    ],
+                  );
+                }),
           ],
         ),
       ),

@@ -31,8 +31,7 @@ class _SideMenuState extends State<SideMenu> {
 
   getVersion() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    print("Build: ${packageInfo.buildNumber}");
-    print("Version: ${packageInfo.version}");
+
     version = packageInfo.version.toString();
     setState(() {});
   }
@@ -47,7 +46,6 @@ class _SideMenuState extends State<SideMenu> {
 
   @override
   Widget build(BuildContext context) {
-    print("Version: $version");
     var screenSize = MediaQuery.of(context).size;
     return Container(
       color: Color(0xff141414),

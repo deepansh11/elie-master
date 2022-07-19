@@ -43,13 +43,11 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
 
     widget.context.router.pushNamed(path);
     currentPage.setCurrentPathANDTopColorOFF(path);
-    print(currentPage.currentPage);
   }
 
   getVersion() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    print("Build: ${packageInfo.buildNumber}");
-    print("Version: ${packageInfo.version}");
+
     version = packageInfo.version.toString();
     setState(() {});
   }

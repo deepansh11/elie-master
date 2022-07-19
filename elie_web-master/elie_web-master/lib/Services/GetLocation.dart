@@ -6,7 +6,7 @@ var url = Uri.parse('http://ip-api.com/json/');
 
 getLocationData() async {
   var response = await http.get(url);
-  print(json.decode(response.body));
+
   return json.decode(response.body);
 }
 

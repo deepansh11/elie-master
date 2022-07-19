@@ -42,8 +42,6 @@ class _ThankYouPageState extends State<ThankYouPage> {
 
     for (var product in cart) {
       if (product.productId != null) {
-        print("Product Details: ${product.productId} ${product.quantity}");
-
         await API().updateStock(product.productId, product.quantity);
       }
     }
@@ -54,7 +52,7 @@ class _ThankYouPageState extends State<ThankYouPage> {
     addOrder();
     super.initState();
     playLocal();
-    // print(getItCart.cartItems);
+    //
     updateStockData();
     getItCart.clearCart();
   }

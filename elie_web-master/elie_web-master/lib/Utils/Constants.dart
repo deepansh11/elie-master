@@ -54,8 +54,6 @@ var kGradiantBackground = LinearGradient(
     ]);
 
 officeTime(date) {
-  print((double.parse(DateTime.now().hour.toString()) == 23.0 &&
-      DateTime.now().day == date.day));
   return (double.parse(DateTime.now().hour.toString()) == 0.0 ||
           (double.parse(DateTime.now().hour.toString()) == 1.0) ||
           (double.parse(DateTime.now().hour.toString()) == 2.0) ||
