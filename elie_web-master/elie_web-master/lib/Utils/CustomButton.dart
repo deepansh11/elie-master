@@ -40,14 +40,17 @@ class CustomButton extends StatelessWidget {
                   userPhone.toString(),
                   false,
                   false,
-                  productData.id.toString(),
+                  productData,
                   '',
                   '',
                   false,
                   productData.numberOfTherapists,
-                  '');
+                  '',
+                  0,
+                  0,
+                  0);
 
-              var sendData = await API().addEnquiry(parsedJson);
+              await API().addEnquiry(parsedJson);
 
               context.router.pushNamed('/Enquiry');
             } else {

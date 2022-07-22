@@ -24,25 +24,32 @@ class Enquiry {
   final String? userPhone;
   final bool? packageStatus;
   final bool? paymentStatus;
-  final String? packageId;
+  final Packages? package;
   final String? date;
   final String? time;
   final bool isHome;
   final String? location;
   final int? numberOfTherapists;
+  final double? totalAmount;
+  final double? paidAmount;
+  final double? balance;
 
   Enquiry(
-      this.userName,
-      this.userEmail,
-      this.userPhone,
-      this.packageStatus,
-      this.paymentStatus,
-      this.packageId,
-      this.date,
-      this.location,
-      this.isHome,
-      this.numberOfTherapists,
-      this.time);
+    this.userName,
+    this.userEmail,
+    this.userPhone,
+    this.packageStatus,
+    this.paymentStatus,
+    this.package,
+    this.date,
+    this.location,
+    this.isHome,
+    this.numberOfTherapists,
+    this.time,
+    this.totalAmount,
+    this.paidAmount,
+    this.balance,
+  );
 
   factory Enquiry.fromJson(Map<String, dynamic> json) =>
       _$EnquiryFromJson(json);

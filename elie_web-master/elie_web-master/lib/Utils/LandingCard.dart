@@ -22,7 +22,7 @@ class LandingPageCard extends StatelessWidget {
     var style = TextStyle(
       color: Colors.black,
       fontFamily: 'NT',
-      fontSize: Responsive.responsiveNumber(18, 24, screenSize),
+      fontSize: Responsive.responsiveNumber(18, 22, screenSize),
       fontWeight: FontWeight.bold,
     );
 
@@ -68,7 +68,7 @@ class LandingPageCard extends StatelessWidget {
             ),
             Container(
               height: Responsive.responsiveNumber(200, 320, screenSize),
-              width: 220,
+              width: 230,
               child: Column(
                 crossAxisAlignment: isMobile(screenSize)
                     ? CrossAxisAlignment.center
@@ -78,9 +78,7 @@ class LandingPageCard extends StatelessWidget {
                     : MainAxisAlignment.start,
                 children: [
                   Text(
-                    !shouldReplace
-                        ? data?.title?.replaceAll(' ', '\n').toString() ?? ''
-                        : data?.title?.toString() ?? '',
+                    data?.title?.toString() ?? '',
                     style: style,
                     maxLines: 2,
                     textAlign: isMobile(screenSize)

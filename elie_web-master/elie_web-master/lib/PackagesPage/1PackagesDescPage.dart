@@ -320,14 +320,17 @@ class _PackagesDescState extends State<PackagesDesc> {
                                                     userPhone.toString(),
                                                     false,
                                                     false,
-                                                    widget.id,
+                                                    data,
                                                     '',
                                                     '',
                                                     false,
                                                     data?.numberOfTherapists,
-                                                    '');
+                                                    '',
+                                                    0,
+                                                    0,
+                                                    0);
 
-                                                var sendData = await API()
+                                                await API()
                                                     .addEnquiry(parsedJson);
 
                                                 context.router
@@ -558,14 +561,17 @@ class _PackagesDescState extends State<PackagesDesc> {
                                                       userPhone.toString(),
                                                       false,
                                                       false,
-                                                      widget.id,
+                                                      data,
                                                       '',
                                                       '',
                                                       false,
                                                       data?.numberOfTherapists,
-                                                      '');
+                                                      '',
+                                                      0,
+                                                      0,
+                                                      0);
 
-                                                  var sendData = await API()
+                                                  await API()
                                                       .addEnquiry(parsedJson);
 
                                                   context.router
