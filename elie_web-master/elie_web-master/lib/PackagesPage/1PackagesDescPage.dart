@@ -180,6 +180,7 @@ class _PackagesDescState extends State<PackagesDesc> {
                                         (context, url, progress) => Center(
                                       child: CircularProgressIndicator(
                                         value: progress.progress,
+                                        color: highLcolorDark,
                                       ),
                                     ),
                                     errorWidget: (context, url, error) =>
@@ -387,6 +388,7 @@ class _PackagesDescState extends State<PackagesDesc> {
                                                   Center(
                                             child: CircularProgressIndicator(
                                               value: progress.progress,
+                                              color: highLcolorDark,
                                             ),
                                           ),
                                           errorWidget: (context, url, error) =>
@@ -591,7 +593,9 @@ class _PackagesDescState extends State<PackagesDesc> {
                                   Responsive.responsiveNumber(
                                       2.2, 2, screenSize),
                               width: screenSize.width,
-                              child: PackageCarousel(),
+                              child: PackageCarousel(
+                                id: data?.id ?? 0,
+                              ),
                             ),
                           ),
                           isMobile(screenSize) ? Container() : Footer()

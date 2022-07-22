@@ -4,12 +4,12 @@ import 'package:elie_web/Utils/Constants.dart';
 import 'package:flutter/material.dart';
 
 class LandingPageCard extends StatelessWidget {
-  const LandingPageCard(
-      {Key? key,
-      required this.data,
-      this.shouldReplace = false,
-      this.isWidth = false})
-      : super(key: key);
+  const LandingPageCard({
+    Key? key,
+    required this.data,
+    this.shouldReplace = false,
+    this.isWidth = false,
+  }) : super(key: key);
 
   final About? data;
   final bool shouldReplace;
@@ -17,70 +17,108 @@ class LandingPageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var screenSize = MediaQuery.of(context).size;
+
     var style = TextStyle(
       color: Colors.black,
       fontFamily: 'NT',
-      fontSize: 20,
+      fontSize: Responsive.responsiveNumber(18, 24, screenSize),
       fontWeight: FontWeight.bold,
     );
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+      padding: const EdgeInsets.symmetric(
+        vertical: 10,
+      ),
       child: Container(
         color: Colors.white,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: isMobile(screenSize)
+              ? CrossAxisAlignment.center
+              : CrossAxisAlignment.start,
+          mainAxisAlignment: isMobile(screenSize)
+              ? MainAxisAlignment.center
+              : MainAxisAlignment.spaceBetween,
           children: [
-            Padding(
-              padding: isWidth ? EdgeInsets.only(top: 250) : EdgeInsets.zero,
-              child: CachedNetworkImage(
-                imageUrl: '$baseUrl/getLandingImageByID/${data?.id}',
-                progressIndicatorBuilder: (context, url, progress) =>
-                    CircularProgressIndicator(
-                  color: highLcolorDark,
-                  value: progress.progress,
-                ),
-                errorWidget: (context, url, error) => Icon(Icons.error),
-                height:
-                    !isWidth ? MediaQuery.of(context).size.height * 0.45 : 100,
-                width: MediaQuery.of(context).size.width / 12,
-                fit: !isWidth ? BoxFit.fill : BoxFit.fitWidth,
-              ),
-            ),
+            isMobile(screenSize)
+                ? CachedNetworkImage(
+                    imageUrl: '$baseUrl/getLandingImageByID/${data?.id}',
+                    progressIndicatorBuilder: (context, url, progress) =>
+                        CircularProgressIndicator(
+                      color: highLcolorDark,
+                      value: progress.progress,
+                    ),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                    fit: BoxFit.contain,
+                    height: 100,
+                    width: 100,
+                  )
+                : CachedNetworkImage(
+                    imageUrl: '$baseUrl/getLandingImageByID/${data?.id}',
+                    progressIndicatorBuilder: (context, url, progress) =>
+                        CircularProgressIndicator(
+                      color: highLcolorDark,
+                      value: progress.progress,
+                    ),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
+                    fit: BoxFit.cover,
+                  ),
             SizedBox(
               height: 20,
             ),
-            Text(
-              !shouldReplace
-                  ? data?.title?.replaceAll(' ', '\n').toString() ?? ''
-                  : data?.title?.toString() ?? '',
-              style: style,
-              maxLines: 2,
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              data?.subTitle.toString() ?? '',
-              style: style.copyWith(
-                color: Colors.grey.shade600,
-                fontSize: 16,
+            Container(
+              height: Responsive.responsiveNumber(200, 320, screenSize),
+              width: 220,
+              child: Column(
+                crossAxisAlignment: isMobile(screenSize)
+                    ? CrossAxisAlignment.center
+                    : CrossAxisAlignment.start,
+                mainAxisAlignment: isMobile(screenSize)
+                    ? MainAxisAlignment.center
+                    : MainAxisAlignment.start,
+                children: [
+                  Text(
+                    !shouldReplace
+                        ? data?.title?.replaceAll(' ', '\n').toString() ?? ''
+                        : data?.title?.toString() ?? '',
+                    style: style,
+                    maxLines: 2,
+                    textAlign: isMobile(screenSize)
+                        ? TextAlign.center
+                        : TextAlign.justify,
+                  ),
+                  SizedBox(
+                    height: Responsive.responsiveNumber(10, 30, screenSize),
+                  ),
+                  Text(
+                    data?.subTitle.toString() ?? '',
+                    style: style.copyWith(
+                        color: Colors.grey.shade800,
+                        fontSize:
+                            Responsive.responsiveNumber(16, 19, screenSize),
+                        fontWeight: FontWeight.normal),
+                    textAlign: isMobile(screenSize)
+                        ? TextAlign.center
+                        : TextAlign.justify,
+                  ),
+                  SizedBox(
+                    height: Responsive.responsiveNumber(5, 20, screenSize),
+                  ),
+                  Text(
+                    data?.description?.toString() ?? '',
+                    style: style.copyWith(
+                        color: Colors.grey.shade800,
+                        fontSize:
+                            Responsive.responsiveNumber(13, 15, screenSize),
+                        fontWeight: FontWeight.normal,
+                        height: 1.4),
+                    textAlign: isMobile(screenSize)
+                        ? TextAlign.center
+                        : TextAlign.justify,
+                  ),
+                ],
               ),
-              textAlign: TextAlign.justify,
-            ),
-            SizedBox(
-              height: data?.subTitle != null ? 10 : 0,
-            ),
-            Text(
-              data?.description.toString() ?? '',
-              style: style.copyWith(
-                color: Colors.grey.shade600,
-                fontSize: 12,
-              ),
-              textAlign: TextAlign.justify,
-            ),
+            )
           ],
         ),
       ),

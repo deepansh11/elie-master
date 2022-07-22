@@ -21,13 +21,21 @@ import 'package:elie_web/ThankYouPage/0ThankYouPage.dart';
 
 import '../Anu/PolicyPage.dart';
 import '../Anu/TermsPage.dart';
-import '../HomePage/About.dart';
+import '../HomePage/Landing.dart';
 import '../PackagesPage/0PackagesPage.dart';
 import '../PackagesPage/1PackagesDescPage.dart';
 import '../PackagesPage/Enquiry.dart';
 
 @CustomAutoRouter(replaceInRouteName: 'Page,Route', routes: <AutoRoute>[
-  AutoRoute(path: '/', page: HomePage, initial: true),
+  AutoRoute(
+    path: '/',
+    page: LandingPage,
+    initial: true,
+  ),
+  AutoRoute(
+    path: '/home',
+    page: HomePage,
+  ),
   AutoRoute(
     path: '/service',
     page: ServicesPage,
@@ -119,10 +127,6 @@ import '../PackagesPage/Enquiry.dart';
   AutoRoute(
     path: '/Enquiry',
     page: EnquiryRegistered,
-  ),
-  AutoRoute(
-    path: '/sp',
-    page: LandingPage,
   ),
 ])
 class $AppRouter {}

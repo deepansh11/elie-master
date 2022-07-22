@@ -13,31 +13,31 @@
 import 'package:auto_route/auto_route.dart' as _i26;
 import 'package:flutter/material.dart' as _i27;
 
-import '../Anu/LoginPage.dart' as _i7;
-import '../Anu/PolicyPage.dart' as _i14;
-import '../Anu/RegisterPage.dart' as _i9;
-import '../Anu/TermsPage.dart' as _i13;
-import '../CartPage/0CartPage.dart' as _i4;
-import '../ExpertPage/0ExperPage.dart' as _i11;
-import '../HomePage/0HomePage.dart' as _i1;
-import '../HomePage/About.dart' as _i25;
-import '../LocationPage/0LocationPage.dart' as _i10;
-import '../LocationPage/2LocationChoicePage.dart' as _i15;
-import '../OrderPage/OrderPage.dart' as _i8;
-import '../PackagesPage/0PackagesPage.dart' as _i22;
-import '../PackagesPage/1PackagesDescPage.dart' as _i23;
-import '../PackagesPage/Enquiry.dart' as _i24;
-import '../ProductsPage/0ProductsPage.dart' as _i3;
-import '../ProductsPage/0ServicesPage.dart' as _i2;
-import '../ServiceProductDescPage/ProductDescPage.dart' as _i5;
-import '../ServiceProductDescPage/ServiceDescPage.dart' as _i6;
-import '../Static/About.dart' as _i20;
-import '../Static/Career.dart' as _i21;
-import '../Static/Education.dart' as _i17;
-import '../Static/EventsPage.dart' as _i16;
-import '../Static/Fitness.dart' as _i18;
-import '../Static/Tattoo.dart' as _i19;
-import '../ThankYouPage/0ThankYouPage.dart' as _i12;
+import '../Anu/LoginPage.dart' as _i8;
+import '../Anu/PolicyPage.dart' as _i15;
+import '../Anu/RegisterPage.dart' as _i10;
+import '../Anu/TermsPage.dart' as _i14;
+import '../CartPage/0CartPage.dart' as _i5;
+import '../ExpertPage/0ExperPage.dart' as _i12;
+import '../HomePage/0HomePage.dart' as _i2;
+import '../HomePage/Landing.dart' as _i1;
+import '../LocationPage/0LocationPage.dart' as _i11;
+import '../LocationPage/2LocationChoicePage.dart' as _i16;
+import '../OrderPage/OrderPage.dart' as _i9;
+import '../PackagesPage/0PackagesPage.dart' as _i23;
+import '../PackagesPage/1PackagesDescPage.dart' as _i24;
+import '../PackagesPage/Enquiry.dart' as _i25;
+import '../ProductsPage/0ProductsPage.dart' as _i4;
+import '../ProductsPage/0ServicesPage.dart' as _i3;
+import '../ServiceProductDescPage/ProductDescPage.dart' as _i6;
+import '../ServiceProductDescPage/ServiceDescPage.dart' as _i7;
+import '../Static/About.dart' as _i21;
+import '../Static/Career.dart' as _i22;
+import '../Static/Education.dart' as _i18;
+import '../Static/EventsPage.dart' as _i17;
+import '../Static/Fitness.dart' as _i19;
+import '../Static/Tattoo.dart' as _i20;
+import '../ThankYouPage/0ThankYouPage.dart' as _i13;
 
 class AppRouter extends _i26.RootStackRouter {
   AppRouter([_i27.GlobalKey<_i27.NavigatorState>? navigatorKey])
@@ -45,17 +45,24 @@ class AppRouter extends _i26.RootStackRouter {
 
   @override
   final Map<String, _i26.PageFactory> pagesMap = {
+    LandingRoute.name: (routeData) {
+      return _i26.CustomPage<dynamic>(
+          routeData: routeData,
+          child: const _i1.LandingPage(),
+          opaque: true,
+          barrierDismissible: false);
+    },
     HomeRoute.name: (routeData) {
       return _i26.CustomPage<dynamic>(
           routeData: routeData,
-          child: _i1.HomePage(),
+          child: _i2.HomePage(),
           opaque: true,
           barrierDismissible: false);
     },
     ServicesRoute.name: (routeData) {
       return _i26.CustomPage<dynamic>(
           routeData: routeData,
-          child: _i2.ServicesPage(),
+          child: _i3.ServicesPage(),
           opaque: true,
           barrierDismissible: false);
     },
@@ -64,7 +71,7 @@ class AppRouter extends _i26.RootStackRouter {
           orElse: () => const ProductsRouteArgs());
       return _i26.CustomPage<dynamic>(
           routeData: routeData,
-          child: _i3.ProductsPage(key: args.key),
+          child: _i4.ProductsPage(key: args.key),
           opaque: true,
           barrierDismissible: false);
     },
@@ -73,7 +80,7 @@ class AppRouter extends _i26.RootStackRouter {
           routeData.argsAs<CartRouteArgs>(orElse: () => const CartRouteArgs());
       return _i26.CustomPage<dynamic>(
           routeData: routeData,
-          child: _i4.CartPage(key: args.key),
+          child: _i5.CartPage(key: args.key),
           opaque: true,
           barrierDismissible: false);
     },
@@ -83,7 +90,7 @@ class AppRouter extends _i26.RootStackRouter {
           orElse: () => ProductDescRouteArgs(id: pathParams.optString('id')));
       return _i26.CustomPage<dynamic>(
           routeData: routeData,
-          child: _i5.ProductDescPage(args.id),
+          child: _i6.ProductDescPage(args.id),
           opaque: true,
           barrierDismissible: false);
     },
@@ -93,28 +100,28 @@ class AppRouter extends _i26.RootStackRouter {
           orElse: () => ServiceDescRouteArgs(id: pathParams.optString('id')));
       return _i26.CustomPage<dynamic>(
           routeData: routeData,
-          child: _i6.ServiceDescPage(args.id),
+          child: _i7.ServiceDescPage(args.id),
           opaque: true,
           barrierDismissible: false);
     },
     LoginRoute.name: (routeData) {
       return _i26.CustomPage<dynamic>(
           routeData: routeData,
-          child: const _i7.LoginPage(),
+          child: const _i8.LoginPage(),
           opaque: true,
           barrierDismissible: false);
     },
     OrderRoute.name: (routeData) {
       return _i26.CustomPage<dynamic>(
           routeData: routeData,
-          child: _i8.OrderPage(),
+          child: _i9.OrderPage(),
           opaque: true,
           barrierDismissible: false);
     },
     RegisterRoute.name: (routeData) {
       return _i26.CustomPage<dynamic>(
           routeData: routeData,
-          child: const _i9.RegisterPage(),
+          child: const _i10.RegisterPage(),
           opaque: true,
           barrierDismissible: false);
     },
@@ -123,35 +130,35 @@ class AppRouter extends _i26.RootStackRouter {
           orElse: () => const LocationRouteArgs());
       return _i26.CustomPage<dynamic>(
           routeData: routeData,
-          child: _i10.LocationPage(key: args.key),
+          child: _i11.LocationPage(key: args.key),
           opaque: true,
           barrierDismissible: false);
     },
     ExpertRoute.name: (routeData) {
       return _i26.CustomPage<dynamic>(
           routeData: routeData,
-          child: _i11.ExpertPage(),
+          child: _i12.ExpertPage(),
           opaque: true,
           barrierDismissible: false);
     },
     ThankYouRoute.name: (routeData) {
       return _i26.CustomPage<dynamic>(
           routeData: routeData,
-          child: _i12.ThankYouPage(),
+          child: _i13.ThankYouPage(),
           opaque: true,
           barrierDismissible: false);
     },
     Terms.name: (routeData) {
       return _i26.CustomPage<dynamic>(
           routeData: routeData,
-          child: const _i13.Terms(),
+          child: const _i14.Terms(),
           opaque: true,
           barrierDismissible: false);
     },
     PolicyRoute.name: (routeData) {
       return _i26.CustomPage<dynamic>(
           routeData: routeData,
-          child: const _i14.PolicyPage(),
+          child: const _i15.PolicyPage(),
           opaque: true,
           barrierDismissible: false);
     },
@@ -160,56 +167,56 @@ class AppRouter extends _i26.RootStackRouter {
           orElse: () => const LocationChoiceRouteArgs());
       return _i26.CustomPage<dynamic>(
           routeData: routeData,
-          child: _i15.LocationChoicePage(key: args.key),
+          child: _i16.LocationChoicePage(key: args.key),
           opaque: true,
           barrierDismissible: false);
     },
     EventsRoute.name: (routeData) {
       return _i26.CustomPage<dynamic>(
           routeData: routeData,
-          child: _i16.EventsPage(),
+          child: _i17.EventsPage(),
           opaque: true,
           barrierDismissible: false);
     },
     EducationRoute.name: (routeData) {
       return _i26.CustomPage<dynamic>(
           routeData: routeData,
-          child: _i17.EducationPage(),
+          child: _i18.EducationPage(),
           opaque: true,
           barrierDismissible: false);
     },
     FitnessRoute.name: (routeData) {
       return _i26.CustomPage<dynamic>(
           routeData: routeData,
-          child: _i18.FitnessPage(),
+          child: _i19.FitnessPage(),
           opaque: true,
           barrierDismissible: false);
     },
     TattooRoute.name: (routeData) {
       return _i26.CustomPage<dynamic>(
           routeData: routeData,
-          child: _i19.TattooPage(),
+          child: _i20.TattooPage(),
           opaque: true,
           barrierDismissible: false);
     },
     AboutRoute.name: (routeData) {
       return _i26.CustomPage<dynamic>(
           routeData: routeData,
-          child: _i20.AboutPage(),
+          child: _i21.AboutPage(),
           opaque: true,
           barrierDismissible: false);
     },
     Career.name: (routeData) {
       return _i26.CustomPage<dynamic>(
           routeData: routeData,
-          child: _i21.Career(),
+          child: _i22.Career(),
           opaque: true,
           barrierDismissible: false);
     },
     PackagesRoute.name: (routeData) {
       return _i26.CustomPage<dynamic>(
           routeData: routeData,
-          child: const _i22.PackagesPage(),
+          child: const _i23.PackagesPage(),
           opaque: true,
           barrierDismissible: false);
     },
@@ -219,21 +226,14 @@ class AppRouter extends _i26.RootStackRouter {
           orElse: () => PackagesDescArgs(id: pathParams.optString('id')));
       return _i26.CustomPage<dynamic>(
           routeData: routeData,
-          child: _i23.PackagesDesc(key: args.key, id: args.id),
+          child: _i24.PackagesDesc(key: args.key, id: args.id),
           opaque: true,
           barrierDismissible: false);
     },
     EnquiryRegistered.name: (routeData) {
       return _i26.CustomPage<dynamic>(
           routeData: routeData,
-          child: const _i24.EnquiryRegistered(),
-          opaque: true,
-          barrierDismissible: false);
-    },
-    LandingRoute.name: (routeData) {
-      return _i26.CustomPage<dynamic>(
-          routeData: routeData,
-          child: const _i25.LandingPage(),
+          child: const _i25.EnquiryRegistered(),
           opaque: true,
           barrierDismissible: false);
     }
@@ -241,7 +241,8 @@ class AppRouter extends _i26.RootStackRouter {
 
   @override
   List<_i26.RouteConfig> get routes => [
-        _i26.RouteConfig(HomeRoute.name, path: '/'),
+        _i26.RouteConfig(LandingRoute.name, path: '/'),
+        _i26.RouteConfig(HomeRoute.name, path: '/home'),
         _i26.RouteConfig(ServicesRoute.name, path: '/service'),
         _i26.RouteConfig(ProductsRoute.name, path: '/product'),
         _i26.RouteConfig(CartRoute.name, path: '/cart'),
@@ -264,21 +265,28 @@ class AppRouter extends _i26.RootStackRouter {
         _i26.RouteConfig(Career.name, path: '/Career'),
         _i26.RouteConfig(PackagesRoute.name, path: '/Packages'),
         _i26.RouteConfig(PackagesDesc.name, path: '/PackagesDescPage/:id'),
-        _i26.RouteConfig(EnquiryRegistered.name, path: '/Enquiry'),
-        _i26.RouteConfig(LandingRoute.name, path: '/sp')
+        _i26.RouteConfig(EnquiryRegistered.name, path: '/Enquiry')
       ];
 }
 
 /// generated route for
-/// [_i1.HomePage]
+/// [_i1.LandingPage]
+class LandingRoute extends _i26.PageRouteInfo<void> {
+  const LandingRoute() : super(LandingRoute.name, path: '/');
+
+  static const String name = 'LandingRoute';
+}
+
+/// generated route for
+/// [_i2.HomePage]
 class HomeRoute extends _i26.PageRouteInfo<void> {
-  const HomeRoute() : super(HomeRoute.name, path: '/');
+  const HomeRoute() : super(HomeRoute.name, path: '/home');
 
   static const String name = 'HomeRoute';
 }
 
 /// generated route for
-/// [_i2.ServicesPage]
+/// [_i3.ServicesPage]
 class ServicesRoute extends _i26.PageRouteInfo<void> {
   const ServicesRoute() : super(ServicesRoute.name, path: '/service');
 
@@ -286,7 +294,7 @@ class ServicesRoute extends _i26.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i3.ProductsPage]
+/// [_i4.ProductsPage]
 class ProductsRoute extends _i26.PageRouteInfo<ProductsRouteArgs> {
   ProductsRoute({_i27.Key? key})
       : super(ProductsRoute.name,
@@ -307,7 +315,7 @@ class ProductsRouteArgs {
 }
 
 /// generated route for
-/// [_i4.CartPage]
+/// [_i5.CartPage]
 class CartRoute extends _i26.PageRouteInfo<CartRouteArgs> {
   CartRoute({_i27.Key? key})
       : super(CartRoute.name, path: '/cart', args: CartRouteArgs(key: key));
@@ -327,7 +335,7 @@ class CartRouteArgs {
 }
 
 /// generated route for
-/// [_i5.ProductDescPage]
+/// [_i6.ProductDescPage]
 class ProductDescRoute extends _i26.PageRouteInfo<ProductDescRouteArgs> {
   ProductDescRoute({required String? id})
       : super(ProductDescRoute.name,
@@ -350,7 +358,7 @@ class ProductDescRouteArgs {
 }
 
 /// generated route for
-/// [_i6.ServiceDescPage]
+/// [_i7.ServiceDescPage]
 class ServiceDescRoute extends _i26.PageRouteInfo<ServiceDescRouteArgs> {
   ServiceDescRoute({required String? id})
       : super(ServiceDescRoute.name,
@@ -373,7 +381,7 @@ class ServiceDescRouteArgs {
 }
 
 /// generated route for
-/// [_i7.LoginPage]
+/// [_i8.LoginPage]
 class LoginRoute extends _i26.PageRouteInfo<void> {
   const LoginRoute() : super(LoginRoute.name, path: '/LoginPage');
 
@@ -381,7 +389,7 @@ class LoginRoute extends _i26.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i8.OrderPage]
+/// [_i9.OrderPage]
 class OrderRoute extends _i26.PageRouteInfo<void> {
   const OrderRoute() : super(OrderRoute.name, path: '/OrderPage');
 
@@ -389,7 +397,7 @@ class OrderRoute extends _i26.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i9.RegisterPage]
+/// [_i10.RegisterPage]
 class RegisterRoute extends _i26.PageRouteInfo<void> {
   const RegisterRoute() : super(RegisterRoute.name, path: '/RegisterPage');
 
@@ -397,7 +405,7 @@ class RegisterRoute extends _i26.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i10.LocationPage]
+/// [_i11.LocationPage]
 class LocationRoute extends _i26.PageRouteInfo<LocationRouteArgs> {
   LocationRoute({_i27.Key? key})
       : super(LocationRoute.name,
@@ -418,7 +426,7 @@ class LocationRouteArgs {
 }
 
 /// generated route for
-/// [_i11.ExpertPage]
+/// [_i12.ExpertPage]
 class ExpertRoute extends _i26.PageRouteInfo<void> {
   const ExpertRoute() : super(ExpertRoute.name, path: '/ExpertPage');
 
@@ -426,7 +434,7 @@ class ExpertRoute extends _i26.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i12.ThankYouPage]
+/// [_i13.ThankYouPage]
 class ThankYouRoute extends _i26.PageRouteInfo<void> {
   const ThankYouRoute() : super(ThankYouRoute.name, path: '/ThankYouPage');
 
@@ -434,7 +442,7 @@ class ThankYouRoute extends _i26.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i13.Terms]
+/// [_i14.Terms]
 class Terms extends _i26.PageRouteInfo<void> {
   const Terms() : super(Terms.name, path: '/Terms');
 
@@ -442,7 +450,7 @@ class Terms extends _i26.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i14.PolicyPage]
+/// [_i15.PolicyPage]
 class PolicyRoute extends _i26.PageRouteInfo<void> {
   const PolicyRoute() : super(PolicyRoute.name, path: '/Policy');
 
@@ -450,7 +458,7 @@ class PolicyRoute extends _i26.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i15.LocationChoicePage]
+/// [_i16.LocationChoicePage]
 class LocationChoiceRoute extends _i26.PageRouteInfo<LocationChoiceRouteArgs> {
   LocationChoiceRoute({_i27.Key? key})
       : super(LocationChoiceRoute.name,
@@ -472,7 +480,7 @@ class LocationChoiceRouteArgs {
 }
 
 /// generated route for
-/// [_i16.EventsPage]
+/// [_i17.EventsPage]
 class EventsRoute extends _i26.PageRouteInfo<void> {
   const EventsRoute() : super(EventsRoute.name, path: '/Event');
 
@@ -480,7 +488,7 @@ class EventsRoute extends _i26.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i17.EducationPage]
+/// [_i18.EducationPage]
 class EducationRoute extends _i26.PageRouteInfo<void> {
   const EducationRoute() : super(EducationRoute.name, path: '/Education');
 
@@ -488,7 +496,7 @@ class EducationRoute extends _i26.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i18.FitnessPage]
+/// [_i19.FitnessPage]
 class FitnessRoute extends _i26.PageRouteInfo<void> {
   const FitnessRoute() : super(FitnessRoute.name, path: '/Fitness');
 
@@ -496,7 +504,7 @@ class FitnessRoute extends _i26.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i19.TattooPage]
+/// [_i20.TattooPage]
 class TattooRoute extends _i26.PageRouteInfo<void> {
   const TattooRoute() : super(TattooRoute.name, path: '/Tattoo');
 
@@ -504,7 +512,7 @@ class TattooRoute extends _i26.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i20.AboutPage]
+/// [_i21.AboutPage]
 class AboutRoute extends _i26.PageRouteInfo<void> {
   const AboutRoute() : super(AboutRoute.name, path: '/About');
 
@@ -512,7 +520,7 @@ class AboutRoute extends _i26.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i21.Career]
+/// [_i22.Career]
 class Career extends _i26.PageRouteInfo<void> {
   const Career() : super(Career.name, path: '/Career');
 
@@ -520,7 +528,7 @@ class Career extends _i26.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i22.PackagesPage]
+/// [_i23.PackagesPage]
 class PackagesRoute extends _i26.PageRouteInfo<void> {
   const PackagesRoute() : super(PackagesRoute.name, path: '/Packages');
 
@@ -528,7 +536,7 @@ class PackagesRoute extends _i26.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i23.PackagesDesc]
+/// [_i24.PackagesDesc]
 class PackagesDesc extends _i26.PageRouteInfo<PackagesDescArgs> {
   PackagesDesc({_i27.Key? key, String? id})
       : super(PackagesDesc.name,
@@ -553,17 +561,9 @@ class PackagesDescArgs {
 }
 
 /// generated route for
-/// [_i24.EnquiryRegistered]
+/// [_i25.EnquiryRegistered]
 class EnquiryRegistered extends _i26.PageRouteInfo<void> {
   const EnquiryRegistered() : super(EnquiryRegistered.name, path: '/Enquiry');
 
   static const String name = 'EnquiryRegistered';
-}
-
-/// generated route for
-/// [_i25.LandingPage]
-class LandingRoute extends _i26.PageRouteInfo<void> {
-  const LandingRoute() : super(LandingRoute.name, path: '/sp');
-
-  static const String name = 'LandingRoute';
 }

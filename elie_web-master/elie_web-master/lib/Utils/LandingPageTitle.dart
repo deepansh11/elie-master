@@ -10,31 +10,39 @@ class LandingPageTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var style = TextStyle(color: highLcolor, fontFamily: 'NT', fontSize: 35);
+    var screenSize = MediaQuery.of(context).size;
+    var style = TextStyle(
+      color: highLcolor,
+      fontFamily: 'NT',
+      fontSize: Responsive.responsiveNumber(18, 32, screenSize),
+    );
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(
-                Radius.circular(25),
-              ),
-              border: Border.all(
-                color: highLcolor,
-              )),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 32,
-              vertical: 8,
+          width: isMobile(screenSize) ? 83 : 203,
+          height: 48,
+          alignment: Alignment.center,
+          decoration: gradientColor,
+          child: Container(
+            width: isMobile(screenSize) ? 80 : 200,
+            height: 45,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25),
+              color: Colors.white,
             ),
-            child: Center(
-              child: Text(
-                title,
-                style: style.copyWith(
-                  color: Colors.black,
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 10,
+              ),
+              child: Center(
+                child: Text(
+                  title,
+                  style: style.copyWith(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),

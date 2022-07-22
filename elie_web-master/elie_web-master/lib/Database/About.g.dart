@@ -16,8 +16,8 @@ About _$AboutFromJson(Map<String, dynamic> json) => About(
     );
 
 Map<String, dynamic> _$AboutToJson(About instance) => <String, dynamic>{
-      'title': instance.title,
       'id': instance.id,
+      'title': instance.title,
       'subTitle': instance.subTitle,
       'type': instance.type,
       'description': instance.description,

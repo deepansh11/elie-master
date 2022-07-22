@@ -93,8 +93,7 @@ class _PackagesCardState extends State<PackagesCard> {
                           }
                         : () {},
                     child: CachedNetworkImage(
-                      imageUrl:
-                          '$baseUrl/getPackagesImageByID/${widget.productData.id}',
+                      imageUrl: widget.img,
                       progressIndicatorBuilder: (context, url, progress) =>
                           Center(
                         child: CircularProgressIndicator(
@@ -104,8 +103,8 @@ class _PackagesCardState extends State<PackagesCard> {
                       ),
                       errorWidget: (context, url, error) => Icon(Icons.error),
                       height: widget.packageCardForCarousel
-                          ? screenSize.height / 6.0
-                          : screenSize.height / 5.9,
+                          ? screenSize.height / 4
+                          : screenSize.height / 4.8,
                     ),
                   ),
                   SizedBox(
@@ -135,8 +134,7 @@ class _PackagesCardState extends State<PackagesCard> {
                           }
                         : () {},
                     child: CachedNetworkImage(
-                      imageUrl:
-                          '$baseUrl/getPackagesImageByID/${widget.productData.id}',
+                      imageUrl: widget.img,
                       progressIndicatorBuilder: (context, url, progress) =>
                           Center(
                         child: CircularProgressIndicator(
@@ -147,7 +145,7 @@ class _PackagesCardState extends State<PackagesCard> {
                       errorWidget: (context, url, error) => Icon(Icons.error),
                       fit: BoxFit.cover,
                       height: widget.packageCardForCarousel
-                          ? screenSize.height / 5.9
+                          ? screenSize.height / 4
                           : screenSize.height / 4.8,
                     ),
                   ),

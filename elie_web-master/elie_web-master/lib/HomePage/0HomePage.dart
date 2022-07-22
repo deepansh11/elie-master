@@ -20,7 +20,7 @@ import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 GlobalKey topBar = GlobalKey(debugLabel: 'topbar');
 
 class HomePage extends StatefulWidget {
-  static String id = '/';
+  static String id = '/home';
 
   @override
   State<HomePage> createState() => _HomePageState();

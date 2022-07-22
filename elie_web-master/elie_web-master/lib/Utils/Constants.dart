@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 var highLcolor = Color(0xffebab8b);
 var highLcolorLight = Color(0xfff5b595);
@@ -11,7 +12,20 @@ class Responsive {
   }
 }
 
+enum Device { mobile, tablet, desktop }
+
 isMobile(screenSize) => screenSize.width < 720 ? true : false;
+
+class TrueResponsive {
+  static Device screenSize(Size screen) {
+    if (screen.width < 600)
+      return Device.mobile;
+    else if (screen.width < 1200)
+      return Device.tablet;
+    else
+      return Device.desktop;
+  }
+}
 
 bool decideWhichDayToEnable(DateTime day) {
   if ((day.isAfter(DateTime.now().subtract(Duration(days: 1))) &&
@@ -20,6 +34,26 @@ bool decideWhichDayToEnable(DateTime day) {
   }
   return false;
 }
+
+BoxDecoration gradientColor = BoxDecoration(
+  borderRadius: BorderRadius.all(Radius.circular(25)),
+  gradient: LinearGradient(
+    colors: [
+      highLcolorLight,
+      highLcolorDark,
+    ],
+    stops: [0.2, 0.8],
+  ),
+);
+
+const dataForLanding =
+    ''' There’s an old adage about working smart, rather than working hard. It’s been tried and tested. 
+It’s been proven to be effective. So, why then, do we insist on complicating our everyday skincare 
+routines with cabinets full of products and long, drawn out skincare regimens?
+Dr. Elie Organics is your expert skincare solution that minimises time and maximises efficacy. 
+Created by Dr. Elie herself, our products are made with the highest quality ingredients, developed 
+through extensive clinical research, and designed to ensure that maintaining everyday skincare 
+doesn’t take all day.''';
 
 var baseUrl = 'https://api.elie.world';
 

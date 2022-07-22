@@ -9,20 +9,22 @@ import '../PackagesPage/0PackagesCard.dart';
 import '../Utils/Constants.dart';
 
 class PackageCarousel extends StatelessWidget {
-  PackageCarousel({Key? key, this.title = 'Other Packages'}) : super(key: key);
+  PackageCarousel({Key? key, this.title = 'Other Packages', required this.id})
+      : super(key: key);
   final String title;
+  final int id;
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
     return Container(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.only(bottom: 12),
         child: Column(
           children: [
             Row(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(15.0),
+                  padding: const EdgeInsets.symmetric(vertical: 15),
                   child: Text(
                     title,
                     style: TextStyle(
@@ -44,14 +46,16 @@ class PackageCarousel extends StatelessWidget {
                     AsyncSnapshot<List<Packages>?> snapshot) {
                   if (snapshot.hasData) {
                     var cardList = snapshot.data!
-                        .map((e) => PackagesCard(
-                              img: e.images?[0] ?? '',
-                              name: e.title ?? '',
-                              price: e.costRange ?? [],
-                              desc: e.description ?? '',
-                              productData: e,
-                              packageCardForCarousel: true,
-                            ))
+                        .map((e) => (id != e.id)
+                            ? PackagesCard(
+                                img: '$baseUrl/getPackagesImageByID/${e.id}',
+                                name: e.title ?? '',
+                                price: e.costRange ?? [],
+                                desc: e.description ?? '',
+                                productData: e,
+                                packageCardForCarousel: true,
+                              )
+                            : Container())
                         .toList();
                     return Theme(
                       data: Theme.of(context).copyWith(
