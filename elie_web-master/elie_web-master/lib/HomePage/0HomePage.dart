@@ -17,6 +17,8 @@ import 'package:elie_web/Utils/horizontal_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 
+import '../Database/API.dart';
+
 GlobalKey topBar = GlobalKey(debugLabel: 'topbar');
 
 class HomePage extends StatefulWidget {
@@ -30,27 +32,20 @@ class _HomePageState extends State<HomePage> {
   var countBool = false;
 
   ScrollController mainScroll = ScrollController();
-  var loading = true;
-  delayScreen() {
-    if (getItOnce.home == true) {
-      loading = false;
-    }
-    Timer(Duration(seconds: 15), () {
-      setState(() {
-        loading = false;
-      });
-    });
-  }
 
   var snakeShape = SnakeShape.rectangle;
   var _selectedItemPosition = 0;
+
+  getListForSearchBar() async {
+    getItSearchBar.listOfProducts = await API().getProducts();
+    getItSearchBar.listOfServices = await API().getServices();
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    delayScreen();
-    getItOnce.home = true;
+    getListForSearchBar();
   }
 
   @override
@@ -139,138 +134,75 @@ class _HomePageState extends State<HomePage> {
         //
         //       ),
         backgroundColor: Colors.black,
-        body: AnimatedCrossFade(
-          duration: Duration(milliseconds: 1000),
-          firstChild: SafeArea(
-            child: Center(
-                child: Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: Container(
-                height: screenSize.height,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'Welcome to Elie\'s world ${getItUserIn.userName != null ? getItUserIn.userName : ''}',
-                        style: TextStyle(
-                            color: highLcolor, fontSize: 55, fontFamily: 'IT'),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    Expanded(
-                      child: Image.asset(
-                        "assets/b.gif",
-                        fit: BoxFit.fitHeight,
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                              backgroundColor: Colors.transparent,
-                              primary: highLcolor,
-                              side: BorderSide(color: Colors.transparent)),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: isMobile(screenSize) ? 8 : 40,
-                                vertical: 15),
-                            child: Text(
-                              'Skip',
-                              style: TextStyle(
-                                  color: highLcolor,
-                                  letterSpacing: 1,
-                                  fontSize: 35,
-                                  fontFamily: 'IT'),
-                            ),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              loading = false;
-                            });
-                          },
-                        )
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            )),
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: FractionalOffset.topCenter,
+                end: FractionalOffset.bottomCenter,
+                stops: [
+                  0.3,
+                  0.6,
+                  0.9
+                ],
+                colors: [
+                  Color(0x101010).withOpacity(1),
+                  Color(0x242424).withOpacity(1),
+                  Color(0x000000).withOpacity(1),
+                ]),
           ),
-          secondChild: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: FractionalOffset.topCenter,
-                  end: FractionalOffset.bottomCenter,
-                  stops: [
-                    0.3,
-                    0.6,
-                    0.9
-                  ],
-                  colors: [
-                    Color(0x101010).withOpacity(1),
-                    Color(0x242424).withOpacity(1),
-                    Color(0x000000).withOpacity(1),
-                  ]),
-            ),
-            height: screenSize.height,
-            child: Column(
-              children: [
-                TopBar(),
-                Expanded(
-                  child: NotificationListener<ScrollMetricsNotification>(
-                    onNotification: scrollUpdate,
-                    child: ListView(
-                      controller: mainScroll,
-                      children: [
-                        screenSize.width < 500
-                            ? HorizontalListView()
-                            : Container(),
-                        HomeHero(),
-                        SizedBox(height: 20),
-                        HomeOurServices(),
-                        SizedBox(height: 20),
-                        HomeOurProduct(),
-                        SizedBox(height: 20),
-                        HomeOurStory(),
-                        // SizedBox(height: 10),
-                        // HomeOurTeam(),
-                        Stack(
-                          children: [
-                            Positioned(
-                              child: ColorFiltered(
-                                colorFilter: ColorFilter.mode(
-                                    Colors.black26.withOpacity(0.4),
-                                    BlendMode.srcOver),
-                                child: Image.asset(
-                                  'assets/parallax.jpg',
-                                  fit: isMobile(screenSize)
-                                      ? BoxFit.cover
-                                      : BoxFit.fitWidth,
-                                  width: screenSize.width,
-                                  height: isMobile(screenSize)
-                                      ? screenSize.height * 2.5
-                                      : screenSize.height / 0.5,
-                                ),
+          height: screenSize.height,
+          child: Column(
+            children: [
+              TopBar(),
+              Expanded(
+                child: NotificationListener<ScrollMetricsNotification>(
+                  onNotification: scrollUpdate,
+                  child: ListView(
+                    controller: mainScroll,
+                    children: [
+                      screenSize.width < 500
+                          ? HorizontalListView()
+                          : Container(),
+                      HomeHero(),
+                      SizedBox(height: 20),
+                      HomeOurServices(),
+                      SizedBox(height: 20),
+                      HomeOurProduct(),
+                      SizedBox(height: 20),
+                      HomeOurStory(),
+                      // SizedBox(height: 10),
+                      // HomeOurTeam(),
+                      Stack(
+                        children: [
+                          Positioned(
+                            child: ColorFiltered(
+                              colorFilter: ColorFilter.mode(
+                                  Colors.black26.withOpacity(0.4),
+                                  BlendMode.srcOver),
+                              child: Image.asset(
+                                'assets/parallax.jpg',
+                                fit: isMobile(screenSize)
+                                    ? BoxFit.cover
+                                    : BoxFit.fitWidth,
+                                width: screenSize.width,
+                                height: isMobile(screenSize)
+                                    ? screenSize.height * 2.5
+                                    : screenSize.height / 0.5,
                               ),
-                              top: -.25 * offset,
                             ),
-                            HomeTestimonial(),
-                          ],
-                        ),
-                        HomeCounter(),
-                        isMobile(screenSize) ? Container() : Footer()
-                      ],
-                    ),
+                            top: -.25 * offset,
+                          ),
+                          HomeTestimonial(),
+                        ],
+                      ),
+                      HomeCounter(),
+                      isMobile(screenSize) ? Container() : Footer()
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          crossFadeState:
-              loading ? CrossFadeState.showFirst : CrossFadeState.showSecond,
         ),
       ),
     );

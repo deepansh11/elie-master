@@ -58,15 +58,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final appRouter = AppRouter();
 
-  getListForSearchBar() async {
-    getItSearchBar.listOfProducts = await API().getProducts();
-    getItSearchBar.listOfServices = await API().getServices();
-  }
-
   @override
   void initState() {
-    getListForSearchBar();
-
     super.initState();
   }
 
